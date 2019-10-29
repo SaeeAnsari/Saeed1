@@ -1,0 +1,47 @@
+<form class="container" [formGroup]="sirfGroup" (ngSubmit)="search()" >
+
+    <mat-card>
+        <mat-form-field class="container-full-width">
+            <div class="form-item">                
+                <input matInput placeholder="SIRF Number" formControlName="SIRFNumber">
+            </div>
+        </mat-form-field>        
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Priority Level" formControlName="PriorityLevel">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Category Of Request" formControlName="CategoryOfRequest">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Business Region" formControlName="BusinessRegion">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Customer Name" formControlName="CustomerName">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput [matDatepicker]="picker" placeholder="Completion Date" formControlName="CompletionDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+
+        <div *ngIf="validationError">
+                <p class="text-danger">** {{validationMessage}}</p>
+        </div>
+
+       
+        <button type="submit" mat-raised-button>Search</button>      
+
+    </mat-card>
+
+    <mat-card>
+
+    </mat-card>
+
+
+</form>
