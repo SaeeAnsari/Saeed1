@@ -1,0 +1,141 @@
+<h3>Pricing</h3>
+
+<form class="container" [formGroup]="pricingGroup" (ngSubmit)="search()">
+
+    <mat-card>
+        <mat-form-field class="container-full-width">
+            <div class="form-item">
+                <input matInput placeholder="Customer Name" formControlName="CustomerName">
+            </div>
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Quote Number" formControlName="QuoteNumber">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Opportunity Name" formControlName="OpportunityName">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Opportunity Type" formControlName="OpportunityType">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Opportunity Owner" formControlName="OpportunityOwner">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Product Code" formControlName="ProductCode">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Product Description" formControlName="ProductDescription">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Submitted Date" formControlName="SubmittedDate">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Finalised Date" formControlName="FinalisedDate">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Priority Level" formControlName="PriorityLevel">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Requested By" formControlName="RequestedBy">
+        </mat-form-field>
+
+
+
+
+        <div *ngIf="validationError">
+            <p class="text-danger">** {{validationMessage}}</p>
+        </div>
+
+
+        <div>
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                <mat-button-toggle (click)="search('All_Saved')">Find All Saved</mat-button-toggle>
+                <mat-button-toggle (click)="search('All_Pending')">Find All Pending</mat-button-toggle>
+                <mat-button-toggle (click)="search('Search')">Search</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </mat-card>
+
+    <mat-card>
+        <table mat-table [dataSource]="searchResults" class="mat-elevation-z8">
+
+            <!--- Note that these columns can be defined in any order.
+                              The actual rendered columns are set as a property on the row definition" -->
+
+
+            <ng-container matColumnDef="CustomerName">
+                <th mat-header-cell *matHeaderCellDef> Customer Name</th>
+                <td mat-cell *matCellDef="let element"> {{element.CustomerName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="QuoteNumber">
+                    <th mat-header-cell *matHeaderCellDef> Quote Number</th>
+                    <td mat-cell *matCellDef="let element"> {{element.QuoteNumber}} </td>
+                </ng-container>
+
+
+            <ng-container matColumnDef="OpportunityName">
+                <th mat-header-cell *matHeaderCellDef> Opportunity Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.OpportunityName}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="OpportunityType">
+                <th mat-header-cell *matHeaderCellDef> Opportunity Type </th>
+                <td mat-cell *matCellDef="let element"> {{element.OpportunityType}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="OpportunityOwner">
+                <th mat-header-cell *matHeaderCellDef> Opportunity Owner </th>
+                <td mat-cell *matCellDef="let element"> {{element.OpportunityOwner}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ProductCode">
+                <th mat-header-cell *matHeaderCellDef> Product Code</th>
+                <td mat-cell *matCellDef="let element"> {{element.ProductCode}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ProductDescription">
+                <th mat-header-cell *matHeaderCellDef> Product Description</th>
+                <td mat-cell *matCellDef="let element"> {{element.ProductDescription}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="SubmittedDate">
+                <th mat-header-cell *matHeaderCellDef> Submitted Date</th>
+                <td mat-cell *matCellDef="let element"> {{element.SubmittedDate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FinalisedDate">
+                <th mat-header-cell *matHeaderCellDef> Finalised Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.FinalisedDate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="PriorityLevel">
+                <th mat-header-cell *matHeaderCellDef> Priority Level </th>
+                <td mat-cell *matCellDef="let element"> {{element.PriorityLevel}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="RequestedBy">
+                <th mat-header-cell *matHeaderCellDef> Requested By </th>
+                <td mat-cell *matCellDef="let element"> {{element.RequestedBy}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+    </mat-card>
+
+
+
+</form>

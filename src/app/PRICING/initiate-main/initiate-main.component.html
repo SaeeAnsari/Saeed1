@@ -1,0 +1,95 @@
+<form class="container" [formGroup]="pricingGroup" (ngSubmit)="search()">
+
+        <mat-card>
+            <mat-form-field class="container-half-width">
+                <div class="form-item">
+                    <input matInput placeholder="Company Name" formControlName="CompanyName">
+                </div>
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <!--
+                    
+                -->
+                <mat-label>Priority Level</mat-label>
+                <mat-select name="lstPriorityLevel" formControlName="PriorityLevel">
+                    <mat-option value="high">High</mat-option>
+                    <mat-option value="medium">Medium</mat-option>
+                    <mat-option value="low">Low</mat-option>
+                </mat-select>
+    
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <mat-label>Customer ID</mat-label>
+                <mat-select name="lstCustomerID" formControlName="CustomerID">
+                    <mat-option value="1">Existing Product</mat-option>
+                    <mat-option value="2">New Product</mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <mat-label>Customer Name</mat-label>
+                <mat-select name="lstCustomerName">
+                    <mat-option value="1">Existing Product</mat-option>
+                    <mat-option value="2">New Product</mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <input matInput placeholder="Opportunity Owner" formControlName="OpportunityOwner">
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <mat-label>Opportunity Type</mat-label>
+                <mat-select name="lstOpportunityType" formControlName="OpportunityType">
+                    <mat-option value="1">Existing Product</mat-option>
+                    <mat-option value="2">New Product</mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <input matInput placeholder="Opportunity Name" formControlName="OpportunityName">
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <input matInput placeholder="Requested By" formControlName="RequestedBy">
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <input matInput [matDatepicker]="picker" placeholder="Submitted Date" formControlName="SubmittedDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+    
+    
+            <mat-form-field class="container-half-width">
+                <input matInput placeholder="Quote Number" formControlName="QuoteNumber">
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <input matInput placeholder="Priority Level" formControlName="PriorityLevel">
+            </mat-form-field>
+    
+            <mat-form-field class="container-half-width">
+                <input matInput placeholder="Requested By" formControlName="RequestedBy">
+            </mat-form-field>
+    
+    
+    
+    
+            <div *ngIf="validationError">
+                <p class="text-danger">** {{validationMessage}}</p>
+            </div>
+    
+    
+            <div>
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                    <mat-button-toggle (click)="search('All_Saved')">Find All Saved</mat-button-toggle>
+                    <mat-button-toggle (click)="search('All_Pending')">Find All Pending</mat-button-toggle>
+                    <mat-button-toggle (click)="search('Search')">Search</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </mat-card>
+        
+    </form>

@@ -51,12 +51,19 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { SIRFSearchComponent } from './SIRF/sirfsearch/sirfsearch.component';
+import { PricingSearchComponent } from './PRICING/pricing-search/pricing-search.component';
+import { PricingInitiateComponent } from './PRICING/pricing-initiate/pricing-initiate.component';
+import { InitiateMainComponent } from './PRICING/initiate-main/initiate-main.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UXTestComponent,
-    SIRFSearchComponent
+    SIRFSearchComponent,
+    PricingSearchComponent,
+    PricingInitiateComponent,
+    InitiateMainComponent,
+
   ],
   imports: [
     BrowserModule,
