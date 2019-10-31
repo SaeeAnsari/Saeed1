@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 
 @Component({
@@ -9,24 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class PricingInitiateComponent implements OnInit {
 
-  private pricingGroup: FormGroup;
 
-  constructor(fb: FormBuilder) { 
-    this.pricingGroup = fb.group({
-      CompanyName: [''],
-      CustomerID: [''],      
-      CustomerName: [''],
-      QuoteNumber: [''],
-      OpportunityName: [''],
-      OpportunityType: [''],
-      OpportunityOwner: [''],
-      ProductCode: [''],
-      ProductDescription: [''],
-      SubmittedDate: [''],
-      FinalisedDate: [''],
-      PriorityLevel: [''],
-      RequestedBy: ['']
-    })
+  constructor() { 
+   
   }
 
   ngOnInit() {

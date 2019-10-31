@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class InitiateMainComponent implements OnInit {
   ngOnInit(): void {
-    throw new Error("Method not implemented.");
+    
   }
 
   private pricingGroup: FormGroup;
