@@ -54,6 +54,8 @@ import { SIRFSearchComponent } from './SIRF/sirfsearch/sirfsearch.component';
 import { PricingSearchComponent } from './PRICING/pricing-search/pricing-search.component';
 import { PricingInitiateComponent } from './PRICING/pricing-initiate/pricing-initiate.component';
 import { InitiateMainComponent } from './PRICING/initiate-main/initiate-main.component';
+import { DialogConfirmDeleteComponent } from './PRICING/dialog-confirm-delete/dialog-confirm-delete.component';
+import { ProductDetailsComponent } from './PRICING/product-details/product-details.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { InitiateMainComponent } from './PRICING/initiate-main/initiate-main.com
     PricingSearchComponent,
     PricingInitiateComponent,
     InitiateMainComponent,
+    DialogConfirmDeleteComponent,
+    ProductDetailsComponent
 
   ],
   imports: [

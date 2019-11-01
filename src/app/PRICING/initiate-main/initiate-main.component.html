@@ -1,9 +1,9 @@
 <form class="container" [formGroup]="pricingGroup">
 
     <mat-card>
-        <mat-form-field class="container-half-width">
+        <mat-form-field class="container-half-width" >
             <div class="form-item">
-                <input matInput placeholder="Company Name" formControlName="CompanyName">
+                <input matInput placeholder="Company Name" formControlName="CompanyName" required>
              
             </div>
         </mat-form-field>
@@ -19,14 +19,11 @@
                 <mat-option value="low">Low</mat-option>
             </mat-select>
             
-
-
-
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
             <mat-label>Customer ID</mat-label>
-            <mat-select name="lstCustomerID" formControlName="CustomerID">
+            <mat-select name="lstCustomerID" formControlName="CustomerID" required>
                 <mat-option value="1">Existing Product</mat-option>
                 <mat-option value="2">New Product</mat-option>
             </mat-select>
@@ -34,41 +31,41 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Customer Name</mat-label>
-            <mat-select name="lstCustomerName" formControlName="CustomerName">
+            <mat-select name="lstCustomerName" formControlName="CustomerName" required>
                 <mat-option value="1">Existing Product</mat-option>
                 <mat-option value="2">New Product</mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Opportunity Owner" formControlName="OpportunityOwner">
+            <input matInput placeholder="Opportunity Owner" formControlName="OpportunityOwner" required>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
             <mat-label>Opportunity Type</mat-label>
-            <mat-select name="lstOpportunityType" formControlName="OpportunityType">
+            <mat-select name="lstOpportunityType" formControlName="OpportunityType" required>
                 <mat-option value="1">Existing Product</mat-option>
                 <mat-option value="2">New Product</mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Opportunity Name" formControlName="OpportunityName">
+            <input matInput placeholder="Opportunity Name" formControlName="OpportunityName" required>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Requested By" formControlName="RequestedBy">
+            <input matInput placeholder="Requested By" formControlName="RequestedBy" required>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput [matDatepicker]="picker" placeholder="Submitted Date" formControlName="SubmittedDate">
+            <input matInput [matDatepicker]="picker" placeholder="Submitted Date" formControlName="SubmittedDate" required>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Quote Number" formControlName="QuoteNumber">
+            <input matInput placeholder="Quote Number" formControlName="QuoteNumber" required>
         </mat-form-field>
 
         <div *ngIf="validationError">
@@ -78,11 +75,35 @@
 
         <div>
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                <mat-button-toggle (click)="delete()">Delete</mat-button-toggle>
+                <mat-button-toggle color="warn" (click)="delete()">Delete</mat-button-toggle>
                 <mat-button-toggle (click)="save()">Save</mat-button-toggle>
                 <mat-button-toggle (click)="submit()">Submit</mat-button-toggle>
+                <button class="btn-add-product" mat-raised-button color="accent">Add Product</button>
             </mat-button-toggle-group>
-        </div>
+
+            
+        </div>  
     </mat-card>
+    <mat-card>
+            <table mat-table [dataSource]="productResults" class="mat-elevation-z8">
+    
+              
+    
+                <ng-container matColumnDef="ProductCode">
+                    <th mat-header-cell *matHeaderCellDef> Product Code</th>
+                    <td mat-cell *matCellDef="let element"> {{element.ProductCode}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Description">
+                        <th mat-header-cell *matHeaderCellDef> Description</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Description}} </td>
+                    </ng-container>
+    
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+    
+        </mat-card>
 
 </form>

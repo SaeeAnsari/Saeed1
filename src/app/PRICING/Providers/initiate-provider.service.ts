@@ -10,4 +10,16 @@ export class InitiateProviderService {
   saveOpportunity(data){
     console.log(data );
   }
+
+  submitOpportunity(data){
+    console.log(data);
+  }
+
+  deleteOpportunity(id){
+    console.log(id);
+  }
+
+  saveProductDetails(data){
+    console.log(data);
+  }
 }

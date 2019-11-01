@@ -65,8 +65,9 @@
             </mat-button-toggle-group>
         </div>
     </mat-card>
+    <div *ngIf="productResults.length > 0">
 
-    <mat-card>
+    <mat-card >
         <table mat-table [dataSource]="searchResults" class="mat-elevation-z8">
 
             <!--- Note that these columns can be defined in any order.
@@ -135,7 +136,5 @@
         </table>
 
     </mat-card>
-
-
-
+    </div>
 </form>

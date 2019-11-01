@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogConfirmDeleteComponent } from '../dialog-confirm-delete/dialog-confirm-delete.component';
+
+
 
 @Component({
   selector: 'app-initiate-main',
@@ -10,35 +15,49 @@ import { InitiateProviderService } from '../Providers/initiate-provider.service'
 })
 export class InitiateMainComponent implements OnInit {
   ngOnInit(): void {
-    
+
   }
 
+    
+  displayedColumns: string[] = ['ProductCode', 'Description'];
+  
+
+  private pricingID: number;
   private pricingGroup: FormGroup;
 
-  constructor(fb: FormBuilder) { 
+  constructor(
+    fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    public dialog: MatDialog) {
+
     this.pricingGroup = fb.group({
       CompanyName: ['', [Validators.required]],
-      CustomerID: ['', [Validators.required]],      
+      CustomerID: ['', [Validators.required]],
       CustomerName: ['', [Validators.required]],
       QuoteNumber: ['', [Validators.required]],
       OpportunityName: ['', [Validators.required]],
       OpportunityType: ['', [Validators.required]],
       OpportunityOwner: ['', [Validators.required]],
-      ProductCode: [''],
-      ProductDescription: [''],
       SubmittedDate: ['', [Validators.required]],
       PriorityLevel: ['', [Validators.required]],
       RequestedBy: ['', [Validators.required]]
-    })
+    });
+
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.pricingID = this.router.getCurrentNavigation().extras.state.PricingID;
+      }
+    });
   }
 
-  getFormData(){
+  getFormData() {
 
-    let data= {
+    let data = {
       CompanyName: this.pricingGroup.value.CompanyName,
       PriorityLevel: this.pricingGroup.value.PriorityLevel,
       CustomerID: this.pricingGroup.value.CustomerID,
-      CustomerName: this.pricingGroup.value.CustomerName,      
+      CustomerName: this.pricingGroup.value.CustomerName,
       QuoteNumber: this.pricingGroup.value.QuoteNumber,
       OpportunityName: this.pricingGroup.value.OpportunityName,
       OpportunityType: this.pricingGroup.value.OpportunityType,
@@ -50,16 +69,30 @@ export class InitiateMainComponent implements OnInit {
       RequestedBy: this.pricingGroup.value.RequestedBy,
       Timestamp: new Date().toLocaleString()
     };
-    
+
     return data;
   }
 
-  save(){
-    if(this.pricingGroup.valid){
+  save() {
+    if (this.pricingGroup.valid) {
       let data = this.getFormData();
 
       let initiate = new InitiateProviderService();
       initiate.saveOpportunity(data);
     }
+  }
+
+  submit() {
+    if (this.pricingGroup.valid) {
+      let data = this.getFormData();
+
+      let initiate = new InitiateProviderService();
+      initiate.submitOpportunity(data);
+    }
+  }
+
+  delete() {
+    let initiate = new InitiateProviderService();
+    initiate.deleteOpportunity(this.pricingID);
   }
 }

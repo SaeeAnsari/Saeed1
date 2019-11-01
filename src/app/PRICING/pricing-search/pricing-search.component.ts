@@ -15,7 +15,10 @@ export class PricingSearchComponent implements OnInit {
 
   
   displayedColumns: string[] = ['CustomerName', 'QuoteNumber', 'OpportunityName', 'OpportunityType', 'OpportunityOwner', 'ProductCode', 'ProductDescription', 'SubmittedDate', 'FinalisedDate', 'PriorityLevel', 'RequestedBy'];
-  
+  productResults : [{
+    ProductCode: string,
+    Description: string
+  }];
   
 
   private validationError: boolean = false;
