@@ -7,6 +7,8 @@ import { DialogConfirmDeleteComponent } from '../dialog-confirm-delete/dialog-co
 
 
 
+
+
 @Component({
   selector: 'app-initiate-main',
   templateUrl: './initiate-main.component.html',
@@ -14,22 +16,29 @@ import { DialogConfirmDeleteComponent } from '../dialog-confirm-delete/dialog-co
   providers: [InitiateProviderService]
 })
 export class InitiateMainComponent implements OnInit {
-  ngOnInit(): void {
 
-  }
-
-    
   displayedColumns: string[] = ['ProductCode', 'Description'];
-  
 
   private pricingID: number;
   private pricingGroup: FormGroup;
+  private companyNames: string[] = [];
+  private customerNames = [];
+  private customerIDs = [];
+  private selectedCustomer;
+
+  ngOnInit(): void {
+    this.initiateService.getCompanyList().subscribe(ret => {
+      this.companyNames = ret;
+    });
+  }
 
   constructor(
     fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    public initiateService: InitiateProviderService,
+    public initiate: InitiateProviderService) {
 
     this.pricingGroup = fb.group({
       CompanyName: ['', [Validators.required]],
@@ -77,8 +86,8 @@ export class InitiateMainComponent implements OnInit {
     if (this.pricingGroup.valid) {
       let data = this.getFormData();
 
-      let initiate = new InitiateProviderService();
-      initiate.saveOpportunity(data);
+
+      this.initiate.saveOpportunity(data);
     }
   }
 
@@ -86,13 +95,49 @@ export class InitiateMainComponent implements OnInit {
     if (this.pricingGroup.valid) {
       let data = this.getFormData();
 
-      let initiate = new InitiateProviderService();
-      initiate.submitOpportunity(data);
+      this.initiate.submitOpportunity(data);
     }
   }
 
   delete() {
-    let initiate = new InitiateProviderService();
-    initiate.deleteOpportunity(this.pricingID);
+
+    this.initiate.deleteOpportunity(this.pricingID);
+  }
+
+  companyname_change(e){
+   
+
+    if(this.pricingGroup.controls.CompanyName.valid){
+      console.log(this.pricingGroup.value.CompanyName);
+
+      this.renderCustomerIDs();
+      this.renderCustomerNames();
+      
+    }
+  }
+
+
+  CustomerID: FormGroup;
+
+
+
+
+  renderCustomerIDs(){
+    this.customerIDs = [];
+    this.initiate.getCustomerIDList(this.pricingGroup.value.CompanyName).subscribe(ret=>{
+      ret.forEach(element => {
+        this.customerIDs.push({id: element.id, name: element.id});
+      });
+    });
+  }
+
+ renderCustomerNames(){
+    this.customerNames = [];
+    this.initiate.getCustomerNameList(this.pricingGroup.value.CompanyName).subscribe(ret=>{
+      ret.forEach(element => {
+       
+        this.customerNames.push({id: element.id, name: element.name});          
+      });
+    })
   }
 }

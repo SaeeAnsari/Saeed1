@@ -65,8 +65,8 @@ export class ProductDetailsComponent implements OnInit {
     
     if(this.pricingGroup.valid){
       let data = this.gatherFieldData();
-      let initiate = new InitiateProviderService();
-      initiate.saveProductDetails(data);      
+
+      //this.initiate.saveProductDetails(data);      
     }
   }
 }

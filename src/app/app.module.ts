@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UXTestComponent } from './uxtest/uxtest.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 
 import {A11yModule} from '@angular/cdk/a11y';
@@ -75,6 +76,7 @@ import { ProductDetailsComponent } from './PRICING/product-details/product-detai
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpModule,
 
 
     MatFormFieldModule,
