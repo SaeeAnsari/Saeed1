@@ -1,9 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
+import { SearchProvider } from '../Providers/search-provider';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogConfirmDeleteComponent } from '../dialog-confirm-delete/dialog-confirm-delete.component';
+import { Observable } from 'rxjs';
 
 
 
@@ -13,11 +15,11 @@ import { DialogConfirmDeleteComponent } from '../dialog-confirm-delete/dialog-co
   selector: 'app-initiate-main',
   templateUrl: './initiate-main.component.html',
   styleUrls: ['./initiate-main.component.css'],
-  providers: [InitiateProviderService]
+  providers: [InitiateProviderService, SearchProvider]
 })
 export class InitiateMainComponent implements OnInit {
 
-  displayedColumns: string[] = ['ProductCode', 'Description'];
+  displayedColumns: string[] = ['ProductCode','ProductDescription', 'Actions'];
 
   private pricingID: number;
   private pricingGroup: FormGroup;
@@ -25,6 +27,7 @@ export class InitiateMainComponent implements OnInit {
   private customerNames = [];
   private customerIDs = [];
   private opportunityOwners = [];
+  private productResults = [];
 
   private selectedCompany = "";
   private selectedOwner = "";
@@ -32,10 +35,9 @@ export class InitiateMainComponent implements OnInit {
   private selectedCustomerName = "";
   private selectedOpportunityType = "";
   private selectedPriority = "";
-
   private quoteID = 0;
-
   private _quoteData = null;
+  private _lineData= null;
 
   ngOnInit(): void {
 
@@ -43,7 +45,7 @@ export class InitiateMainComponent implements OnInit {
   }
 
 
-  loadQuote(quoteID) {
+  async loadQuote(quoteID) {
 
     this.initiateService.getCompanyList().subscribe(ret => {
       this.companyNames = ret;
@@ -76,23 +78,44 @@ export class InitiateMainComponent implements OnInit {
           }
         })
 
+        this._lineData = [];
+        this.initiate.getQuoteLines(quoteID).subscribe(line => {
+          line.forEach(element => {
+            this._lineData.push({ ProductDescription: element.productDescription, ProductCode: element.productCode});
+          });
+
+          console.log(this.productResults);
+        })
 
         setTimeout(() => {
           this.selectedCustomer = this._quoteData.customerID;
           this.selectedOwner = this._quoteData.opportunityOwner;
           this.selectedOpportunityType = this._quoteData.opportunityType;
           this.selectedPriority = this._quoteData.priorityLevel;
-          
+
           this.pricingGroup.controls.QuoteNumber.setValue(this._quoteData.quoteID);
           this.pricingGroup.controls.OpportunityName.setValue(this._quoteData.opportunityName);
           this.pricingGroup.controls.RequestedBy.setValue(this._quoteData.requestedBy);
-          this.pricingGroup.controls.SubmittedDate.setValue(this._quoteData.submittedDate);      
+          this.pricingGroup.controls.SubmittedDate.setValue(this._quoteData.submittedDate);
+
+          this.productResults = this._lineData;
+         
         }, 2000);
       }
     });
-
-    
   }
+
+  /*
+  async getQuoteLines(quoteID): Observable{
+    let data = [];
+    this.initiate.getQuoteLines(quoteID).subscribe(line => {
+      line.forEach(element => {
+        data.push({ ProductDescription: element.productDescription, ProductCode: element.productCode });
+        return data;
+      });      
+    })
+  }
+*/
 
 
   constructor(

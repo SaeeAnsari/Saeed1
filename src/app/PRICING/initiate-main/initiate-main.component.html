@@ -5,11 +5,11 @@
         <mat-form-field class="container-half-width">
 
             <mat-label>Company Name</mat-label>
-            <mat-select name="lstCompanyName" formControlName="CompanyName" required  [(value)]="selectedCompany">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let company of companyNames" [value]="company" >
-                      {{company}}
-                    </mat-option>
+            <mat-select name="lstCompanyName" formControlName="CompanyName" required [(value)]="selectedCompany">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let company of companyNames" [value]="company">
+                    {{company}}
+                </mat-option>
             </mat-select>
 
         </mat-form-field>
@@ -18,7 +18,7 @@
 
             <mat-label>Priority Level</mat-label>
             <mat-select name="lstPriorityLevel" formControlName="PriorityLevel" required [(value)]="selectedPriority">
-                <mat-option value="High">High</mat-option>               
+                <mat-option value="High">High</mat-option>
                 <mat-option value="Low">Low</mat-option>
             </mat-select>
 
@@ -26,38 +26,40 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Customer ID</mat-label>
-            <mat-select name="lstCustomerID" formControlName="CustomerID" required  [(value)]="selectedCustomer">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let customer of customerIDs" [value]="customer.id" >
-                      {{customer.name}}
-                    </mat-option>
+            <mat-select name="lstCustomerID" formControlName="CustomerID" required [(value)]="selectedCustomer">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let customer of customerIDs" [value]="customer.id">
+                    {{customer.name}}
+                </mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
             <mat-label>Customer Name</mat-label>
             <mat-select name="lstCustomerName" formControlName="CustomerName" required [(value)]="selectedCustomer">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let customer of customerNames" [value]="customer.id" >
-                      {{customer.name}}
-                    </mat-option>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let customer of customerNames" [value]="customer.id">
+                    {{customer.name}}
+                </mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
 
-                <mat-label>Opportunity Owner</mat-label>
-                <mat-select name="lstOpportunityOwner" formControlName="OpportunityOwner" required [(value)]="selectedOwner">
-                        <mat-option>--</mat-option>
-                        <mat-option *ngFor="let owner of opportunityOwners" [value]="owner.name" >
-                          {{owner.name}}
-                        </mat-option>
-                </mat-select>            
+            <mat-label>Opportunity Owner</mat-label>
+            <mat-select name="lstOpportunityOwner" formControlName="OpportunityOwner" required
+                [(value)]="selectedOwner">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let owner of opportunityOwners" [value]="owner.name">
+                    {{owner.name}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
             <mat-label>Opportunity Type</mat-label>
-            <mat-select name="lstOpportunityType" formControlName="OpportunityType" required [(value)]="selectedOpportunityType"> 
+            <mat-select name="lstOpportunityType" formControlName="OpportunityType" required
+                [(value)]="selectedOpportunityType">
                 <mat-option value="Existing Product">Existing Product</mat-option>
                 <mat-option value="New Product">New Product</mat-option>
             </mat-select>
@@ -89,28 +91,44 @@
 
 
         <div>
-            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group" >
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
                 <mat-button-toggle color="warn" (click)="delete()">Delete</mat-button-toggle>
                 <mat-button-toggle (click)="save()">Save</mat-button-toggle>
                 <mat-button-toggle (click)="submit()">Submit</mat-button-toggle>
-                <button class="btn-add-product float-right" mat-raised-button >Add Product</button>
+                <button class="btn-add-product float-right" mat-raised-button>Add Product</button>
             </mat-button-toggle-group>
         </div>
     </mat-card>
     <mat-card>
-        <table mat-table [dataSource]="productResults" class="mat-elevation-z8">
+        <table mat-table [dataSource]="productResults" class="mat-elevation-z8 product-lines-table">
 
-
+            <!--- Note that these columns can be defined in any order.
+                                  The actual rendered columns are set as a property on the row definition" -->
 
             <ng-container matColumnDef="ProductCode">
                 <th mat-header-cell *matHeaderCellDef> Product Code</th>
                 <td mat-cell *matCellDef="let element"> {{element.ProductCode}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Description">
-                <th mat-header-cell *matHeaderCellDef> Description</th>
-                <td mat-cell *matCellDef="let element"> {{element.Description}} </td>
+            <ng-container matColumnDef="ProductDescription">
+                <th mat-header-cell *matHeaderCellDef> Product Description</th>
+                <td mat-cell *matCellDef="let element"> {{element.ProductDescription}} </td>
             </ng-container>
+
+            <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef> Actions</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
+                        <mat-button-toggle>
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle>
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </td>
+            </ng-container>
+
 
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -118,5 +136,9 @@
         </table>
 
     </mat-card>
+
+
+    <app-product-details ></app-product-details>
+
 
 </form>

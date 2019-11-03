@@ -56,6 +56,11 @@ export class InitiateProviderService {
     .map(ret => ret.json());     
   }
 
+  getQuoteLines(quoteID){
+    return this._http.get(this._url + '/GetQuoteLines?quoteID=' + quoteID)
+    .map(ret => ret.json());  
+  }
+
    
   
 
