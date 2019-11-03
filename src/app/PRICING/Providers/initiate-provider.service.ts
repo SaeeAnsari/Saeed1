@@ -46,6 +46,15 @@ export class InitiateProviderService {
       .map(ret => ret.json());      
   }
 
+  getOpportunityOwners(companyID){
+    return this._http.get(this._url + '/GetOpportunityOwnerList?companyID=' + companyID)
+    .map(ret => ret.json());     
+  }
+
+  getQuote(quoteID){
+    return this._http.get(this._url + '/GetQuote?quoteID=' + quoteID)
+    .map(ret => ret.json());     
+  }
 
    
   
