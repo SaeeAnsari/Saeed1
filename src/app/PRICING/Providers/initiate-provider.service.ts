@@ -24,7 +24,6 @@ import { HttpClient } from 'selenium-webdriver/http';
 })
 export class InitiateProviderService {
  
-
   constructor(private _http: Http) { }
 
   private _url = BaseLinkService.GetBaseUrl() + '/Pricing';
@@ -62,6 +61,25 @@ export class InitiateProviderService {
   }
 
    
+  getPartList(companyID, sortDirection){
+    return this._http.get(this._url + '/GetPartsListByCompany?companyID=' + companyID + '&sortDirection=' + sortDirection)
+    .map(ret => ret.json());  
+  }
+
+  getUnitOfMeasureList(){
+    return this._http.get(this._url + '/GetUOMList')
+    .map(ret => ret.json());  
+  }
+
+  getContainerTypeList(){
+    return this._http.get(this._url + '/GetContainerTypeList')
+    .map(ret => ret.json());  
+  }
+
+  getCurrencyCodeList(){
+    return this._http.get(this._url + '/GetCurrencyList')
+    .map(ret => ret.json());  
+  }
   
 
   saveOpportunity(data: any){

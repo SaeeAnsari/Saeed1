@@ -6,10 +6,11 @@
         <mat-form-field class="container-half-width">
 
             <mat-label>Part ID</mat-label>
-            <mat-select name="lstPartID" formControlName="PartID" required>
-                <mat-option value="high">High</mat-option>
-                <mat-option value="medium">Medium</mat-option>
-                <mat-option value="low">Low</mat-option>
+            <mat-select name="lstPartID" formControlName="PartID" required [(value)]="selectedPart" >
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let part of partList" [value]="part.id">
+                    {{part.id}}
+                </mat-option>
             </mat-select>
 
 
@@ -17,17 +18,21 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Part Name</mat-label>
-            <mat-select name="lstPartName" formControlName="PartName" required>
-                <mat-option value="1">Existing Product</mat-option>
-                <mat-option value="2">New Product</mat-option>
+            <mat-select name="lstPartName" formControlName="PartName" required [(value)]="selectedPart">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let part of partList" [value]="part.id">
+                    {{part.name}}
+                </mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
             <mat-label>Unit Of Measure</mat-label>
-            <mat-select name="lstUnitOfMeasure" formControlName="UnitOfMeasure" required>
-                <mat-option value="1">Existing Product</mat-option>
-                <mat-option value="2">New Product</mat-option>
+            <mat-select name="lstUnitOfMeasure" formControlName="UnitOfMeasure" required [(value)]= "selectedUOM">
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let uom of uomList" [value]="uom.id">
+                        {{uom.name}}
+                    </mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -38,7 +43,7 @@
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Typical Order Size" formControlName="TypicalOrderSize" >
+            <input matInput placeholder="Typical Order Size" formControlName="TypicalOrderSize">
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
@@ -47,13 +52,15 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Container Type</mat-label>
-            <mat-select name="lstContainerType" formControlName="ContainerType" required>
-                <mat-option value="1">Existing Product</mat-option>
-                <mat-option value="2">New Product</mat-option>
+            <mat-select name="lstContainerType" formControlName="ContainerType" required [(value)] = "selectedContainerType">
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let container of containerTypes" [value]="container.id">
+                        {{container.name}}
+                    </mat-option>
             </mat-select>
         </mat-form-field>
 
-    
+
 
         <mat-form-field class="container-half-width">
             <input matInput placeholder="Target Price" formControlName="TargetPrice">
@@ -85,7 +92,7 @@
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
                 <mat-button-toggle color="warn" (click)="save()">Save</mat-button-toggle>
                 <mat-button-toggle (click)="save()">Cancel</mat-button-toggle>
-                
+
             </mat-button-toggle-group>
 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
-import { SearchProvider } from '../Providers/search-provider';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogConfirmDeleteComponent } from '../dialog-confirm-delete/dialog-confirm-delete.component';
@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
   selector: 'app-initiate-main',
   templateUrl: './initiate-main.component.html',
   styleUrls: ['./initiate-main.component.css'],
-  providers: [InitiateProviderService, SearchProvider]
+  providers: [InitiateProviderService]
 })
 export class InitiateMainComponent implements OnInit {
 
@@ -36,17 +36,17 @@ export class InitiateMainComponent implements OnInit {
   private selectedOpportunityType = "";
   private selectedPriority = "";
   private quoteID = 0;
+  private quoteLineID = 0;
   private _quoteData = null;
   private _lineData= null;
 
   ngOnInit(): void {
-
-
   }
 
 
   async loadQuote(quoteID) {
 
+    this.quoteID = quoteID;
     this.initiateService.getCompanyList().subscribe(ret => {
       this.companyNames = ret;
 
