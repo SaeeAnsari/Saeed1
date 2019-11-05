@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http,  Headers, RequestOptions, URLSearchParams } from '@angular/http';
+import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { map } from "rxjs/operators"; 
+import { map } from "rxjs/operators";
 
 // Observable class extensions
 import 'rxjs/add/observable/of';
@@ -14,86 +14,86 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';;  
+import 'rxjs/add/operator/switchMap';;
 
-import {BaseLinkService} from '../Providers/base-link.service';
+import { BaseLinkService } from '../Providers/base-link.service';
 import { HttpClient } from 'selenium-webdriver/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InitiateProviderService {
- 
-  
-  constructor(private _http: Http) { 
-    
+
+
+  constructor(private _http: Http) {
+
   }
 
   private _url = BaseLinkService.GetBaseUrl() + '/Pricing';
 
-  getCompanyList(){
-    
+  getCompanyList() {
+
     return this._http.get(this._url + '/GetCompanyList')
       .map(ret => ret.json());
-      
+
   }
 
-  getCustomerNameList(companyID){
+  getCustomerNameList(companyID) {
     return this._http.get(this._url + '/GetCustomerNameList?companyID=' + companyID)
-      .map(ret => ret.json());      
+      .map(ret => ret.json());
   }
 
-  getCustomerIDList(companyID){
+  getCustomerIDList(companyID) {
     return this._http.get(this._url + '/GetCustomerIDList?companyID=' + companyID)
-      .map(ret => ret.json());      
+      .map(ret => ret.json());
   }
 
-  getOpportunityOwners(companyID){
+  getOpportunityOwners(companyID) {
     return this._http.get(this._url + '/GetOpportunityOwnerList?companyID=' + companyID)
-    .map(ret => ret.json());     
+      .map(ret => ret.json());
   }
 
-  getQuote(quoteID){
+  getQuote(quoteID) {
     return this._http.get(this._url + '/GetQuote?quoteID=' + quoteID)
-    .map(ret => ret.json());     
+      .map(ret => ret.json());
   }
 
-  getQuoteLines(quoteID){
+  getQuoteLines(quoteID) {
     return this._http.get(this._url + '/GetQuoteLines?quoteID=' + quoteID)
-    .map(ret => ret.json());  
+      .map(ret => ret.json());
   }
 
-  getQuoteLine(quoteLineID){
+  getQuoteLine(quoteLineID) {
     return this._http.get(this._url + '/GetQuoteLine?quoteLineID=' + quoteLineID)
-    .map(ret => ret.json());  
+      .map(ret => ret.json());
   }
 
-   
-  getPartList(companyID, sortDirection){
+
+  getPartList(companyID, sortDirection) {
     return this._http.get(this._url + '/GetPartsListByCompany?companyID=' + companyID + '&sortDirection=' + sortDirection)
-    .map(ret => ret.json());  
+      .map(ret => ret.json());
   }
 
-  getUnitOfMeasureList(){
+  getUnitOfMeasureList() {
     return this._http.get(this._url + '/GetUOMList')
-    .map(ret => ret.json());  
+      .map(ret => ret.json());
   }
 
-  getContainerTypeList(){
+  getContainerTypeList() {
     return this._http.get(this._url + '/GetContainerTypeList')
-    .map(ret => ret.json());  
+      .map(ret => ret.json());
   }
 
-  getCurrencyCodeList(){
+  getCurrencyCodeList() {
     return this._http.get(this._url + '/GetCurrencyList')
-    .map(ret => ret.json());  
+      .map(ret => ret.json());
   }
-  
 
 
-  saveQuoteHeader(quoteID, priorityLevel, customerName, opportunityOwnerName, opportunityType, opportunityName, paymentTermsID,requestedBy, companyID, customerID, opportunityOwnerID, isTestCustomer): Observable<any>{
-   
-    var header =  new Headers({
+
+  saveQuoteHeader(quoteID, priorityLevel, customerName, opportunityOwnerName, opportunityType, opportunityName, paymentTermsID, requestedBy, companyID, customerID, opportunityOwnerID, isTestCustomer): Observable<any> {
+
+    var header = new Headers({
       'Content-Type': 'application/json',
       'Accept': 'q=0.8;application/json;q=0.9'
     });
@@ -112,12 +112,12 @@ export class InitiateProviderService {
       opportunityOwnerID: opportunityOwnerID,
       isTest: isTestCustomer
     };
-    
+
     return this._http.post(this._url + '/SaveQuote',
-    data, 
-    { headers: header })
-    .map(post => post.json())
-    .catch(this.handleError);    
+      data,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
   }
 
   private handleError(error: any) {
@@ -129,38 +129,76 @@ export class InitiateProviderService {
   }
 
 
-  
-  submitOpportunity(quiteID: any): Observable<any>{    
 
-    var header =  new Headers({
+  submitOpportunity(quiteID: any): Observable<any> {
+
+    var header = new Headers({
       'Content-Type': 'application/json',
       'Accept': 'q=0.8;application/json;q=0.9'
     });
 
 
     return this._http.post(this._url + '/SubmitQuote',
-    quiteID        
+      quiteID
       ,
       { headers: header })
-    .map(post => post.json())
-    .catch(this.handleError);    
+      .map(post => post.json())
+      .catch(this.handleError);
   }
 
-  deleteOpportunity(quoteID: any): Observable<any>{
+  deleteOpportunity(quoteID: any): Observable<any> {
 
-    var header =  new Headers({
+    var header = new Headers({
       'Content-Type': 'application/json',
       'Accept': 'q=0.8;application/json;q=0.9'
     });
 
     return this._http.post(this._url + '/DeleteQuote',
-    quoteID,
+      quoteID,
       { headers: header })
-    .map(post => post.json())
-    .catch(this.handleError);    
+      .map(post => post.json())
+      .catch(this.handleError);
   }
 
-  saveProductDetails(data: any){
-    console.log(data);
+  saveQuoteLine(quoteLineID, quoteID, productCode, productDescription, usageLevel, unitOfMeasure, comments, targetPrice, targetCurrencyID, annualVolume?, typicalOrderSize?, packSize?, containerTypeID?) {
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    var data = {
+      quoteLineID: quoteLineID,
+      quoteID: quoteID,
+      productCode: productCode,
+      productDescription: productDescription,
+      usageLevel: usageLevel,
+      unitOfMeasure: unitOfMeasure,
+      annualVolume: annualVolume,
+      typicalOrderSize: typicalOrderSize,
+      packSize: packSize,
+      containerTypeID: containerTypeID,
+      targetPrice: targetPrice,
+      targetCurrencyID: targetCurrencyID,
+      comments: comments
+    };
+
+    return this._http.post(this._url + '/SaveQuoteLine',
+      JSON.stringify(data),
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+  deleteQuoteLine(quoteLineID) {
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    return this._http.post(this._url + '/DeleteQuoteLine',
+      quoteLineID,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
   }
 }

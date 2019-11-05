@@ -57,6 +57,7 @@ import { PricingInitiateComponent } from './PRICING/pricing-initiate/pricing-ini
 import { InitiateMainComponent } from './PRICING/initiate-main/initiate-main.component';
 import { DialogConfirmDeleteComponent } from './PRICING/dialog-confirm-delete/dialog-confirm-delete.component';
 import { ProductDetailsComponent } from './PRICING/product-details/product-details.component';
+import { ProductFinalisedComponent } from './PRICING/product-finalised/product-finalised.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { ProductDetailsComponent } from './PRICING/product-details/product-detai
     PricingInitiateComponent,
     InitiateMainComponent,
     DialogConfirmDeleteComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    ProductFinalisedComponent
 
   ],
   imports: [

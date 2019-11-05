@@ -6,7 +6,7 @@
         <mat-form-field class="container-half-width">
 
             <mat-label>Part ID</mat-label>
-            <mat-select name="lstPartID" formControlName="PartID" required [(value)]="selectedPart" >
+            <mat-select name="lstPartID" formControlName="PartID" required [(value)]="selectedPart" (selectionChange) = "part_change()" >
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let part of partList" [value]="part.id">
                     {{part.id}}
@@ -18,7 +18,7 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Part Name</mat-label>
-            <mat-select name="lstPartName" formControlName="PartName" required [(value)]="selectedPart">
+            <mat-select name="lstPartName" formControlName="PartName" required [(value)]="selectedPart" (selectionChange) = "part_change()">
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let part of partList" [value]="part.id">
                     {{part.name}}
@@ -93,7 +93,7 @@
         <div>
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
                 <mat-button-toggle color="warn" (click)="save()">Save</mat-button-toggle>
-                <mat-button-toggle (click)="save()">Cancel</mat-button-toggle>
+                <mat-button-toggle (click)="cancel()">Cancel</mat-button-toggle>
 
             </mat-button-toggle-group>
 

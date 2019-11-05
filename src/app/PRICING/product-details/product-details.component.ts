@@ -26,7 +26,7 @@ export class ProductDetailsComponent implements OnInit {
   private _data;
 
 
-  private pricingID: number;
+  
   private pricingGroup: FormGroup;
 
   constructor(fb: FormBuilder,
@@ -47,12 +47,7 @@ export class ProductDetailsComponent implements OnInit {
       UsageLevel: [''],
       NotesAndComment: ['']
     });
-
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.pricingID = this.router.getCurrentNavigation().extras.state.PricingID;
-      }
-    });
+    
   }
 
   private partList = [];
@@ -108,29 +103,33 @@ export class ProductDetailsComponent implements OnInit {
 
         this.selectedPart = this._data.productCode;
 
-        this.pricingGroup.controls['ContainerType'].setValue(this._data.containerTypeID.toString());
-        this.pricingGroup.controls['UnitOfMeasure'].setValue(this._data.unitOfMeasure.toString());
-        
-        this.pricingGroup.controls['ContainerType'].setValue(this._data.containerTypeID.toString());
-        this.pricingGroup.controls['CurrencyOfTargetPrice'].setValue(this._data.targetCurrencyID.toString());
-        this.pricingGroup.controls['AnnualVolume'].setValue(this._data.annualVolume.toString());
+        this.pricingGroup.controls.PartID.setValue(this._data.productCode);
+        this.pricingGroup.controls.PartName.setValue(this._data.productCode);
 
-        this.pricingGroup.controls['TypicalOrderSize'].setValue(this._data.typicalOrderSize.toString());
-        this.pricingGroup.controls['PackSize'].setValue(this._data.packSize.toString());
-        this.pricingGroup.controls['TargetPrice'].setValue(this._data.targetPrice.toString());
-        this.pricingGroup.controls['UsageLevel'].setValue(this._data.usageLevel.toString());
-        this.pricingGroup.controls['NotesAndComment'].setValue(this._data.comments);       
+        
+        if(this._data.containerTypeID) this.pricingGroup.controls['ContainerType'].setValue(this._data.containerTypeID.toString());
+        if(this._data.unitOfMeasure) this.pricingGroup.controls['UnitOfMeasure'].setValue(this._data.unitOfMeasure.toString());
+
+        if(this._data.targetCurrencyID) this.pricingGroup.controls['CurrencyOfTargetPrice'].setValue(this._data.targetCurrencyID.toString());
+        if(this._data.annualVolume) this.pricingGroup.controls['AnnualVolume'].setValue(this._data.annualVolume.toString());
+
+        if(this._data.typicalOrderSize) this.pricingGroup.controls['TypicalOrderSize'].setValue(this._data.typicalOrderSize.toString());
+        if(this._data.packSize) this.pricingGroup.controls['PackSize'].setValue(this._data.packSize.toString());
+        if(this._data.targetPrice) this.pricingGroup.controls['TargetPrice'].setValue(this._data.targetPrice.toString());
+        if(this._data.usageLevel) this.pricingGroup.controls['UsageLevel'].setValue(this._data.usageLevel.toString());
+        if(this._data.comments) this.pricingGroup.controls['NotesAndComment'].setValue(this._data.comments);       
       }, 5000);
     });
   }
 
-
-
   gatherFieldData() {
+
+
+    
 
     let data = {
       PartID: this.pricingGroup.value.PartID,
-      PartName: this.pricingGroup.value.PartName,
+      PartName: '',
       UnitOfMeasure: this.pricingGroup.value.UnitOfMeasure,
       AnnualVolume: this.pricingGroup.value.AnnualVolume,
       TypicalOrderSize: this.pricingGroup.value.TypicalOrderSize,
@@ -142,7 +141,20 @@ export class ProductDetailsComponent implements OnInit {
       NotesAndComment: this.pricingGroup.value.NotesAndComment
     };
 
+    data.PartName = this.partList.filter(function (item) {
+      return item.id == data.PartID;
+    })[0].name;
+
     return data;
+  }
+
+  part_change(){
+    this.pricingGroup.controls.PartID.setValue(this.selectedPart);
+    this.pricingGroup.controls.PartName.setValue(this.selectedPart);
+  }
+
+  cancel(){
+    window.location.reload();
   }
 
   save() {
@@ -150,6 +162,21 @@ export class ProductDetailsComponent implements OnInit {
     if (this.pricingGroup.valid) {
       let data = this.gatherFieldData();
 
+      this.initiate.saveQuoteLine(this.QuoteLineID, this.QuoteID, data.PartID, data.PartName, data.UsageLevel, data.UnitOfMeasure, data.NotesAndComment, data.TargetPrice, data.CurrencyOfTargetPrice, data.AnnualVolume, data.TypicalOrderSize, data.PackSize, data.ContainerType )
+      .subscribe(sub=>{
+        window.location.reload();
+      })
+      /*
+
+      line.AnnualVolume,
+      line.TypicalOrderSize, 
+        line.PackSize, 
+      line.ContainerTypeID,
+      line.TargetPrice, 
+      line.TargetCurrencyID, 
+      line.isTestPart
+
+      */
       //this.initiate.saveProductDetails(data);      
     }
   }

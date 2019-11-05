@@ -29,6 +29,7 @@ export class InitiateMainComponent implements OnInit {
   private opportunityOwners = [];
   private productResults = [];
 
+  private lineItemSelectedValue = "";
   private selectedCompany = "";
   private selectedOwner = "";
   private selectedCustomer = "";
@@ -39,6 +40,9 @@ export class InitiateMainComponent implements OnInit {
   private quoteLineID = 0;
   private _quoteData = null;
   private _lineData = null;
+
+  private showProductDetails: boolean = false;
+  private quoteSubmitted: boolean = false;
 
   ngOnInit(): void {
 
@@ -93,7 +97,7 @@ export class InitiateMainComponent implements OnInit {
         this._lineData = [];
         this.initiate.getQuoteLines(quoteID).subscribe(line => {
           line.forEach(element => {
-            this._lineData.push({ ProductDescription: element.productDescription, ProductCode: element.productCode });
+            this._lineData.push({ ProductDescription: element.productDescription, ProductCode: element.productCode, lineID: element.quoteLineID});
           });
 
           console.log(this.productResults);
@@ -118,14 +122,16 @@ export class InitiateMainComponent implements OnInit {
           this.pricingGroup.controls.RequestedBy.setValue(this._quoteData.requestedBy);
           this.pricingGroup.controls.SubmittedDate.setValue(this._quoteData.submittedDate);
 
-          this.productResults = this._lineData;
+          this.productResults = this._lineData;         
+
+          if(this._quoteData.submittedDate != ""){
+            this.quoteSubmitted = true;
+          }
+
 
         }, 2000);
         /**/
-      }
-     
-      
-     
+      }     
     });
   }
 
@@ -170,8 +176,9 @@ export class InitiateMainComponent implements OnInit {
       }
     });
 
-    this.loadQuote
-    this.loadQuote(31187);
+    //31191
+  
+    this.loadQuote(31186);
 
     //this.loadQuote(0);
   }
@@ -223,6 +230,7 @@ export class InitiateMainComponent implements OnInit {
 
       this.initiate.submitOpportunity(this.quoteID).subscribe(sub=> {
         this.loadQuote(this.quoteID);
+        
       });
     }
   }
@@ -234,6 +242,10 @@ export class InitiateMainComponent implements OnInit {
         window.location.reload();
       });
     }    
+  }
+
+  addProduct(){
+    this.showProductDetails = true;
   }
 
   customer_change(e) {
@@ -289,5 +301,16 @@ export class InitiateMainComponent implements OnInit {
         });
       })
     }
+  }
+
+  lineEdit(e){
+    this.quoteLineID = e;
+    this.showProductDetails = true;
+  }
+
+  lineDelete(e){
+    this.initiate.deleteQuoteLine(e).subscribe(sub=>{
+      location.reload();
+    });
   }
 }
