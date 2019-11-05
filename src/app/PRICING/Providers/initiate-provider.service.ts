@@ -24,7 +24,10 @@ import { HttpClient } from 'selenium-webdriver/http';
 })
 export class InitiateProviderService {
  
-  constructor(private _http: Http) { }
+  
+  constructor(private _http: Http) { 
+    
+  }
 
   private _url = BaseLinkService.GetBaseUrl() + '/Pricing';
 
@@ -60,6 +63,11 @@ export class InitiateProviderService {
     .map(ret => ret.json());  
   }
 
+  getQuoteLine(quoteLineID){
+    return this._http.get(this._url + '/GetQuoteLine?quoteLineID=' + quoteLineID)
+    .map(ret => ret.json());  
+  }
+
    
   getPartList(companyID, sortDirection){
     return this._http.get(this._url + '/GetPartsListByCompany?companyID=' + companyID + '&sortDirection=' + sortDirection)
@@ -82,16 +90,74 @@ export class InitiateProviderService {
   }
   
 
-  saveOpportunity(data: any){
-    console.log(data );
+
+  saveQuoteHeader(quoteID, priorityLevel, customerName, opportunityOwnerName, opportunityType, opportunityName, paymentTermsID,requestedBy, companyID, customerID, opportunityOwnerID, isTestCustomer): Observable<any>{
+   
+    var header =  new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    let data = {
+      quoteID: quoteID,
+      priorityLevel: priorityLevel,
+      customerName: customerName,
+      opportunityOwner: opportunityOwnerName,
+      opportunityType: opportunityType,
+      opportunityName: opportunityName,
+      paymentTermID: paymentTermsID,
+      requestedBy: requestedBy,
+      companyID: companyID,
+      customerID: customerID,
+      opportunityOwnerID: opportunityOwnerID,
+      isTest: isTestCustomer
+    };
+    
+    return this._http.post(this._url + '/SaveQuote',
+    data, 
+    { headers: header })
+    .map(post => post.json())
+    .catch(this.handleError);    
   }
 
-  submitOpportunity(data: any){
-    console.log(data);
+  private handleError(error: any) {
+    let errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    console.error(errMsg);
+    console.log(error._body);
+    return Observable.throw(errMsg);
   }
 
-  deleteOpportunity(id: any){
-    console.log(id);
+
+  
+  submitOpportunity(quiteID: any): Observable<any>{    
+
+    var header =  new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+
+    return this._http.post(this._url + '/SubmitQuote',
+    quiteID        
+      ,
+      { headers: header })
+    .map(post => post.json())
+    .catch(this.handleError);    
+  }
+
+  deleteOpportunity(quoteID: any): Observable<any>{
+
+    var header =  new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    return this._http.post(this._url + '/DeleteQuote',
+    quoteID,
+      { headers: header })
+    .map(post => post.json())
+    .catch(this.handleError);    
   }
 
   saveProductDetails(data: any){

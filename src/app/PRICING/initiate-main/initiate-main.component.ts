@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 })
 export class InitiateMainComponent implements OnInit {
 
-  displayedColumns: string[] = ['ProductCode','ProductDescription', 'Actions'];
+  displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'Actions'];
 
   private pricingID: number;
   private pricingGroup: FormGroup;
@@ -38,13 +38,20 @@ export class InitiateMainComponent implements OnInit {
   private quoteID = 0;
   private quoteLineID = 0;
   private _quoteData = null;
-  private _lineData= null;
+  private _lineData = null;
 
   ngOnInit(): void {
+
+    this.pricingGroup.valueChanges.subscribe(val => {
+      this.pricingGroup.updateValueAndValidity({ onlySelf: false, emitEvent: false })
+    });
   }
 
 
   async loadQuote(quoteID) {
+
+    this.pricingGroup.controls.QuoteNumber.disable();
+    this.pricingGroup.controls.SubmittedDate.disable();
 
     this.quoteID = quoteID;
     this.initiateService.getCompanyList().subscribe(ret => {
@@ -55,6 +62,7 @@ export class InitiateMainComponent implements OnInit {
           if (ret.length > 0) {
             this._quoteData = ret[0];
             this.selectedCompany = this._quoteData.companyName;
+            this.pricingGroup.controls.CompanyName.setValue(this._quoteData.companyName);
 
 
             this.initiate.getCustomerNameList(this.selectedCompany).subscribe(cust1 => {
@@ -75,23 +83,35 @@ export class InitiateMainComponent implements OnInit {
                 this.opportunityOwners.push({ id: element.id, name: element.name });
               });
             });
+
+            /**/
           }
+
+
         })
 
         this._lineData = [];
         this.initiate.getQuoteLines(quoteID).subscribe(line => {
           line.forEach(element => {
-            this._lineData.push({ ProductDescription: element.productDescription, ProductCode: element.productCode});
+            this._lineData.push({ ProductDescription: element.productDescription, ProductCode: element.productCode });
           });
 
           console.log(this.productResults);
         })
+
 
         setTimeout(() => {
           this.selectedCustomer = this._quoteData.customerID;
           this.selectedOwner = this._quoteData.opportunityOwner;
           this.selectedOpportunityType = this._quoteData.opportunityType;
           this.selectedPriority = this._quoteData.priorityLevel;
+          this.pricingGroup.controls.PriorityLevel.setValue(this._quoteData.priorityLevel);
+          this.pricingGroup.controls.CustomerID.setValue(this._quoteData.customerID);
+          this.pricingGroup.controls.CustomerName.setValue(this._quoteData.customerID);
+          this.pricingGroup.controls.OpportunityType.setValue(this._quoteData.opportunityType);
+          this.pricingGroup.controls.OpportunityOwner.setValue(this._quoteData.opportunityOwner);
+
+
 
           this.pricingGroup.controls.QuoteNumber.setValue(this._quoteData.quoteID);
           this.pricingGroup.controls.OpportunityName.setValue(this._quoteData.opportunityName);
@@ -99,9 +119,13 @@ export class InitiateMainComponent implements OnInit {
           this.pricingGroup.controls.SubmittedDate.setValue(this._quoteData.submittedDate);
 
           this.productResults = this._lineData;
-         
+
         }, 2000);
+        /**/
       }
+     
+      
+     
     });
   }
 
@@ -146,8 +170,10 @@ export class InitiateMainComponent implements OnInit {
       }
     });
 
-    this.loadQuote(31168);
+    this.loadQuote
+    this.loadQuote(31187);
 
+    //this.loadQuote(0);
   }
 
   getFormData() {
@@ -176,22 +202,45 @@ export class InitiateMainComponent implements OnInit {
     if (this.pricingGroup.valid) {
       let data = this.getFormData();
 
+      let opportunityOwnerID = this.opportunityOwners.filter(function (item) {
+        return item.name == data.OpportunityOwner;
+      })[0].id;
 
-      this.initiate.saveOpportunity(data);
+      let customerName = this.customerNames.filter(function (item) {
+        return item.id == data.CustomerID;
+      })[0].name;
+
+      this.initiate.saveQuoteHeader(data.QuoteNumber, data.PriorityLevel, customerName, data.OpportunityOwner, data.OpportunityType, data.OpportunityName, null, data.RequestedBy, data.CompanyName, data.CustomerID, opportunityOwnerID, false).subscribe(sub=>{
+        this.quoteID = sub;
+        this.loadQuote(this.quoteID);
+      });
     }
   }
 
   submit() {
-    if (this.pricingGroup.valid) {
-      let data = this.getFormData();
 
-      this.initiate.submitOpportunity(data);
+    if (this.pricingGroup.valid) {
+
+      this.initiate.submitOpportunity(this.quoteID).subscribe(sub=> {
+        this.loadQuote(this.quoteID);
+      });
     }
   }
 
   delete() {
+    
+    if(this.quoteID >0 ){
+      this.initiate.deleteOpportunity(this.quoteID).subscribe(sub=>{
+        window.location.reload();
+      });
+    }    
+  }
 
-    this.initiate.deleteOpportunity(this.pricingID);
+  customer_change(e) {
+    if (this.selectedCustomer.length > 0) {
+      this.pricingGroup.controls.CustomerName.setValue(this.selectedCustomer);
+      this.pricingGroup.controls.CustomerID.setValue(this.selectedCustomer);
+    }
   }
 
   companyname_change(e) {

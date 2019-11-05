@@ -21,7 +21,9 @@ export class ProductDetailsComponent implements OnInit {
   private selectedPart = "";
   private selectedUOM = "";
   private selectedContainerType = "";
-  
+  private selectedCurrency = "";
+
+  private _data;
 
 
   private pricingID: number;
@@ -60,47 +62,74 @@ export class ProductDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    if(this.QuoteID != "" && this.CompanyName != ""){
+    if (this.QuoteID != "" && this.CompanyName != "") {
 
-      this.initiate.getPartList(this.CompanyName, "e.desc_long_stock").subscribe(ret=> {
+      this.initiate.getPartList(this.CompanyName, "e.desc_long_stock").subscribe(ret => {
 
         ret.forEach(element => {
-          this.partList.push({id: element.id, name: element.name});
+          this.partList.push({ id: element.id, name: element.name });
         });
       });
 
       console.log(this.partList)
 
-      this.initiate.getUnitOfMeasureList().subscribe(ret=> {
+      this.initiate.getUnitOfMeasureList().subscribe(ret => {
         ret.forEach(element => {
-          this.uomList.push({id: element.id, name: element.name});
+          this.uomList.push({ id: element.id, name: element.name });
         })
       })
 
-      this.initiate.getContainerTypeList().subscribe(ret=> {
+      this.initiate.getContainerTypeList().subscribe(ret => {
         ret.forEach(element => {
-          this.containerTypes.push({id: element.id, name: element.name});
+          this.containerTypes.push({ id: element.id, name: element.name });
         })
       })
 
       console.log(this.containerTypes);
 
-      this.initiate.getCurrencyCodeList().subscribe(ret=>{
+      this.initiate.getCurrencyCodeList().subscribe(ret => {
         ret.forEach(element => {
-          this.currencyCodes.push({id: element.id, name: element.name});
+          this.currencyCodes.push({ id: element.id, name: element.name });
         })
       });
       console.log(this.currencyCodes);
 
+
+      this.loadData();
     }
   }
 
-  
+  loadData() {
+    this.initiate.getQuoteLine(this.QuoteLineID).subscribe(ret => {
+      this._data = ret;
+      console.log(this._data);
 
-  gatherFieldData(){
+      setTimeout(() => {
+
+        this.selectedPart = this._data.productCode;
+
+        this.pricingGroup.controls['ContainerType'].setValue(this._data.containerTypeID.toString());
+        this.pricingGroup.controls['UnitOfMeasure'].setValue(this._data.unitOfMeasure.toString());
+        
+        this.pricingGroup.controls['ContainerType'].setValue(this._data.containerTypeID.toString());
+        this.pricingGroup.controls['CurrencyOfTargetPrice'].setValue(this._data.targetCurrencyID.toString());
+        this.pricingGroup.controls['AnnualVolume'].setValue(this._data.annualVolume.toString());
+
+        this.pricingGroup.controls['TypicalOrderSize'].setValue(this._data.typicalOrderSize.toString());
+        this.pricingGroup.controls['PackSize'].setValue(this._data.packSize.toString());
+        this.pricingGroup.controls['TargetPrice'].setValue(this._data.targetPrice.toString());
+        this.pricingGroup.controls['UsageLevel'].setValue(this._data.usageLevel.toString());
+        this.pricingGroup.controls['NotesAndComment'].setValue(this._data.comments);       
+      }, 5000);
+    });
+  }
+
+
+
+  gatherFieldData() {
 
     let data = {
-      PartID : this.pricingGroup.value.PartID,
+      PartID: this.pricingGroup.value.PartID,
       PartName: this.pricingGroup.value.PartName,
       UnitOfMeasure: this.pricingGroup.value.UnitOfMeasure,
       AnnualVolume: this.pricingGroup.value.AnnualVolume,
@@ -116,9 +145,9 @@ export class ProductDetailsComponent implements OnInit {
     return data;
   }
 
-  save(){
-    
-    if(this.pricingGroup.valid){
+  save() {
+
+    if (this.pricingGroup.valid) {
       let data = this.gatherFieldData();
 
       //this.initiate.saveProductDetails(data);      

@@ -28,10 +28,10 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Unit Of Measure</mat-label>
-            <mat-select name="lstUnitOfMeasure" formControlName="UnitOfMeasure" required [(value)]= "selectedUOM">
+            <mat-select name="lstUnitOfMeasure" formControlName="UnitOfMeasure" required [(value)]="selectedUOM">
                     <mat-option>--</mat-option>
-                    <mat-option *ngFor="let uom of uomList" [value]="uom.id">
-                        {{uom.name}}
+                    <mat-option *ngFor="let uom of uomList" [value]="uom.name">
+                            {{uom.name}}
                     </mat-option>
             </mat-select>
         </mat-form-field>
@@ -52,7 +52,7 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Container Type</mat-label>
-            <mat-select name="lstContainerType" formControlName="ContainerType" required [(value)] = "selectedContainerType">
+            <mat-select name="lstContainerType" formControlName="ContainerType" required [(value)]="selectedContainerType">
                     <mat-option>--</mat-option>
                     <mat-option *ngFor="let container of containerTypes" [value]="container.id">
                         {{container.name}}
@@ -67,10 +67,12 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <mat-label>Container Type</mat-label>
-            <mat-select name="lstCurrencyOfTargetPrice" formControlName="CurrencyOfTargetPrice">
-                <mat-option value="1">Existing Product</mat-option>
-                <mat-option value="2">New Product</mat-option>
+            <mat-label>Currency of Target Price</mat-label>
+            <mat-select name="lstCurrencyOfTargetPrice" formControlName="CurrencyOfTargetPrice" [(value)] = "selectedCurrency">
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let curr of currencyCodes" [value]="curr.id">
+                            {{curr.name}}
+                    </mat-option>
             </mat-select>
         </mat-form-field>
 

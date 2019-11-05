@@ -2,13 +2,13 @@
 
 
 
-    <div *ngIf="1==0">
+
         <mat-card>
 
             <mat-form-field class="container-half-width">
 
                 <mat-label>Company Name</mat-label>
-                <mat-select name="lstCompanyName" formControlName="CompanyName" required [(value)]="selectedCompany">
+                <mat-select name="lstCompanyName" formControlName="CompanyName" required [(value)]="selectedCompany" (selectionChange) = "companyname_change()"> 
                     <mat-option>--</mat-option>
                     <mat-option *ngFor="let company of companyNames" [value]="company">
                         {{company}}
@@ -30,7 +30,7 @@
 
             <mat-form-field class="container-half-width">
                 <mat-label>Customer ID</mat-label>
-                <mat-select name="lstCustomerID" formControlName="CustomerID" required [(value)]="selectedCustomer">
+                <mat-select name="lstCustomerID" formControlName="CustomerID" required [(value)]="selectedCustomer" (selectionChange) = "customer_change()">
                     <mat-option>--</mat-option>
                     <mat-option *ngFor="let customer of customerIDs" [value]="customer.id">
                         {{customer.name}}
@@ -40,7 +40,7 @@
 
             <mat-form-field class="container-half-width">
                 <mat-label>Customer Name</mat-label>
-                <mat-select name="lstCustomerName" formControlName="CustomerName" required [(value)]="selectedCustomer">
+                <mat-select name="lstCustomerName" formControlName="CustomerName" required [(value)]="selectedCustomer" (selectionChange) = "customer_change()">
                     <mat-option>--</mat-option>
                     <mat-option *ngFor="let customer of customerNames" [value]="customer.id">
                         {{customer.name}}
@@ -86,7 +86,7 @@
 
 
             <mat-form-field class="container-half-width">
-                <input matInput placeholder="Quote Number" formControlName="QuoteNumber" required>
+                <input matInput placeholder="Quote Number" formControlName="QuoteNumber">
             </mat-form-field>
 
             <div *ngIf="validationError">
@@ -140,11 +140,11 @@
             </table>
 
         </mat-card>
-    </div>
 
 
+    <div *ngIf="1==0">
     <app-product-details QuoteID="31108" QuoteLineID="47783" CompanyName="DA">
     </app-product-details>
-
+</div>
 
 </form>
