@@ -1,7 +1,9 @@
 
-<app-initiate-main></app-initiate-main>
+<app-initiate-main (BroadcastQuoteID)="ReceiveQuoteID($event)"></app-initiate-main>
+
+
    
 
-<!--  <app-product-details></app-product-details> -->
+<app-product-details #productDetails QuoteID="{{quoteID}}" CompanyName="{{companyName}}"></app-product-details>
 
 

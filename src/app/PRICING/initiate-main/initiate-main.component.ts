@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 
@@ -19,9 +19,12 @@ import { Observable } from 'rxjs';
 })
 export class InitiateMainComponent implements OnInit {
 
-  displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'Actions'];
+  
 
-  private pricingID: number;
+
+  @Output() AddNewQuote =  new EventEmitter();
+  @Output() BroadcastQuoteID = new EventEmitter<any>();
+
   private pricingGroup: FormGroup;
   private companyNames: string[] = [];
   private customerNames = [];
@@ -41,7 +44,7 @@ export class InitiateMainComponent implements OnInit {
   private _quoteData = null;
   private _lineData = null;
 
-  private showProductDetails: boolean = false;
+  
   private quoteSubmitted: boolean = false;
 
   ngOnInit(): void {
@@ -52,7 +55,7 @@ export class InitiateMainComponent implements OnInit {
   }
 
 
-  async loadQuote(quoteID) {
+  loadQuote(quoteID) {
 
     this.pricingGroup.controls.QuoteNumber.disable();
     this.pricingGroup.controls.SubmittedDate.disable();
@@ -68,6 +71,10 @@ export class InitiateMainComponent implements OnInit {
             this.selectedCompany = this._quoteData.companyName;
             this.pricingGroup.controls.CompanyName.setValue(this._quoteData.companyName);
 
+            this.BroadcastQuoteID.emit({
+              QuoteID: this.quoteID,
+              CompanyName: this._quoteData.companyName
+            });
 
             this.initiate.getCustomerNameList(this.selectedCompany).subscribe(cust1 => {
               cust1.forEach(element => {
@@ -105,6 +112,7 @@ export class InitiateMainComponent implements OnInit {
 
 
         setTimeout(() => {
+
           this.selectedCustomer = this._quoteData.customerID;
           this.selectedOwner = this._quoteData.opportunityOwner;
           this.selectedOpportunityType = this._quoteData.opportunityType;
@@ -127,8 +135,6 @@ export class InitiateMainComponent implements OnInit {
           if(this._quoteData.submittedDate != ""){
             this.quoteSubmitted = true;
           }
-
-
         }, 2000);
         /**/
       }     
@@ -172,13 +178,14 @@ export class InitiateMainComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
-        this.pricingID = this.router.getCurrentNavigation().extras.state.PricingID;
+        this.quoteID = this.router.getCurrentNavigation().extras.state.QuoteID;
       }
     });
 
-    //31191
-  
-    this.loadQuote(31186);
+     //31191 
+    this.quoteID = 31186;
+      
+    this.loadQuote(this.quoteID);
 
     //this.loadQuote(0);
   }
@@ -235,18 +242,7 @@ export class InitiateMainComponent implements OnInit {
     }
   }
 
-  delete() {
-    
-    if(this.quoteID >0 ){
-      this.initiate.deleteOpportunity(this.quoteID).subscribe(sub=>{
-        window.location.reload();
-      });
-    }    
-  }
-
-  addProduct(){
-    this.showProductDetails = true;
-  }
+  
 
   customer_change(e) {
     if (this.selectedCustomer.length > 0) {
@@ -302,15 +298,19 @@ export class InitiateMainComponent implements OnInit {
       })
     }
   }
-
-  lineEdit(e){
-    this.quoteLineID = e;
-    this.showProductDetails = true;
+  
+  delete() {
+    
+    if(this.quoteID >0 ){
+      this.initiate.deleteOpportunity(this.quoteID).subscribe(sub=>{
+        window.location.reload();
+      });
+    }    
   }
 
-  lineDelete(e){
-    this.initiate.deleteQuoteLine(e).subscribe(sub=>{
-      location.reload();
-    });
+  addProduct(){
+    if(this.quoteSubmitted){
+      this.AddNewQuote.emit("22");
+    }    
   }
 }

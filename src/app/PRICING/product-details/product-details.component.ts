@@ -13,15 +13,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ProductDetailsComponent implements OnInit {
 
 
-  @Input() QuoteID: string
-  @Input() QuoteLineID: string
-  @Input() CompanyName: string
+  @Input() QuoteID: string;  
+  @Input() CompanyName: string;
 
+  displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'Actions'];
 
+  private quoteLineID = 0;
+  private productResults = [];
+  private _lineData = [];
   private selectedPart = "";
   private selectedUOM = "";
   private selectedContainerType = "";
   private selectedCurrency = "";
+
+  private showProductDetails: boolean = false;
 
   private _data;
 
@@ -89,13 +94,26 @@ export class ProductDetailsComponent implements OnInit {
       });
       console.log(this.currencyCodes);
 
-
+      
       this.loadData();
     }
+
+    if(+this.QuoteID> 0){
+      this._lineData = [];
+      this.initiate.getQuoteLines(this.QuoteID).subscribe(line => {
+        line.forEach(element => {
+          this._lineData.push({ ProductDescription: element.productDescription, ProductCode: element.productCode, lineID: element.quoteLineID});
+        });   
+        
+        this.productResults = this._lineData;
+      })
+    }
+
+    
   }
 
   loadData() {
-    this.initiate.getQuoteLine(this.QuoteLineID).subscribe(ret => {
+    this.initiate.getQuoteLine(this.quoteLineID).subscribe(ret => {
       this._data = ret;
       console.log(this._data);
 
@@ -162,7 +180,7 @@ export class ProductDetailsComponent implements OnInit {
     if (this.pricingGroup.valid) {
       let data = this.gatherFieldData();
 
-      this.initiate.saveQuoteLine(this.QuoteLineID, this.QuoteID, data.PartID, data.PartName, data.UsageLevel, data.UnitOfMeasure, data.NotesAndComment, data.TargetPrice, data.CurrencyOfTargetPrice, data.AnnualVolume, data.TypicalOrderSize, data.PackSize, data.ContainerType )
+      this.initiate.saveQuoteLine(this.quoteLineID, this.QuoteID, data.PartID, data.PartName, data.UsageLevel, data.UnitOfMeasure, data.NotesAndComment, data.TargetPrice, data.CurrencyOfTargetPrice, data.AnnualVolume, data.TypicalOrderSize, data.PackSize, data.ContainerType )
       .subscribe(sub=>{
         window.location.reload();
       })
@@ -179,6 +197,21 @@ export class ProductDetailsComponent implements OnInit {
       */
       //this.initiate.saveProductDetails(data);      
     }
+  }
+
+ 
+
+  lineEdit(e){
+    this.quoteLineID = e;
+    this.showProductDetails = true;
+
+    this.loadData();
+  }
+
+  lineDelete(e){
+    this.initiate.deleteQuoteLine(e).subscribe(sub=>{
+      location.reload();
+    });
   }
 }
 
