@@ -31,4 +31,8 @@ export class PricingInitiateComponent implements OnInit {
     this.productDetails.CompanyName = data.CompanyName;
     this.productDetails.ngOnInit();    
   }
+
+  AddNewComponent(){
+    this.productDetails.showProductDetails = true;
+  }
 }

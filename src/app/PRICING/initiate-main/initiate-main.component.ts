@@ -310,7 +310,7 @@ export class InitiateMainComponent implements OnInit {
 
   addProduct(){
     if(this.quoteSubmitted){
-      this.AddNewQuote.emit("22");
+      this.AddNewQuote.emit("");
     }    
   }
 }

@@ -26,7 +26,7 @@ export class ProductDetailsComponent implements OnInit {
   private selectedContainerType = "";
   private selectedCurrency = "";
 
-  private showProductDetails: boolean = false;
+  public showProductDetails: boolean = false;
 
   private _data;
 
