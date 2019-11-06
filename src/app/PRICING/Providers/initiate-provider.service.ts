@@ -112,6 +112,11 @@ export class InitiateProviderService {
       .map(ret => ret.json());
   }
 
+  getCompletionLineId(completionLineID) {
+    return this._http.get(this._url + '/GetCompletionLineId?completionLineID=' + completionLineID)
+      .map(ret => ret.json());
+  }
+
 
   getCompletionLines(quoteID) {
 

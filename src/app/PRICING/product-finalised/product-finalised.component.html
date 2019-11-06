@@ -1,12 +1,56 @@
 <form class="container" [formGroup]="pricingGroup">
 
     <mat-card>
+        <table mat-table [dataSource]="productResults" class="mat-elevation-z8 product-lines-table">
+
+            <!--- Note that these columns can be defined in any order.
+                                                  The actual rendered columns are set as a property on the row definition" -->
+
+            <ng-container matColumnDef="IsCompleted">
+                <th mat-header-cell *matHeaderCellDef> Processed</th>
+                <td mat-cell *matCellDef="let element"> {{element.isCompleted}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="ProductCode">
+                <th mat-header-cell *matHeaderCellDef> Product Code</th>
+                <td mat-cell *matCellDef="let element"> {{element.ProductCode}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ProductDescription">
+                <th mat-header-cell *matHeaderCellDef> Product Description</th>
+                <td mat-cell *matCellDef="let element"> {{element.ProductDescription}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef> Actions</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-button-toggle-group #group="matButtonToggleGroup" name="fontStyle" aria-label="Font Style"
+                        class="btn-toggle-group">
+                        
+                        <mat-button-toggle [value]='element.lineID' >
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">insert_chart_outlined</mat-icon>
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]='element.lineID' (click)="lineEdit(element.CompletionLineID)">
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+    </mat-card>
+
+
+    <mat-card *ngIf="showCompletionLine">
         <mat-form-field class="container-half-width">
 
             <mat-label>Unit Of Measure</mat-label>
-            <mat-select name="lstUnitOfMeasure" formControlName="UnitOfMeasure" >
+            <mat-select name="lstUnitOfMeasure" formControlName="UnitOfMeasure">
                 <mat-option>--</mat-option>
-                <mat-option *ngFor="let item of uomList" [value]="item.id">
+                <mat-option *ngFor="let item of uomList" [value]="item.name">
                     {{item.name}}
                 </mat-option>
             </mat-select>
@@ -15,7 +59,7 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Quote Currency</mat-label>
-            <mat-select name="lstQuoteCurrency" formControlName="QuoteCurrency" >
+            <mat-select name="lstQuoteCurrency" formControlName="QuoteCurrency">
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let item of currencyCodes" [value]="item.id">
                     {{item.name}}
@@ -24,18 +68,18 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Cost Per UOM" formControlName="CostPerUOM" >
+            <input matInput placeholder="Cost Per UOM" formControlName="CostPerUOM">
         </mat-form-field>
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Selling Price Per UOM" formControlName="SellingPricePerUOM" >
+            <input matInput placeholder="Selling Price Per UOM" formControlName="SellingPricePerUOM">
         </mat-form-field>
 
 
         <mat-form-field class="container-half-width">
             <mat-label>Transport Terms</mat-label>
-            <mat-select name="lstTransportTerms" formControlName="TransportTerms" >
+            <mat-select name="lstTransportTerms" formControlName="TransportTerms">
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let item of transportTermsList" [value]="item.id">
                     {{item.name}}
@@ -45,7 +89,7 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Shipping Warehouse</mat-label>
-            <mat-select name="lstShippingWarehouse" formControlName="ShippingWarehouse" >
+            <mat-select name="lstShippingWarehouse" formControlName="ShippingWarehouse">
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let item of shippingWarehouseList" [value]="item.id">
                     {{item.name}}
@@ -56,38 +100,38 @@
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Minimum Order Quantity" formControlName="MinimumOrderQuantity" >
+            <input matInput placeholder="Minimum Order Quantity" formControlName="MinimumOrderQuantity">
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Estimated Lead Time" formControlName="EstimatedLeadTime" >
-        </mat-form-field>
-
-
-        <mat-form-field class="container-half-width">
-            <input matInput placeholder="Quote Expiration Date" formControlName="QuoteExpirationDate" >
-        </mat-form-field>
-        <mat-form-field class="container-half-width">
-            <input matInput placeholder="Price Validity Date" formControlName="PriceValidityDate" >
-        </mat-form-field>
-        <mat-form-field class="container-half-width">
-            <input matInput placeholder="Sent To CM Date" formControlName="SentToCMDate" >
-        </mat-form-field>
-
-
-
-        <mat-form-field class="container-half-width">
-            <input matInput placeholder="Price Prepared By" formControlName="PricePreparedBy" >
+            <input matInput placeholder="Estimated Lead Time" formControlName="EstimatedLeadTime">
         </mat-form-field>
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Approval Date" formControlName="ApprovalDate" >
+            <input matInput placeholder="Quote Expiration Date" formControlName="QuoteExpirationDate">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Price Validity Date" formControlName="PriceValidityDate">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Sent To CM Date" formControlName="SentToCMDate">
+        </mat-form-field>
+
+
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Price Prepared By" formControlName="PricePreparedBy">
+        </mat-form-field>
+
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Approval Date" formControlName="ApprovalDate">
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
             <mat-label>Price Approved By</mat-label>
-            <mat-select name="lstPriceApprovedBy" formControlName="PriceApprovedBy" >
+            <mat-select name="lstPriceApprovedBy" formControlName="PriceApprovedBy">
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let item of approverList" [value]="item.id">
                     {{item.name}}
@@ -96,12 +140,12 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Completion Date" formControlName="CompletionDate" >
+            <input matInput placeholder="Completion Date" formControlName="CompletionDate">
         </mat-form-field>
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Exchange Rate" formControlName="ExchangeRate" >
+            <input matInput placeholder="Exchange Rate" formControlName="ExchangeRate">
         </mat-form-field>
 
     </mat-card>
