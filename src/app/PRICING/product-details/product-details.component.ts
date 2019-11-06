@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { element } from 'protractor';
+
 
 @Component({
   selector: 'app-product-details',

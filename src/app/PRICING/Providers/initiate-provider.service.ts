@@ -38,6 +38,29 @@ export class InitiateProviderService {
 
   }
 
+
+  getApprovers() {
+
+    return this._http.get(this._url + '/GetApprovers')
+      .map(ret => ret.json());
+
+  }
+
+  GetShippingWarehouse() {
+
+    return this._http.get(this._url + '/GetShippingWarehouse')
+      .map(ret => ret.json());
+
+  }
+
+  GetTransportTerms() {
+
+    return this._http.get(this._url + '/GetTransportTerms')
+      .map(ret => ret.json());
+
+  }
+
+
   getCustomerNameList(companyID) {
     return this._http.get(this._url + '/GetCustomerNameList?companyID=' + companyID)
       .map(ret => ret.json());
@@ -90,6 +113,11 @@ export class InitiateProviderService {
   }
 
 
+  getCompletionLines(quoteID) {
+
+    return this._http.get(this._url + '/GetCompletionLines?quoteID=' + quoteID)
+      .map(ret => ret.json());
+  }
 
   saveQuoteHeader(quoteID, priorityLevel, customerName, opportunityOwnerName, opportunityType, opportunityName, paymentTermsID, requestedBy, companyID, customerID, opportunityOwnerID, isTestCustomer): Observable<any> {
 
