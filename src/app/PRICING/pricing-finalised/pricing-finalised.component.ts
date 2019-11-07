@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ProductFinalisedComponent } from '../product-finalised/product-finalised.component';
+import { ProductDetailsComponent } from '../product-details/product-details.component';
 
 @Component({
   selector: 'app-pricing-finalised',
@@ -8,7 +9,8 @@ import { ProductFinalisedComponent } from '../product-finalised/product-finalise
 })
 export class PricingFinalisedComponent implements OnInit {
 
-  @ViewChild("productFinalised", {static: false}) productDetails: ProductFinalisedComponent;
+  @ViewChild("productDetails", {static: false}) productDetails: ProductDetailsComponent;
+  @ViewChild("productFinalised", {static: false}) productFinalised: ProductFinalisedComponent;
 
   private quoteID = 0;
   private quoteLineID = 0;
@@ -24,8 +26,14 @@ export class PricingFinalisedComponent implements OnInit {
     console.log(data);
     this.quoteID = data.QuoteID;
     this.companyName = data.CompanyName;
-    this.productDetails.QuoteID = "7649";//this.quoteID.toString();
-    this.productDetails.CompanyName = this.companyName;
-    this.productDetails.loadData();
+
+
+    this.productDetails.QuoteID = data.QuoteID;
+    this.productDetails.CompanyName = data.CompanyName;
+    this.productDetails.ngOnInit();    
+
+    this.productFinalised.QuoteID = this.quoteID.toString();
+    this.productFinalised.CompanyName = this.companyName;
+    this.productFinalised.loadData();
   }
 }

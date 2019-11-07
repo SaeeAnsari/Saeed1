@@ -96,7 +96,7 @@
         </div>
 
 
-        <div>
+        <div *ngIf="DisabledMode=='no'">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
                 <mat-button-toggle color="warn" (click)="delete()">Delete</mat-button-toggle>
                 <mat-button-toggle (click)="save()">Save</mat-button-toggle>

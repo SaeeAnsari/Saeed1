@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 
@@ -18,10 +18,8 @@ import { Observable } from 'rxjs';
   providers: [InitiateProviderService]
 })
 export class InitiateMainComponent implements OnInit {
-
   
-
-
+  @Input() DisabledMode: string = "no";  
   @Output() AddNewQuote =  new EventEmitter();
   @Output() BroadcastQuoteID = new EventEmitter<any>();
 
@@ -183,7 +181,9 @@ export class InitiateMainComponent implements OnInit {
     });
 
      //31191 
-    this.quoteID = 31186;
+     //31186
+     //"7649";//
+    this.quoteID = 7649;
       
     this.loadQuote(this.quoteID);
 
