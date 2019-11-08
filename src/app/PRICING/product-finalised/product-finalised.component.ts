@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailsComponent } from '../product-details/product-details.component';
+import { KeyValue } from '@angular/common';
 
 
 @Component({
@@ -30,6 +31,11 @@ export class ProductFinalisedComponent implements OnInit {
 
   displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'IsCompleted', 'Actions'];
 
+  
+  
+  displayKeyValColumns: string[] = ['Key', 'Value', 'Actions']
+  private lineKeyVal = [{Key:"", Value: ""}, {Key: "11", Value: ""}];
+
   @ViewChild("productDetails", { static: false }) productDetails: ProductDetailsComponent;
 
   constructor(fb: FormBuilder,
@@ -54,7 +60,9 @@ export class ProductFinalisedComponent implements OnInit {
       ApprovalDate: [{ value: '', disabled: false }],
       PriceApprovedBy: [{ value: '', disabled: false }],
       CompletionDate: [{ value: '', disabled: false }],
-      ExchangeRate: [{ value: '', disabled: false }]
+      ExchangeRate: [{ value: '', disabled: false }],
+      FinaliseKey: [''],
+      FinaliseValue: ['']
     });
   }
 
@@ -134,23 +142,34 @@ export class ProductFinalisedComponent implements OnInit {
 
       this.pricingGroup.reset();
 
-      this.pricingGroup.controls.UnitOfMeasure.setValue(sub.uom),
-        this.pricingGroup.controls.QuoteCurrency.setValue(sub.currencyID.toString())
-      this.pricingGroup.controls.CostPerUOM.setValue(sub.costPerUOM),
-        this.pricingGroup.controls.SellingPricePerUOM.setValue(sub.sellingPricePerUOM),
-        this.pricingGroup.controls.TransportTerms.setValue(sub.transportTermID.toString()),
-        this.pricingGroup.controls.ShippingWarehouse.setValue(sub.shippingWarehouseID.toString()),
-        this.pricingGroup.controls.MinimumOrderQuantity.setValue(sub.minimumOrderQuantity),
-        this.pricingGroup.controls.EstimatedLeadTime.setValue(sub.estimatedLeadTime),
-        this.pricingGroup.controls.QuoteExpirationDate.setValue(sub.quoteExpirationDate),
-        this.pricingGroup.controls.PriceValidityDate.setValue(sub.priceValidityDate),
-        this.pricingGroup.controls.SentToCMDate.setValue(sub.sentToCMDate),
-        this.pricingGroup.controls.PricePreparedBy.setValue(sub.pricePreparedBy),
-        this.pricingGroup.controls.ApprovalDate.setValue(sub.approvalDate),
-        this.pricingGroup.controls.PriceApprovedBy.setValue(sub.priceApprovedByID.toString()),
-        this.pricingGroup.controls.CompletionDate.setValue(sub.completionDate),
-        this.pricingGroup.controls.ExchangeRate.setValue(sub.exchangeRate)
 
+      if (sub.uom != null) { this.pricingGroup.controls.UnitOfMeasure.setValue(sub.uom) };
+      if (sub.currencyID != null) this.pricingGroup.controls.QuoteCurrency.setValue(sub.currencyID.toString())
+      if (sub.costPerUOM != null) this.pricingGroup.controls.CostPerUOM.setValue(sub.costPerUOM)
+      if (sub.sellingPricePerUOM != null) this.pricingGroup.controls.SellingPricePerUOM.setValue(sub.sellingPricePerUOM)
+      if (sub.transportTermID != null) this.pricingGroup.controls.TransportTerms.setValue(sub.transportTermID.toString())
+      if (sub.shippingWarehouseID != null) this.pricingGroup.controls.ShippingWarehouse.setValue(sub.shippingWarehouseID.toString())
+      if (sub.minimumOrderQuantity != null) this.pricingGroup.controls.MinimumOrderQuantity.setValue(sub.minimumOrderQuantity)
+      if (sub.estimatedLeadTime != null) this.pricingGroup.controls.EstimatedLeadTime.setValue(sub.estimatedLeadTime)
+      if (sub.quoteExpirationDate != null) this.pricingGroup.controls.QuoteExpirationDate.setValue(sub.quoteExpirationDate)
+      if (sub.priceValidityDate != null) this.pricingGroup.controls.PriceValidityDate.setValue(sub.priceValidityDate)
+      if (sub.sentToCMDate != null) this.pricingGroup.controls.SentToCMDate.setValue(sub.sentToCMDate)
+      if (sub.pricePreparedBy != null) this.pricingGroup.controls.PricePreparedBy.setValue(sub.pricePreparedBy)
+      if (sub.approvalDate != null) this.pricingGroup.controls.ApprovalDate.setValue(sub.approvalDate)
+      if (sub.priceApprovedByID != null) this.pricingGroup.controls.PriceApprovedBy.setValue(sub.priceApprovedByID.toString())
+      if (sub.completionDate != null) this.pricingGroup.controls.CompletionDate.setValue(sub.completionDate)
+      if (sub.exchangeRate != null) this.pricingGroup.controls.ExchangeRate.setValue(sub.exchangeRate)
+
+      
     });
+  }
+
+  cancel(){
+    this.pricingGroup.reset();
+  }
+
+  addKeyValue(){
+
+    this.lineKeyVal.push({Key: this.pricingGroup.value.FinaliseKey.toString(), Value: this.pricingGroup.value.FinaliseValue.toString()})
   }
 }
