@@ -68,6 +68,7 @@
                 [(value)]="selectedOpportunityType">
                 <mat-option value="Existing Product">Existing Product</mat-option>
                 <mat-option value="New Product">New Product</mat-option>
+                <mat-option value="New Development">New Development</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -91,6 +92,24 @@
             <input matInput placeholder="Quote Number" formControlName="QuoteNumber">
         </mat-form-field>
 
+        <div *ngIf="DisabledMode=='yes'">
+            
+            <mat-form-field class="container-half-width">
+                <mat-label>Payment Terms</mat-label>
+                <mat-select name="lstPaymentTerms" formControlName="PaymentTerm" [(value)]="selectedPaymentTerms">
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let term of paymentTerms" [value]="term.id">
+                        {{term.id }} - {{term.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="container-half-width">
+                <input matInput placeholder="CC Email" formControlName="CCEmail">
+            </mat-form-field>
+
+        </div>
+
         <div *ngIf="validationError">
             <p class="text-danger">** {{validationMessage}}</p>
         </div>
@@ -105,9 +124,15 @@
                     [disabled]="!quoteSubmitted">Add Product</button>
             </mat-button-toggle-group>
         </div>
-    </mat-card>    
-  
-<!--
+
+        <div *ngIf="DisabledMode=='yes'">
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
+                <mat-button-toggle color="warn" (click)="finalise()">Finalise</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </mat-card>
+
+    <!--
     <app-product-finalised QuoteID="{{quoteID}}" QuoteLineID="{{quoteLineID}}" CompanyName="{{selectedCompany}}">
     </app-product-finalised>
 -->

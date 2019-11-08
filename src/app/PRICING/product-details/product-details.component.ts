@@ -13,12 +13,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ProductDetailsComponent implements OnInit {
 
 
+
   @Input() QuoteID: string;  
   @Input() CompanyName: string;
+  @Input() ShowGrid: string;
+
 
   displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'Actions'];
 
-  private quoteLineID = 0;
+  public quoteLineID = 0;
   private productResults = [];
   private _lineData = [];
   private selectedPart = "";
@@ -39,21 +42,23 @@ export class ProductDetailsComponent implements OnInit {
     private router: Router,
     private initiate: InitiateProviderService) {
 
+      let disableColumns = (this.ShowGrid!='no');
+
     this.pricingGroup = fb.group({
-      PartID: ['', [Validators.required]],
-      PartName: ['', [Validators.required]],
-      UnitOfMeasure: ['', [Validators.required]],
-      AnnualVolume: ['', [Validators.required]],
-      TypicalOrderSize: [''],
-      PackSize: ['', [Validators.required]],
-      ContainerType: ['', [Validators.required]],
-      TargetPrice: [''],
-      CurrencyOfTargetPrice: [''],
-      UsageLevel: [''],
-      NotesAndComment: ['']
-    });
-    
+      PartID: [{value: '', disabled: disableColumns}, [Validators.required]],
+      PartName: [{value: '', disabled: disableColumns}, [Validators.required]],
+      UnitOfMeasure: [{value: '', disabled: disableColumns}, [Validators.required]],
+      AnnualVolume: [{value: '', disabled: disableColumns}, [Validators.required]],
+      TypicalOrderSize: [{value: '', disabled: disableColumns}],
+      PackSize: [{value: '', disabled: disableColumns}, [Validators.required]],
+      ContainerType: [{value: '', disabled: disableColumns}, [Validators.required]],
+      TargetPrice: [{value: '', disabled: disableColumns}],
+      CurrencyOfTargetPrice: [{value: '', disabled: disableColumns}],
+      UsageLevel: [{value: '', disabled: disableColumns}],
+      NotesAndComment: [{value: '', disabled: disableColumns}]
+    });    
   }
+  
 
   private partList = [];
   private containerTypes = [];
@@ -71,7 +76,7 @@ export class ProductDetailsComponent implements OnInit {
         });
       });
 
-      console.log(this.partList)
+      
 
       this.initiate.getUnitOfMeasureList().subscribe(ret => {
         ret.forEach(element => {

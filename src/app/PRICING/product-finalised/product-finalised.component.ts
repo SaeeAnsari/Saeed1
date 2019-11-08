@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProductDetailsComponent } from '../product-details/product-details.component';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ProductFinalisedComponent implements OnInit {
 
 
-  @Input() QuoteID: string  
+  @Input() QuoteID: string
   @Input() CompanyName: string
 
   private completionLineID;
@@ -27,7 +28,9 @@ export class ProductFinalisedComponent implements OnInit {
   _lineData: any[];
   private showCompletionLine: boolean = false;
 
-  displayedColumns: string[] = ['ProductCode', 'ProductDescription','IsCompleted', 'Actions'];
+  displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'IsCompleted', 'Actions'];
+
+  @ViewChild("productDetails", { static: false }) productDetails: ProductDetailsComponent;
 
   constructor(fb: FormBuilder,
     private route: ActivatedRoute,
@@ -36,26 +39,28 @@ export class ProductFinalisedComponent implements OnInit {
 
 
     this.pricingGroup = fb.group({
-      UnitOfMeasure: [{ value: '', disabled: true }],
-      QuoteCurrency: [{ value: '', disabled: true }],
-      CostPerUOM: [{ value: '', disabled: true }],
-      SellingPricePerUOM: [{ value: '', disabled: true }],
-      TransportTerms: [{ value: '', disabled: true }],
-      ShippingWarehouse: [{ value: '', disabled: true }],
-      MinimumOrderQuantity: [{ value: '', disabled: true }],
-      EstimatedLeadTime: [{ value: '', disabled: true }],
-      QuoteExpirationDate: [{ value: '', disabled: true }],
-      PriceValidityDate: [{ value: '', disabled: true }],
-      SentToCMDate: [{ value: '', disabled: true }],
-      PricePreparedBy: [{ value: '', disabled: true }],
-      ApprovalDate: [{ value: '', disabled: true }],
-      PriceApprovedBy: [{ value: '', disabled: true }],
-      CompletionDate: [{ value: '', disabled: true }],
-      ExchangeRate: [{ value: '', disabled: true }]
+      UnitOfMeasure: [{ value: '', disabled: false }],
+      QuoteCurrency: [{ value: '', disabled: false }],
+      CostPerUOM: [{ value: '', disabled: false }],
+      SellingPricePerUOM: [{ value: '', disabled: false }],
+      TransportTerms: [{ value: '', disabled: false }],
+      ShippingWarehouse: [{ value: '', disabled: false }],
+      MinimumOrderQuantity: [{ value: '', disabled: false }],
+      EstimatedLeadTime: [{ value: '', disabled: false }],
+      QuoteExpirationDate: [{ value: '', disabled: false }],
+      PriceValidityDate: [{ value: '', disabled: false }],
+      SentToCMDate: [{ value: '', disabled: false }],
+      PricePreparedBy: [{ value: '', disabled: false }],
+      ApprovalDate: [{ value: '', disabled: false }],
+      PriceApprovedBy: [{ value: '', disabled: false }],
+      CompletionDate: [{ value: '', disabled: false }],
+      ExchangeRate: [{ value: '', disabled: false }]
     });
   }
 
   ngOnInit() {
+
+
 
     this.initiate.getUnitOfMeasureList().subscribe(ret => {
       ret.forEach(element => {
@@ -95,7 +100,7 @@ export class ProductFinalisedComponent implements OnInit {
       this._lineData = [];
       this.initiate.getCompletionLines(this.QuoteID).subscribe(line => {
         line.forEach(element => {
-          this._lineData.push({ ProductDescription: element.productDescription, ProductCode: element.productCode, isCompleted: element.isComplete, CompletionLineID: element.completionLineID });
+          this._lineData.push({ QuoteID: element.quoteID, QuoteLineID: element.quoteLineID, ProductDescription: element.productDescription, ProductCode: element.productCode, isCompleted: element.isComplete, CompletionLineID: element.completionLineID });
         });
 
         this.productResults = this._lineData;
@@ -103,36 +108,49 @@ export class ProductFinalisedComponent implements OnInit {
     }
   }
 
-  lineEdit(value){
-    if(value !=null && +value > 0){
-      this.completionLineID = value;
-      this.showCompletionLine = true;
-      this.loadLine();
+  lineEdit(value) {
+
+    if (value != null) {
+
+
+      if (value.CompletionLineID > 0) {
+        this.completionLineID = value.CompletionLineID;
+        this.showCompletionLine = true;
+
+        this.productDetails.QuoteID = value.QuoteID;
+        this.productDetails.quoteLineID = value.QuoteLineID;
+        this.productDetails.CompanyName = this.CompanyName;
+        this.productDetails.showProductDetails = true;
+        this.productDetails.ngOnInit()
+        this.productDetails.lineEdit(value.QuoteLineID);
+
+        this.loadLine();
+      }
     }
   }
 
-  loadLine(){
-    this.initiate.getCompletionLineId(this.completionLineID).subscribe(sub=>{
+  loadLine() {
+    this.initiate.getCompletionLineId(this.completionLineID).subscribe(sub => {
 
       this.pricingGroup.reset();
 
       this.pricingGroup.controls.UnitOfMeasure.setValue(sub.uom),
-      this.pricingGroup.controls.QuoteCurrency.setValue(sub.currencyID.toString())
+        this.pricingGroup.controls.QuoteCurrency.setValue(sub.currencyID.toString())
       this.pricingGroup.controls.CostPerUOM.setValue(sub.costPerUOM),
-      this.pricingGroup.controls.SellingPricePerUOM.setValue(sub.sellingPricePerUOM),
-      this.pricingGroup.controls.TransportTerms.setValue(sub.transportTermID.toString()),
-      this.pricingGroup.controls.ShippingWarehouse.setValue(sub.shippingWarehouseID.toString()),
-      this.pricingGroup.controls.MinimumOrderQuantity.setValue(sub.minimumOrderQuantity),
-      this.pricingGroup.controls.EstimatedLeadTime.setValue(sub.estimatedLeadTime),
-      this.pricingGroup.controls.QuoteExpirationDate.setValue(sub.quoteExpirationDate),
-      this.pricingGroup.controls.PriceValidityDate.setValue(sub.priceValidityDate),
-      this.pricingGroup.controls.SentToCMDate.setValue(sub.sentToCMDate),
-      this.pricingGroup.controls.PricePreparedBy.setValue(sub.pricePreparedBy),
-      this.pricingGroup.controls.ApprovalDate.setValue(sub.approvalDate),
-      this.pricingGroup.controls.PriceApprovedBy.setValue(sub.priceApprovedByID.toString()),
-      this.pricingGroup.controls.CompletionDate.setValue(sub.completionDate),
-      this.pricingGroup.controls.ExchangeRate.setValue(sub.exchangeRate)     
+        this.pricingGroup.controls.SellingPricePerUOM.setValue(sub.sellingPricePerUOM),
+        this.pricingGroup.controls.TransportTerms.setValue(sub.transportTermID.toString()),
+        this.pricingGroup.controls.ShippingWarehouse.setValue(sub.shippingWarehouseID.toString()),
+        this.pricingGroup.controls.MinimumOrderQuantity.setValue(sub.minimumOrderQuantity),
+        this.pricingGroup.controls.EstimatedLeadTime.setValue(sub.estimatedLeadTime),
+        this.pricingGroup.controls.QuoteExpirationDate.setValue(sub.quoteExpirationDate),
+        this.pricingGroup.controls.PriceValidityDate.setValue(sub.priceValidityDate),
+        this.pricingGroup.controls.SentToCMDate.setValue(sub.sentToCMDate),
+        this.pricingGroup.controls.PricePreparedBy.setValue(sub.pricePreparedBy),
+        this.pricingGroup.controls.ApprovalDate.setValue(sub.approvalDate),
+        this.pricingGroup.controls.PriceApprovedBy.setValue(sub.priceApprovedByID.toString()),
+        this.pricingGroup.controls.CompletionDate.setValue(sub.completionDate),
+        this.pricingGroup.controls.ExchangeRate.setValue(sub.exchangeRate)
 
     });
-    }
+  }
 }

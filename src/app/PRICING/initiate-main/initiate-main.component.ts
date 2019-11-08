@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 })
 export class InitiateMainComponent implements OnInit {
   
+  @Input() QuoteID: string = '0';
   @Input() DisabledMode: string = "no";  
   @Output() AddNewQuote =  new EventEmitter();
   @Output() BroadcastQuoteID = new EventEmitter<any>();
@@ -29,6 +30,7 @@ export class InitiateMainComponent implements OnInit {
   private customerIDs = [];
   private opportunityOwners = [];
   private productResults = [];
+  private paymentTerms = [];
 
   private lineItemSelectedValue = "";
   private selectedCompany = "";
@@ -50,6 +52,11 @@ export class InitiateMainComponent implements OnInit {
     this.pricingGroup.valueChanges.subscribe(val => {
       this.pricingGroup.updateValueAndValidity({ onlySelf: false, emitEvent: false })
     });
+     
+     if(this.QuoteID!= ""){
+       this.quoteID = +this.QuoteID;
+       this.loadQuote(this.quoteID);
+     }
   }
 
 
@@ -85,6 +92,12 @@ export class InitiateMainComponent implements OnInit {
                 this.customerIDs.push({ id: element.id, name: element.id });
               });
 
+            });
+
+            this.initiate.getPaymentTerms().subscribe(terms=>{
+              terms.forEach(element =>{
+                this.paymentTerms.push({ id:element.id, name: element.name});
+              });
             });
 
             this.initiate.getOpportunityOwners(this.selectedCompany).subscribe(opp => {
@@ -127,11 +140,29 @@ export class InitiateMainComponent implements OnInit {
           this.pricingGroup.controls.OpportunityName.setValue(this._quoteData.opportunityName);
           this.pricingGroup.controls.RequestedBy.setValue(this._quoteData.requestedBy);
           this.pricingGroup.controls.SubmittedDate.setValue(this._quoteData.submittedDate);
+          if( this._quoteData.paymentTermID != null){
+            this.pricingGroup.controls.PaymentTerm.setValue(this._quoteData.paymentTermID.toString());
+          }
+          
 
           this.productResults = this._lineData;         
 
           if(this._quoteData.submittedDate != ""){
             this.quoteSubmitted = true;
+          }
+
+          if(this.DisabledMode == "yes"){
+            var disableControls = this.DisabledMode == "yes";
+
+            this.pricingGroup.controls.CompanyName.disable({onlySelf: true, emitEvent: false});
+            this.pricingGroup.controls.CustomerID.disable({onlySelf: true, emitEvent: false});
+            this.pricingGroup.controls.PriorityLevel.disable({onlySelf: true, emitEvent: false});
+            this.pricingGroup.controls.CustomerName.disable({onlySelf: true, emitEvent: false});
+            this.pricingGroup.controls.OpportunityName.disable({onlySelf: true, emitEvent: false});
+            this.pricingGroup.controls.OpportunityOwner.disable({onlySelf: true, emitEvent: false});
+            this.pricingGroup.controls.OpportunityType.disable({onlySelf: true, emitEvent: false});
+            this.pricingGroup.controls.RequestedBy.disable({onlySelf: true, emitEvent: false});
+            this.pricingGroup.controls.SubmittedDate.disable({onlySelf: true, emitEvent: false});
           }
         }, 2000);
         /**/
@@ -158,8 +189,7 @@ export class InitiateMainComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     public initiateService: InitiateProviderService,
-    public initiate: InitiateProviderService) {
-
+    public initiate: InitiateProviderService) {     
 
     this.pricingGroup = fb.group({
       CompanyName: ['', [Validators.required]],
@@ -171,23 +201,10 @@ export class InitiateMainComponent implements OnInit {
       OpportunityOwner: ['', [Validators.required]],
       SubmittedDate: ['', [Validators.required]],
       PriorityLevel: ['', [Validators.required]],
-      RequestedBy: ['', [Validators.required]]
+      RequestedBy: ['', [Validators.required]],
+      PaymentTerm : [''],
+      CCEmail: ['']
     });
-
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.quoteID = this.router.getCurrentNavigation().extras.state.QuoteID;
-      }
-    });
-
-     //31191 
-     //31186
-     //"7649";//
-    this.quoteID = 7649;
-      
-    this.loadQuote(this.quoteID);
-
-    //this.loadQuote(0);
   }
 
   getFormData() {
@@ -312,5 +329,15 @@ export class InitiateMainComponent implements OnInit {
     if(this.quoteSubmitted){
       this.AddNewQuote.emit("");
     }    
+  }
+
+  finalise(){
+    this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub=>{
+      if(sub == true){
+        this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value).subscribe(sub=>{
+          alert('Quote Finalised')
+        });
+      }
+    })
   }
 }

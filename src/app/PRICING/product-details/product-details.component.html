@@ -1,6 +1,6 @@
 <form class="container" [formGroup]="pricingGroup">
 
-    <mat-card>
+    <mat-card *ngIf="ShowGrid!='no'">
         <table mat-table [dataSource]="productResults" class="mat-elevation-z8 product-lines-table">
 
             <!--- Note that these columns can be defined in any order.
@@ -38,108 +38,108 @@
 
     </mat-card>
 
-    <mat-card>
-
-        <div *ngIf="showProductDetails == true">
-
-            <mat-form-field class="container-half-width">
-
-                <mat-label>Part ID</mat-label>
-                <mat-select name="lstPartID" formControlName="PartID" required [(value)]="selectedPart"
-                    (selectionChange)="part_change()">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let part of partList" [value]="part.id">
-                        {{part.id}}
-                    </mat-option>
-                </mat-select>
 
 
-            </mat-form-field>
+    <div *ngIf="showProductDetails == true">
 
-            <mat-form-field class="container-half-width">
-                <mat-label>Part Name</mat-label>
-                <mat-select name="lstPartName" formControlName="PartName" required [(value)]="selectedPart"
-                    (selectionChange)="part_change()">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let part of partList" [value]="part.id">
-                        {{part.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-form-field class="container-half-width">
 
-            <mat-form-field class="container-half-width">
-                <mat-label>Unit Of Measure</mat-label>
-                <mat-select name="lstUnitOfMeasure" formControlName="UnitOfMeasure" required [(value)]="selectedUOM">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let uom of uomList" [value]="uom.name">
-                        {{uom.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field class="container-half-width">
-                <input matInput placeholder="AnnualVolume" formControlName="AnnualVolume" required>
-            </mat-form-field>
+            <mat-label>Part ID</mat-label>
+            <mat-select name="lstPartID" formControlName="PartID" required [(value)]="selectedPart"
+                (selectionChange)="part_change()">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let part of partList" [value]="part.id">
+                    {{part.id}}
+                </mat-option>
+            </mat-select>
 
 
+        </mat-form-field>
 
-            <mat-form-field class="container-half-width">
-                <input matInput placeholder="Typical Order Size" formControlName="TypicalOrderSize">
-            </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <mat-label>Part Name</mat-label>
+            <mat-select name="lstPartName" formControlName="PartName" required [(value)]="selectedPart"
+                (selectionChange)="part_change()">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let part of partList" [value]="part.id">
+                    {{part.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-            <mat-form-field class="container-half-width">
-                <input matInput placeholder="Pack Size" formControlName="PackSize" required>
-            </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <mat-label>Unit Of Measure</mat-label>
+            <mat-select name="lstUnitOfMeasure" formControlName="UnitOfMeasure" required [(value)]="selectedUOM">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let uom of uomList" [value]="uom.name">
+                    {{uom.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-            <mat-form-field class="container-half-width">
-                <mat-label>Container Type</mat-label>
-                <mat-select name="lstContainerType" formControlName="ContainerType" required
-                    [(value)]="selectedContainerType">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let container of containerTypes" [value]="container.id">
-                        {{container.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="AnnualVolume" formControlName="AnnualVolume" required>
+        </mat-form-field>
 
 
 
-            <mat-form-field class="container-half-width">
-                <input matInput placeholder="Target Price" formControlName="TargetPrice">
-            </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Typical Order Size" formControlName="TypicalOrderSize">
+        </mat-form-field>
 
-            <mat-form-field class="container-half-width">
-                <mat-label>Currency of Target Price</mat-label>
-                <mat-select name="lstCurrencyOfTargetPrice" formControlName="CurrencyOfTargetPrice"
-                    [(value)]="selectedCurrency">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let curr of currencyCodes" [value]="curr.id">
-                        {{curr.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Pack Size" formControlName="PackSize" required>
+        </mat-form-field>
 
-            <mat-form-field class="container-half-width">
-                <input matInput placeholder="Usage Level" formControlName="UsageLevel">
-            </mat-form-field>
-
-            <mat-form-field class="container-full-width">
-                <textarea matInput placeholder="Notes and Comment" formControlName="NotesAndComment"></textarea>
-            </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <mat-label>Container Type</mat-label>
+            <mat-select name="lstContainerType" formControlName="ContainerType" required
+                [(value)]="selectedContainerType">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let container of containerTypes" [value]="container.id">
+                    {{container.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
 
-            <div *ngIf="validationError">
-                <p class="text-danger">** {{validationMessage}}</p>
-            </div>
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Target Price" formControlName="TargetPrice">
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <mat-label>Currency of Target Price</mat-label>
+            <mat-select name="lstCurrencyOfTargetPrice" formControlName="CurrencyOfTargetPrice"
+                [(value)]="selectedCurrency">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let curr of currencyCodes" [value]="curr.id">
+                    {{curr.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Usage Level" formControlName="UsageLevel">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <textarea matInput placeholder="Notes and Comment" formControlName="NotesAndComment"></textarea>
+        </mat-form-field>
 
 
-            <div>
-                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                    <mat-button-toggle color="warn" (click)="save()">Save</mat-button-toggle>
-                    <mat-button-toggle (click)="cancel()">Cancel</mat-button-toggle>
-
-                </mat-button-toggle-group>
-            </div>
+        <div *ngIf="validationError">
+            <p class="text-danger">** {{validationMessage}}</p>
         </div>
-    </mat-card>
+
+
+        <div *ngIf="ShowGrid!='no'">
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                <mat-button-toggle color="warn" (click)="save()">Save</mat-button-toggle>
+                <mat-button-toggle (click)="cancel()">Cancel</mat-button-toggle>
+
+            </mat-button-toggle-group>
+        </div>
+    </div>
+
 </form>

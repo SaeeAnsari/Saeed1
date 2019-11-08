@@ -117,6 +117,11 @@ export class InitiateProviderService {
       .map(ret => ret.json());
   }
 
+  getPaymentTerms() {
+    return this._http.get(this._url + '/GetPaymentTerms')
+      .map(ret => ret.json());
+  }
+
 
   getCompletionLines(quoteID) {
 
@@ -163,7 +168,7 @@ export class InitiateProviderService {
 
 
 
-  submitOpportunity(quiteID: any): Observable<any> {
+  submitOpportunity(quoteID: any): Observable<any> {
 
     var header = new Headers({
       'Content-Type': 'application/json',
@@ -172,7 +177,42 @@ export class InitiateProviderService {
 
 
     return this._http.post(this._url + '/SubmitQuote',
-      quiteID
+      quoteID
+      ,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+
+
+
+  validateFinaliseQuote(quoteID: any): Observable<any> {
+
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+
+    return this._http.post(this._url + '/ValidateFinaliseQuote',
+      quoteID
+      ,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+  finaliseQuote(quoteID, paymentTermsID): Observable<any> {
+
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+
+    return this._http.post(this._url + '/FinaliseQuote?quoteID=' + quoteID + '&paymentTermID=' + paymentTermsID,
+    null      
       ,
       { headers: header })
       .map(post => post.json())

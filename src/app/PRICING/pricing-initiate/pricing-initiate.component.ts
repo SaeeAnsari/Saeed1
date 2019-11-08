@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import { ProductDetailsComponent } from '../product-details/product-details.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -17,7 +18,18 @@ export class PricingInitiateComponent implements OnInit {
   @ViewChild("productDetails", {static: false}) productDetails: ProductDetailsComponent;
 
 
-  constructor() {    
+  constructor(private route: ActivatedRoute,
+    private router: Router) {  
+      this.route.queryParams.subscribe(params => {
+        if (this.router.getCurrentNavigation().extras.state) {
+          this.quoteID = this.router.getCurrentNavigation().extras.state.QuoteID;
+        }
+      });
+  
+       //31191 
+       //31186
+       //"7649";//
+      this.quoteID = 31186;        
   }
 
 
@@ -25,6 +37,7 @@ export class PricingInitiateComponent implements OnInit {
   }
 
   ReceiveQuoteID(data){
+    
     this.quoteID = data.QuoteID;
     this.companyName = data.CompanyName
     this.productDetails.QuoteID = data.QuoteID;
@@ -32,7 +45,9 @@ export class PricingInitiateComponent implements OnInit {
     this.productDetails.ngOnInit();    
   }
 
+  
   AddNewComponent(){
     this.productDetails.showProductDetails = true;
   }
+  
 }

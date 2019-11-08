@@ -60,6 +60,7 @@ import { ProductDetailsComponent } from './PRICING/product-details/product-detai
 import { ProductFinalisedComponent } from './PRICING/product-finalised/product-finalised.component';
 import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-finalised.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
