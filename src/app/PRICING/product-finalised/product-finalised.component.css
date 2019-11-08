@@ -26,3 +26,8 @@
   .product-lines-table{
     width: 75%;
   }
+
+  .key-val-style{    
+    width: 25%;
+    display: inline-flex;
+  }

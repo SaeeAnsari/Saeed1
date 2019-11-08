@@ -274,4 +274,54 @@ export class InitiateProviderService {
       .map(post => post.json())
       .catch(this.handleError);
   }
+
+  getCompletionLineBreakDown(completionLineID) {
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    return this._http.get(this._url + '/GetCompletionLineBreakDown?completionLineID=' + completionLineID)
+    .map(ret => ret.json());    
+  }
+
+  deleteCompletionLineBreakDown(breakdownID) {
+
+
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    return this._http.post(this._url + '/RemoveBreakdownLine',
+    breakdownID,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+  saveCompletionLineBreakdownLine(breakDownLineID, completionLineID, fieldValue, fieldName) {
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    var data = {
+      BreakDownLineID: breakDownLineID,
+      FieldValue: fieldValue,
+      FieldName: fieldName,
+      CompletionLineID: completionLineID
+    };
+
+    return this._http.post(this._url + '/SaveBreakdownLine',
+      JSON.stringify(data),
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+
+
+  
 }
+

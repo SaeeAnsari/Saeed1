@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailsComponent } from '../product-details/product-details.component';
-import { KeyValue } from '@angular/common';
+import { MatTableDataSource } from '@angular/material/table';
+import { matTabsAnimations } from '@angular/material/tabs';
 
 
 @Component({
@@ -31,10 +32,11 @@ export class ProductFinalisedComponent implements OnInit {
 
   displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'IsCompleted', 'Actions'];
 
-  
-  
+
+
   displayKeyValColumns: string[] = ['Key', 'Value', 'Actions']
-  private lineKeyVal = [{Key:"", Value: ""}, {Key: "11", Value: ""}];
+
+  private lineKeyVal = [];
 
   @ViewChild("productDetails", { static: false }) productDetails: ProductDetailsComponent;
 
@@ -160,16 +162,70 @@ export class ProductFinalisedComponent implements OnInit {
       if (sub.completionDate != null) this.pricingGroup.controls.CompletionDate.setValue(sub.completionDate)
       if (sub.exchangeRate != null) this.pricingGroup.controls.ExchangeRate.setValue(sub.exchangeRate)
 
-      
+      this.loadBreakDownLines();
+
     });
   }
 
-  cancel(){
+  cancel() {
     this.pricingGroup.reset();
   }
 
-  addKeyValue(){
+  private keyID: number;
 
-    this.lineKeyVal.push({Key: this.pricingGroup.value.FinaliseKey.toString(), Value: this.pricingGroup.value.FinaliseValue.toString()})
+  addKeyValue() {
+
+    if (this.pricingGroup.value.FinaliseKey != "" && this.pricingGroup.value.FinaliseValue != "") {
+
+      var keyToFind = this.pricingGroup.value.FinaliseKey.toString().trim()
+
+      let item = this.lineKeyVal.filter(function (item) {
+        return item.Key == keyToFind;
+      });
+      if (item != null) {
+        this.initiate.saveCompletionLineBreakdownLine(this.keyID, this.completionLineID, this.pricingGroup.value.FinaliseValue, this.pricingGroup.value.FinaliseKey).subscribe(sub => {
+
+          this.loadBreakDownLines();
+
+          this.pricingGroup.controls.FinaliseKey.setValue("");
+          this.pricingGroup.controls.FinaliseValue.setValue("");
+
+          this.keyID = 0;
+        });
+      }
+    }
+  }
+
+  clear(){
+    this.pricingGroup.controls.FinaliseKey.setValue("");
+    this.pricingGroup.controls.FinaliseValue.setValue("");
+
+    this.keyID = 0;
+  }
+
+  loadBreakDownLines() {
+    this.initiate.getCompletionLineBreakDown(this.completionLineID).subscribe(sub => {
+      this.lineKeyVal = [];
+      sub.forEach(element => {
+        this.lineKeyVal.push({ Key: element.name, Value: element.value, ID: element.id });
+      });
+    });
+  }
+
+
+  edit(val) {
+
+    this.keyID = val.ID;
+
+    this.pricingGroup.controls.FinaliseKey.setValue(val.Key);
+    this.pricingGroup.controls.FinaliseValue.setValue(val.Value);
+   
+  }
+
+  delete(val) {
+
+    this.initiate.deleteCompletionLineBreakDown(val.ID).subscribe(sub=>{
+      this.loadBreakDownLines();
+    })
   }
 }
