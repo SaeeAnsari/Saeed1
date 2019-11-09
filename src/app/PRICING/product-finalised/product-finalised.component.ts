@@ -47,22 +47,22 @@ export class ProductFinalisedComponent implements OnInit {
 
 
     this.pricingGroup = fb.group({
-      UnitOfMeasure: [{ value: '', disabled: false }],
-      QuoteCurrency: [{ value: '', disabled: false }],
-      CostPerUOM: [{ value: '', disabled: false }],
-      SellingPricePerUOM: [{ value: '', disabled: false }],
-      TransportTerms: [{ value: '', disabled: false }],
-      ShippingWarehouse: [{ value: '', disabled: false }],
-      MinimumOrderQuantity: [{ value: '', disabled: false }],
-      EstimatedLeadTime: [{ value: '', disabled: false }],
-      QuoteExpirationDate: [{ value: '', disabled: false }],
-      PriceValidityDate: [{ value: '', disabled: false }],
-      SentToCMDate: [{ value: '', disabled: false }],
-      PricePreparedBy: [{ value: '', disabled: false }],
-      ApprovalDate: [{ value: '', disabled: false }],
-      PriceApprovedBy: [{ value: '', disabled: false }],
-      CompletionDate: [{ value: '', disabled: false }],
-      ExchangeRate: [{ value: '', disabled: false }],
+      UnitOfMeasure: [''],
+      QuoteCurrency: [''],
+      CostPerUOM: [''],
+      SellingPricePerUOM: [''],
+      TransportTerms: [''],
+      ShippingWarehouse: [''],
+      MinimumOrderQuantity: [''],
+      EstimatedLeadTime: [''],
+      QuoteExpirationDate: [''],
+      PriceValidityDate: [''],
+      SentToCMDate: [''],
+      PricePreparedBy: [''],
+      ApprovalDate: [''],
+      PriceApprovedBy: [''],
+      CompletionDate: [''],
+      ExchangeRate: [''],
       FinaliseKey: [''],
       FinaliseValue: ['']
     });
@@ -167,8 +167,38 @@ export class ProductFinalisedComponent implements OnInit {
     });
   }
 
+  saveline() {
+    this.initiate.saveCompletionLine(this.completionLineID,
+      this.QuoteID,
+      this.pricingGroup.value.UnitOfMeasure,
+      this.pricingGroup.value.CostPerUOM,
+      this.pricingGroup.value.QuoteCurrency,
+      this.pricingGroup.value.SellingPricePerUOM,
+      this.pricingGroup.value.TransportTerms,
+      this.pricingGroup.value.ShippingWarehouse,
+      this.pricingGroup.value.MinimumOrderQuantity,
+      this.pricingGroup.value.EstimatedLeadTime,
+      this.pricingGroup.value.QuoteExpirationDate,
+      this.pricingGroup.value.PriceValidityDate,
+      this.pricingGroup.value.SentToCMDate,
+      this.pricingGroup.value.ExchangeRate,
+      this.pricingGroup.value.PricePreparedBy,
+      this.pricingGroup.value.ApprovalDate,
+      this.pricingGroup.value.PriceApprovedBy,
+      this.pricingGroup.value.CompletionDate
+    ).subscribe(sub => {
+      this.pricingGroup.reset();
+      this.showCompletionLine = false;
+      this.loadData()
+      this.productDetails.showProductDetails = false;
+    });
+  }
+
   cancel() {
     this.pricingGroup.reset();
+    this.showCompletionLine = false;
+
+    this.productDetails.showProductDetails = false;
   }
 
   private keyID: number;

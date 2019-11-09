@@ -320,8 +320,41 @@ export class InitiateProviderService {
       .catch(this.handleError);
   }
 
-
-
   
+  saveCompletionLine(completionLineID, quoteID, uom, costPerUOM, currencyID, sellingPriceUOM, transportTermlsID, shippingWarehouseID, 
+    minimumQuantity, estimatedLeadTime, quoteExpirationDate, priceValidityDate, sentToCMDate, exchangeRate, pricePreparedBy, 
+    approvalDate, approvedByID, completionDate) {
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    var data = {
+      CompletionLineID: completionLineID,
+      QuoteID: quoteID,
+      UOM: uom,
+      CostPerUOM: costPerUOM == ""? null : costPerUOM,
+      CurrencyID: currencyID,
+      SellingPricePerUOM: sellingPriceUOM ==""? null: sellingPriceUOM,
+      TransportTermID:transportTermlsID,
+      ShippingWarehouseID: shippingWarehouseID,
+      MinimumOrderQuantity :minimumQuantity ==""? null: minimumQuantity,
+      EstimatedLeadTime: estimatedLeadTime,
+      QuoteExpirationDate: quoteExpirationDate == ""? null : quoteExpirationDate,
+      PriceValidityDate: priceValidityDate ==""? null : priceValidityDate,
+      SentToCMDate: sentToCMDate ==""? null : sentToCMDate,
+      ExchangeRate: exchangeRate,
+      PricePreparedBy: pricePreparedBy,
+      ApprovalDate: approvalDate ==""? null : approvalDate,
+      PriceApprovedByID: approvedByID,
+      CompletionDate: completionDate ==""? null : completionDate
+    };
+
+    return this._http.post(this._url + '/GetCompletionLinebyCompletionLineID',
+      JSON.stringify(data),
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }  
 }
 
