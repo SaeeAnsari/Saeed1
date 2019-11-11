@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { SearchProvider } from '../Providers/search-provider';
 import { getTreeMissingMatchingNodeDefError } from '@angular/cdk/tree';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
+import { Route } from '@angular/compiler/src/core';
+import { retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pricing-search',
@@ -26,7 +29,8 @@ export class PricingSearchComponent implements OnInit {
 
 
 
-  constructor(private fb: FormBuilder, private sp: SearchProvider) {
+  constructor(private fb: FormBuilder, private sp: SearchProvider, private router: Router,
+    private activatedRout: ActivatedRoute) {
     this.pricingGroup = fb.group({
       CustomerName: [''],
       QuoteNumber: [''],
@@ -70,37 +74,37 @@ export class PricingSearchComponent implements OnInit {
 
     if (this.pricingGroup.value.CustomerName.length > 0) {
       data.CustomerName = this.pricingGroup.value.CustomerName;
-      queryParams.push("CustomerName  = \'" + data.CustomerName + "\'");
+      queryParams.push(this.formCondition("CustomerName", data.CustomerName));
       this.validationError = false;
     }
 
     if (this.pricingGroup.value.QuoteNumber.length > 0) {
       data.QuoteNumber = this.pricingGroup.value.QuoteNumber;
-      queryParams.push("QuoteID  = \'" + data.QuoteNumber + "\'");
+      queryParams.push(this.formCondition("q.QuoteID", data.QuoteNumber));
       this.validationError = false;
     }
 
     if (this.pricingGroup.value.OpportunityName.length > 0) {
       data.OpportunityName = this.pricingGroup.value.OpportunityName;
-      queryParams.push("OpportunityName  = \'" + data.OpportunityName + "\'");
+      queryParams.push(this.formCondition("OpportunityName", data.OpportunityName));
       this.validationError = false;
     }
 
     if (this.pricingGroup.value.OpportunityType.length > 0) {
       data.OpportunityType = this.pricingGroup.value.OpportunityType;
-      queryParams.push("OpportunityType  = \'" + data.OpportunityType + "\'");
+      queryParams.push(this.formCondition("OpportunityType", data.OpportunityType));
       this.validationError = false;
     }
 
     if (this.pricingGroup.value.OpportunityOwner.length > 0) {
       data.OpportunityOwner = this.pricingGroup.value.OpportunityOwner;
-      queryParams.push("OpportunityOwner  = \'" + data.OpportunityOwner + "\'");
+      queryParams.push(this.formCondition("OpportunityOwner", data.OpportunityOwner));
       this.validationError = false;
     }
 
     if (this.pricingGroup.value.ProductCode.length > 0) {
       data.ProductCode = this.pricingGroup.value.ProductCode;
-      queryParams.push("ProductCode  = \'" + data.ProductCode + "\'");
+      queryParams.push(this.formCondition("ProductCode", data.ProductCode));
 
       this.validationError = false;
     }
@@ -109,33 +113,33 @@ export class PricingSearchComponent implements OnInit {
     if (this.pricingGroup.value.ProductDescriptionlength > 0) {
       data.ProductDescription = this.pricingGroup.value.ProductDescription;
 
-      queryParams.push("ProductDescription  = \'" + data.ProductDescription + "\'");
+      queryParams.push(this.formCondition("ProductDescription", data.ProductDescription));
       this.validationError = false;
     }
 
 
     if (this.pricingGroup.value.SubmittedDate.length > 0) {
       data.SubmittedDate = this.pricingGroup.value.SubmittedDate;
-      queryParams.push("SubmittedDate  = \'" + data.SubmittedDate + "\'");
+      queryParams.push(this.formCondition("SubmittedDate", data.SubmittedDate));
       this.validationError = false;
     }
 
 
     if (this.pricingGroup.value.FinalisedDate.length > 0) {
       data.FinalisedDate = this.pricingGroup.value.FinalisedDate;
-      queryParams.push("FinalisedDate  = \'" + data.FinalisedDate + "\'");
+      queryParams.push(this.formCondition("FinalisedDate", data.FinalisedDate));
       this.validationError = false;
     }
 
     if (this.pricingGroup.value.PriorityLevel.length > 0) {
       data.PriorityLevel = this.pricingGroup.value.PriorityLevel;
-      queryParams.push("Priority  = \'" + data.PriorityLevel + "\'");
+      queryParams.push(this.formCondition("Priority", data.PriorityLevel));
       this.validationError = false;
     }
 
     if (this.pricingGroup.value.RequestedBy.length > 0) {
       data.RequestedBy = this.pricingGroup.value.RequestedBy;
-      queryParams.push("CreatedBy  = \'" + data.RequestedBy + "\'");
+      queryParams.push(this.formCondition("CreatedBy", data.RequestedBy));
       this.validationError = false;
     }
 
@@ -161,15 +165,50 @@ export class PricingSearchComponent implements OnInit {
     return searchString;
   }
 
+  formCondition(DBColumn = '', UIValue = '') {
+    var condition = '';
+
+    if (UIValue.includes('%')) {
+      condition = DBColumn + ' Like \'' + UIValue + '\'';
+    }
+    else {
+      condition = DBColumn + ' = \'' + UIValue + '\'';
+    }
+
+    return condition;
+  }
+
+  lineEdit(data) {
+
+    let navigationExtras: NavigationExtras = {
+      state: {
+        quoteID: data.QuoteNumber
+      }
+    };
+
+    this.router.navigate(['pricinginitiate'], navigationExtras);
+  }
 
 
   search(searchType) {
 
+
     let queryString;
-    if (searchType == 'Search')
+    if (searchType == 'custom')
       queryString = this.createSearchString();
-      this.searchResults = [];
-     
+
+    else if (searchType == 'All_Saved') {
+      queryString = "WHERE IsSubmitted = 0"
+    }
+
+    else if (searchType == 'All_Pending') {
+      queryString = "WHERE IsSubmitted = 1 AND IsFinalised = 0"
+    }
+
+
+    this.searchResults = [];
+
+
 
 
     if (!this.validationError) {
@@ -189,10 +228,10 @@ export class PricingSearchComponent implements OnInit {
             PriorityLevel: element.priorityLevel,
             RequestedBy: element.requestedBy
           })
-        });       
+        });
         this.productResults = this.searchResults;
       });
-      
+
     }
   }
 }
