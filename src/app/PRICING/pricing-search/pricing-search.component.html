@@ -1,6 +1,6 @@
 <h3>Pricing</h3>
 
-<form class="container" [formGroup]="pricingGroup" (ngSubmit)="search()">
+<form class="container" [formGroup]="pricingGroup" (ngSubmit)="search('custom')">
 
     <mat-card>
 
@@ -65,14 +65,15 @@
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
                 <mat-button-toggle (click)="search('All_Saved')">Find All Saved</mat-button-toggle>
                 <mat-button-toggle (click)="search('All_Pending')">Find All Pending</mat-button-toggle>
-                <mat-button-toggle (click)="search('custom')">Search</mat-button-toggle>
+                
+                <mat-button-toggle (click)="search('custom')" (keyup.enter)="search('custom')">Search</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </mat-card>
-    <div>
+   
 
         <mat-card *ngIf="productResults.length > 0">
-            <table mat-table [dataSource]="productResults" class="mat-elevation-z8">
+            <table mat-table [dataSource]="productResults" class="mat-elevation-z8  searchGrid">
 
                 <!--- Note that these columns can be defined in any order.
                               The actual rendered columns are set as a property on the row definition" -->
@@ -141,5 +142,5 @@
             </table>
 
         </mat-card>
-    </div>
+   
 </form>
