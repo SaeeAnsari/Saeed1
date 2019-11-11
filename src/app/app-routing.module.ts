@@ -7,7 +7,7 @@ import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-f
 
 
 const routes: Routes = [
-  { path: '', component: SIRFSearchComponent },
+  { path: '', component: PricingSearchComponent },
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricingFinalise', component: PricingFinalisedComponent}
