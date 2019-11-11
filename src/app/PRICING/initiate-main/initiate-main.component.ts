@@ -147,8 +147,11 @@ export class InitiateMainComponent implements OnInit {
 
           this.productResults = this._lineData;         
 
-          if(this._quoteData.submittedDate != ""){
+          if(this._quoteData.sumittedDate != null && this._quoteData.submittedDate != ""){
             this.quoteSubmitted = true;
+          }
+          else{
+            this.quoteSubmitted = false;
           }
 
           if(this.DisabledMode == "yes"){
@@ -189,7 +192,8 @@ export class InitiateMainComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     public initiateService: InitiateProviderService,
-    public initiate: InitiateProviderService) {     
+    public initiate: InitiateProviderService, 
+    private activeRoute: ActivatedRoute) {     
 
     this.pricingGroup = fb.group({
       CompanyName: ['', [Validators.required]],
@@ -204,7 +208,7 @@ export class InitiateMainComponent implements OnInit {
       RequestedBy: ['', [Validators.required]],
       PaymentTerm : [''],
       CCEmail: ['']
-    });
+    });    
   }
 
   getFormData() {
@@ -329,6 +333,11 @@ export class InitiateMainComponent implements OnInit {
     if(this.quoteSubmitted){
       this.AddNewQuote.emit("");
     }    
+  }
+
+  newQuote(){
+    localStorage.setItem("activeQuoteID", "");
+    window.location.reload();
   }
 
   finalise(){

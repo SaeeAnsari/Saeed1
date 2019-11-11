@@ -42,7 +42,12 @@ export class ProductDetailsComponent implements OnInit {
     private router: Router,
     private initiate: InitiateProviderService) {
 
-      let disableColumns = (this.ShowGrid!='no');
+      
+      let disableColumns = false;
+
+      if(this.ShowGrid == 'no')
+        disableColumns = true;
+      
 
     this.pricingGroup = fb.group({
       PartID: [{value: '', disabled: disableColumns}, [Validators.required]],

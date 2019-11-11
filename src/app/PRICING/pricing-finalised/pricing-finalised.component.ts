@@ -19,19 +19,25 @@ export class PricingFinalisedComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private router: Router) {
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.quoteID = this.router.getCurrentNavigation().extras.state.QuoteID;
-      }
-    });
+    
+      this.route.queryParams.subscribe(params => {
+        if (this.router.getCurrentNavigation().extras.state) {
+          this.quoteID = this.router.getCurrentNavigation().extras.state.quoteID;
+
+          localStorage.setItem("activeQuoteID", this.quoteID.toString());          
+        }
+      });
+    
     //31191 
     //31186
     //"7649";//
     //31099
-    this.quoteID = 31186;
+    //this.quoteID = 31186;
   }
 
   ngOnInit() {
+    if(this.quoteID <= 0 && (localStorage.getItem("activeQuoteID")!= null || localStorage.getItem("activeQuoteID")!= ''))
+    this.quoteID = +localStorage.getItem("activeQuoteID");
   }
 
   ReceiveQuoteID(data) {

@@ -31,6 +31,10 @@ export class PricingSearchComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private sp: SearchProvider, private router: Router,
     private activatedRout: ActivatedRoute) {
+
+    localStorage.setItem("activeQuoteID", "");
+
+
     this.pricingGroup = fb.group({
       CustomerName: [''],
       QuoteNumber: [''],
@@ -186,7 +190,10 @@ export class PricingSearchComponent implements OnInit {
       }
     };
 
-    this.router.navigate(['pricinginitiate'], navigationExtras);
+    if(data.SubmittedDate == null)
+      this.router.navigate(['pricinginitiate'], navigationExtras);
+    else
+      this.router.navigate(['pricingFinalise'], navigationExtras);
   }
 
 

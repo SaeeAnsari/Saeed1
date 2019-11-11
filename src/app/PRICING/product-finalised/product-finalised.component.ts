@@ -130,7 +130,7 @@ export class ProductFinalisedComponent implements OnInit {
         this.productDetails.QuoteID = value.QuoteID;
         this.productDetails.quoteLineID = value.QuoteLineID;
         this.productDetails.CompanyName = this.CompanyName;
-        this.productDetails.showProductDetails = true;
+        this.productDetails.showProductDetails = true;        
         this.productDetails.ngOnInit()
         this.productDetails.lineEdit(value.QuoteLineID);
 

@@ -117,11 +117,13 @@
 
         <div *ngIf="DisabledMode=='no'">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
-                <mat-button-toggle color="warn" (click)="delete()">Delete</mat-button-toggle>
-                <mat-button-toggle (click)="save()">Save</mat-button-toggle>
+                <mat-button-toggle  color="warn" (click)="delete()">Delete</mat-button-toggle>
+                <mat-button-toggle [disabled]="quoteSubmitted" (click)="save()">Save</mat-button-toggle>
                 <mat-button-toggle (click)="submit()">Submit</mat-button-toggle>
+                <mat-button-toggle (click)="newQuote()">New Quote</mat-button-toggle>
+                
                 <button class="btn-add-product float-right" mat-raised-button (click)="addProduct()"
-                    [disabled]="!quoteSubmitted">Add Product</button>
+                    [disabled]="quoteSubmitted">Add Product</button>
             </mat-button-toggle-group>
         </div>
 
