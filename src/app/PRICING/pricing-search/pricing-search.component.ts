@@ -14,7 +14,7 @@ import { getTreeMissingMatchingNodeDefError } from '@angular/cdk/tree';
 export class PricingSearchComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['CustomerName', 'QuoteNumber', 'OpportunityName', 'OpportunityType', 'OpportunityOwner', 'SubmittedDate', 'FinalisedDate', 'PriorityLevel', 'RequestedBy'];
+  displayedColumns: string[] = ['CustomerName', 'QuoteNumber', 'OpportunityName', 'OpportunityType', 'OpportunityOwner', 'SubmittedDate', 'FinalisedDate', 'PriorityLevel', 'RequestedBy', 'Actions'];
 
 
 

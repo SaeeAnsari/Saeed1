@@ -6,7 +6,7 @@
 
 
 
-        <mat-form-field class="container-half-width">            
+        <mat-form-field class="container-half-width">
             <div class="form-item">
                 <input matInput placeholder="Customer Name" formControlName="CustomerName">
             </div>
@@ -38,19 +38,19 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Submitted Date" formControlName="SubmittedDate">
+            <input matInput placeholder="Submitted Date" type="date"  formControlName="SubmittedDate">
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Finalised Date"i type="date" formControlName="FinalisedDate">
+            <input matInput placeholder="Finalised Date"  type="date" formControlName="FinalisedDate">
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Priority Level" type="date" formControlName="PriorityLevel">
+            <input matInput placeholder="Priority Level" formControlName="PriorityLevel">
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Requested By"  type="date" formControlName="RequestedBy">
+            <input matInput placeholder="Requested By"  formControlName="RequestedBy">
         </mat-form-field>
 
 
@@ -69,15 +69,13 @@
             </mat-button-toggle-group>
         </div>
     </mat-card>
-    <div >
+    <div>
 
-        <mat-card>
+        <mat-card *ngIf="productResults.length > 0">
             <table mat-table [dataSource]="productResults" class="mat-elevation-z8">
 
                 <!--- Note that these columns can be defined in any order.
                               The actual rendered columns are set as a property on the row definition" -->
-
-
 
                 <ng-container matColumnDef="CustomerName">
                     <th mat-header-cell *matHeaderCellDef> Customer Name</th>
@@ -107,7 +105,7 @@
                     <td mat-cell *matCellDef="let element"> {{element.OpportunityOwner}} </td>
                 </ng-container>
 
-               
+
 
                 <ng-container matColumnDef="SubmittedDate">
                     <th mat-header-cell *matHeaderCellDef> Submitted Date</th>
@@ -128,6 +126,16 @@
                     <th mat-header-cell *matHeaderCellDef> Requested By </th>
                     <td mat-cell *matCellDef="let element"> {{element.RequestedBy}} </td>
                 </ng-container>
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-button-toggle [value]='element.lineID' (click)="lineEdit(element)">
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+                        </mat-button-toggle>
+                    </td>
+                </ng-container>
+
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
