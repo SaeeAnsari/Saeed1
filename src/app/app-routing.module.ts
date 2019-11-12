@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: '', component: PricingSearchComponent },
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
+  { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},
   { path: 'pricingFinalise', component: PricingFinalisedComponent}
 ];
 

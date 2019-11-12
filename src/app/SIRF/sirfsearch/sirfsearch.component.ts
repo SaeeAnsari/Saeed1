@@ -16,10 +16,10 @@ export class SIRFSearchComponent implements OnInit {
   
 
 
-  private validationError: boolean = false;
-  private sirfGroup: FormGroup;
-  private validationMessage: string;
-  private searchResults = [
+  public validationError: boolean = false;
+  public sirfGroup: FormGroup;
+  public validationMessage: string;
+  public searchResults = [
     {
       "SIRFNumber": "e48b3fec-f23e-4bc2-a503-969d10f71790",
       "PriorityLevel": "5db88592077ca7d60fddb5f9",

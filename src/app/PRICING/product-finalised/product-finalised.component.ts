@@ -18,25 +18,25 @@ export class ProductFinalisedComponent implements OnInit {
   @Input() QuoteID: string
   @Input() CompanyName: string
 
-  private completionLineID;
+  public completionLineID;
   private _data;
-  private pricingGroup: FormGroup;
-  private productResults = [];
-  private uomList = [];
-  private currencyCodes = [];
-  private approverList = [];
-  private transportTermsList = [];
-  private shippingWarehouseList = [];
-  _lineData: any[];
-  private showCompletionLine: boolean = false;
+  public pricingGroup: FormGroup;
+  public productResults = [];
+  public uomList = [];
+  public currencyCodes = [];
+  public approverList = [];
+  public transportTermsList = [];
+  public shippingWarehouseList = [];
+  private _lineData: any[];
+  public showCompletionLine: boolean = false;
 
-  displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'IsCompleted', 'Actions'];
+  public displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'IsCompleted', 'Actions'];
 
 
 
-  displayKeyValColumns: string[] = ['Key', 'Value', 'Actions']
+  public displayKeyValColumns: string[] = ['Key', 'Value', 'Actions']
 
-  private lineKeyVal = [];
+  public lineKeyVal = [];
 
   @ViewChild("productDetails", { static: false }) productDetails: ProductDetailsComponent;
 

@@ -21,11 +21,11 @@ export class PricingSearchComponent implements OnInit {
 
 
 
-  private validationError: boolean = false;
-  private pricingGroup: FormGroup;
-  private validationMessage: string;
+  public validationError: boolean = false;
+  public pricingGroup: FormGroup;
+  public validationMessage: string;
   private searchResults = [];
-  private productResults = [];
+  public productResults = [];
 
 
 

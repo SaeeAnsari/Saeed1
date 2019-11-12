@@ -11,9 +11,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PricingInitiateComponent implements OnInit {
 
-  private quoteID = 0;
-  private quoteLineID = 0;
-  private companyName = "";
+  public quoteID = 0;
+  public quoteLineID = 0;
+  public companyName = "";
 
   @ViewChild("productDetails", {static: false}) productDetails: ProductDetailsComponent;
 
@@ -23,8 +23,15 @@ export class PricingInitiateComponent implements OnInit {
       this.route.queryParams.subscribe(params => {
         if (this.router.getCurrentNavigation().extras.state) {
           this.quoteID = this.router.getCurrentNavigation().extras.state.quoteID;
-
           localStorage.setItem("activeQuoteID", this.quoteID.toString());          
+        }
+        else{
+          route.paramMap.subscribe(sub=>{
+            if(sub.get("quoteID") != null){
+              this.quoteID = +sub.get("quoteID");
+              localStorage.setItem("activeQuoteID", this.quoteID.toString()); 
+            }
+          })
         }
       });
   

@@ -24,28 +24,28 @@ export class InitiateMainComponent implements OnInit {
   @Output() AddNewQuote =  new EventEmitter();
   @Output() BroadcastQuoteID = new EventEmitter<any>();
 
-  private pricingGroup: FormGroup;
-  private companyNames: string[] = [];
-  private customerNames = [];
-  private customerIDs = [];
-  private opportunityOwners = [];
-  private productResults = [];
-  private paymentTerms = [];
+  public pricingGroup: FormGroup;
+  public companyNames: string[] = [];
+  public customerNames = [];
+  public customerIDs = [];
+  public opportunityOwners = [];
+  public productResults = [];
+  public paymentTerms = [];
 
-  private lineItemSelectedValue = "";
-  private selectedCompany = "";
-  private selectedOwner = "";
-  private selectedCustomer = "";
-  private selectedCustomerName = "";
-  private selectedOpportunityType = "";
-  private selectedPriority = "";
-  private quoteID = 0;
-  private quoteLineID = 0;
+  public lineItemSelectedValue = "";
+  public selectedCompany = "";
+  public selectedOwner = "";
+  public selectedCustomer = "";
+  public selectedCustomerName = "";
+  public selectedOpportunityType = "";
+  public selectedPriority = "";
+  public quoteID = 0;
+  public quoteLineID = 0;
   private _quoteData = null;
   private _lineData = null;
 
   
-  private quoteSubmitted: boolean = false;
+  public quoteSubmitted: boolean = false;
 
   ngOnInit(): void {
 
@@ -330,9 +330,9 @@ export class InitiateMainComponent implements OnInit {
   }
 
   addProduct(){
-    if(this.quoteSubmitted){
+    //if(this.quoteSubmitted){
       this.AddNewQuote.emit("");
-    }    
+    //}    
   }
 
   newQuote(){

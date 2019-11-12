@@ -13,9 +13,9 @@ export class PricingFinalisedComponent implements OnInit {
   @ViewChild("productDetails", { static: false }) productDetails: ProductDetailsComponent;
   @ViewChild("productFinalised", { static: false }) productFinalised: ProductFinalisedComponent;
 
-  private quoteID = 0;
-  private quoteLineID = 0;
-  private companyName = "";
+  public quoteID = 0;
+  public quoteLineID = 0;
+  public companyName = "";
 
   constructor(private route: ActivatedRoute,
     private router: Router) {

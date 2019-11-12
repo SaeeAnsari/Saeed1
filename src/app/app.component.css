@@ -1,0 +1,19 @@
+.container {
+    
+    max-width: 900px;
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    
+  }
+
+  .sub-container{
+    width: 100%;
+    display:flex;
+  }
+
+  .home-button{
+      padding-left: 600px;
+      
+      color: green;
+  }
