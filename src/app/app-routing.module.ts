@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},
-  { path: 'pricingFinalise', component: PricingFinalisedComponent}
+  { path: 'pricingFinalise', component: PricingFinalisedComponent},
+  { path: 'quoteReport/:quoteID', component: QuoteReportV2Component}
 ];
 
 @NgModule({

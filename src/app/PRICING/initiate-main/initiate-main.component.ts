@@ -75,6 +75,7 @@ export class InitiateMainComponent implements OnInit {
           if (ret.length > 0) {
             this._quoteData = ret[0];
             this.selectedCompany = this._quoteData.companyName;
+            this.quoteFinalised = this._quoteData.isFinalised;
             this.pricingGroup.controls.CompanyName.setValue(this._quoteData.companyName);
 
             this.BroadcastQuoteID.emit({
@@ -148,7 +149,7 @@ export class InitiateMainComponent implements OnInit {
 
           this.productResults = this._lineData;         
 
-          if(this._quoteData.sumittedDate != null && this._quoteData.submittedDate != ""){
+          if(this._quoteData.submittedDate != null && this._quoteData.submittedDate != ""){
             this.quoteSubmitted = true;
           }
           else{
@@ -353,6 +354,6 @@ export class InitiateMainComponent implements OnInit {
   }
 
   viewQuote(){
-        
+    window.open(window.location.href.replace('pricingFinalise','quoteReport/' + this.quoteID.toString()), '_blank');         
   }
 }

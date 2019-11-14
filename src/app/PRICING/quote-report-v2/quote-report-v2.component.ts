@@ -11,7 +11,7 @@ import { InitiateProviderService } from '../Providers/initiate-provider.service'
 })
 export class QuoteReportV2Component implements OnInit {
 
-  private quoteID = 16310;
+  private quoteID = 0;//16310;
 
   public data = [];
   public firstObject = null; 
