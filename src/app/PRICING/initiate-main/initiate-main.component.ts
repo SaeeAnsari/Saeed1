@@ -345,7 +345,7 @@ export class InitiateMainComponent implements OnInit {
   finalise(){
     this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub=>{
       if(sub == true){
-        this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value).subscribe(sub=>{
+        this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value, this.pricingGroup.value.CCEmail).subscribe(sub=>{
           this.quoteFinalised = true;
           alert('Quote Finalised')
         });

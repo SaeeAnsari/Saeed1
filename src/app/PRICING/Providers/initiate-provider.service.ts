@@ -97,6 +97,11 @@ export class InitiateProviderService {
       .map(ret => ret.json());
   }
 
+  getPart(partID, companyID) {
+    return this._http.get(this._url + '/GetPart?partID=' + partID + '&companyID=' + companyID)
+      .map(ret => ret.json());
+  }
+
   getUnitOfMeasureList() {
     return this._http.get(this._url + '/GetUOMList')
       .map(ret => ret.json());
@@ -203,7 +208,7 @@ export class InitiateProviderService {
       .catch(this.handleError);
   }
 
-  finaliseQuote(quoteID, paymentTermsID): Observable<any> {
+  finaliseQuote(quoteID, paymentTermsID, ccEmail): Observable<any> {
 
     var header = new Headers({
       'Content-Type': 'application/json',
@@ -211,7 +216,14 @@ export class InitiateProviderService {
     });
 
 
-    return this._http.post(this._url + '/FinaliseQuote?quoteID=' + quoteID + '&paymentTermID=' + paymentTermsID,
+
+    var methodURL = this._url + '/FinaliseQuote?quoteID=' + quoteID + '&paymentTermID=' + paymentTermsID;
+    if(ccEmail != null && ccEmail != ''){
+      methodURL += '&ccEmail=' + ccEmail;
+    }
+
+
+    return this._http.post(methodURL,
     null      
       ,
       { headers: header })

@@ -59,6 +59,9 @@ export class PricingInitiateComponent implements OnInit {
   
   AddNewComponent(){
     this.productDetails.showProductDetails = true;
+    this.productDetails.pricingGroup.reset();
+    this.productDetails.quoteLineID = 0;
+    
   }
   
 }

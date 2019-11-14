@@ -196,6 +196,40 @@ export class ProductDetailsComponent implements OnInit {
   part_change() {
     this.pricingGroup.controls.PartID.setValue(this.selectedPart);
     this.pricingGroup.controls.PartName.setValue(this.selectedPart);
+
+
+    this.initiate.getPart(this.selectedPart, this.CompanyName).subscribe(sub=>{
+
+      /*
+      this.CompanyCode = companyCode;
+            this.PartID = partID;
+            this.ContainerType = containerType;
+            this.PartName = partName;
+            this.QuantityPackage = quantityPackage;
+            this.UOM = uom;
+            this.IsTestPart = isTestPart;
+
+      */
+
+      this.pricingGroup.controls.PackSize.setValue(sub.quantityPackage.toString());
+
+      var containerid = this.containerTypes.filter(function (item) {
+        return item.name == sub.containerType;
+      })[0].id;
+
+      this.pricingGroup.controls.ContainerType.setValue(containerid.toString());
+
+
+      var uomID = this.containerTypes.filter(function (item) {
+        return item.name.toLocaleLowerCase() == sub.uom.toLocaleLowerCase();
+      })[0].name;
+
+
+      //this.pricingGroup.controls['UnitOfMeasure'].setValue(this._data.unitOfMeasure.toString())
+      this.pricingGroup.controls.UnitOfMeasure.setValue(uomID);
+  
+
+    });
   }
 
   cancel() {
