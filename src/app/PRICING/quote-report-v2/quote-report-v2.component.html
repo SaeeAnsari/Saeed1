@@ -1,0 +1,125 @@
+
+<table style="width:1200px" id="tblReportContent" *ngIf="firstObject != null">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2"><img
+                    src="data:image/png;base64,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"
+                    alt="" style="width:300px;height:auto; vertical-align: top;"></td>
+            <td>6980 Creditview Road <br>Mississauga, Ontario, L5N 8E2 <br>Tel: 800-263-1939, Fax: 905-812-7308
+                <br>customercare@caldic.ca</td>
+            <td>2425 Alft Lane <br>Elgin, Illinois, 60124 <br>Tel: 847-468-0001, fax: 847-488-0007
+                <br>customerservice@caldic.us</td>
+        </tr>
+        <tr>
+            <td colspan="4" style="align-content: center;"><br><br>
+                <h3>Price Quotation</h3>
+                <br><br>
+            </td>
+        </tr>
+        <tr>
+            <td>To:</td>
+            <td>{{firstObject.customerName}}</td>
+            <td style="padding-left: 120px;">Qutation Date:</td>
+            <td>{{firstObject.finalisedDate}}</td>
+        </tr>
+        <tr>
+            <td>From:</td>
+            <td>{{firstObject.opportunityOwner}}</td>
+            <td style="padding-left: 120px;">This Quote Expires on:</td>
+            <td>{{firstObject.quoteExpirationDate}}</td>
+        </tr>
+        <tr >
+            <td >Quote Number:</td>
+            <td>{{firstObject.quoteID}}</td>
+            <td style="padding-left: 120px;">Payment Terms:</td>
+            <td>{{firstObject.paymentTerms}}</td>
+        </tr>
+        <tr>
+            <td><br><br></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <table mat-table [dataSource]="data" class="mat-elevation-z8 table">
+
+                    <!--- Note that these columns can be defined in any order.
+                                                  The actual rendered columns are set as a property on the row definition" -->
+        
+                    <ng-container matColumnDef="productDescription">
+                        <th mat-header-cell *matHeaderCellDef> Product Description</th>
+                        <td mat-cell *matCellDef="let element"> {{element.productDescription}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="productCode">
+                        <th mat-header-cell *matHeaderCellDef> Product Code</th>
+                        <td mat-cell *matCellDef="let element"> {{element.productCode}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="quoteUOM">
+                        <th mat-header-cell *matHeaderCellDef> UOM</th>
+                        <td mat-cell *matCellDef="let element"> {{element.quoteUOM}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="packSize">
+                        <th mat-header-cell *matHeaderCellDef> Pack Size per UOM</th>
+                        <td mat-cell *matCellDef="let element"> {{element.packSize}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="containerType">
+                        <th mat-header-cell *matHeaderCellDef> Packaging Type</th>
+                        <td mat-cell *matCellDef="let element"> {{element.containerType}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sellingPricePerUOM">
+                        <th mat-header-cell *matHeaderCellDef> Selling Price Per UOM</th>
+                        <td mat-cell *matCellDef="let element"> {{element.sellingPricePerUOM}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="currencyCode">
+                        <th mat-header-cell *matHeaderCellDef> Quote Currency</th>
+                        <td mat-cell *matCellDef="let element"> {{element.currencyCode}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="transportTerms">
+                        <th mat-header-cell *matHeaderCellDef> Transport Terms</th>
+                        <td mat-cell *matCellDef="let element"> {{element.transportTerms}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="warehouse">
+                        <th mat-header-cell *matHeaderCellDef> Shipping Warehouse</th>
+                        <td mat-cell *matCellDef="let element"> {{element.warehouse}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="minimumOrderQuantity">
+                        <th mat-header-cell *matHeaderCellDef> MOQ</th>
+                        <td mat-cell *matCellDef="let element"> {{element.minimumOrderQuantity}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="estimnatedLeadTime">
+                        <th mat-header-cell *matHeaderCellDef> Estimnated Lead Time</th>
+                        <td mat-cell *matCellDef="let element"> {{element.estimnatedLeadTime}} </td>
+                    </ng-container>                         
+                   
+        
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </td>
+        </tr>
+        
+        <tr>
+            <td><br><br></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <h3><u>Terms & Conditions:</u></h3>
+                <ul>
+                    <li>Quoted prices are effective as per the above Quotation Date and are valid at time of shipment based on the specific Quote Expiration Date.</li>
+                    <li>Prices will be confirmed upon ordering and are subject to change with market conditions. However, for applicable ingredients and volumes, we encourage you to contract with us within the specific Quote Expiration Date and lock the above pricing. </li>
+                    <li>Commodities such as Oils, Shortening and Sugar can fluctuate in price daily. </li>
+                    <li>This quote is subject to Caldic Order Processing Policy. Special conditions apply to Order Cut-off times, Lead times, Minimum order requirements, and product returns. Please ask for a copy of the policy if you do not have one.</li>
+                    <li>Fuel surcharge may apply on deliveries</li>
+                    <li>Prices will be confirmed upon ordering and are subject to change with market conditions. However, for applicable ingredients and volumes, we encourage you to contract with us within the specific Quote Expiration Date and lock the above pricing.</li>
+                    <li>Thank you for the opportunity to present this price quotation. Should you require any additional information, please do not hesitate to contact the undersigned.</li>                
+                </ul>
+                <br><br>
+                Kind Regards,
+                <br><br>
+                {{firstObject.opportunityOwner}}
+            </td>
+        </tr>
+    </table>

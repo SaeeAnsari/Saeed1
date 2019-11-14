@@ -4,10 +4,11 @@ import { SIRFSearchComponent } from './SIRF/sirfsearch/sirfsearch.component';
 import { PricingSearchComponent } from './PRICING/pricing-search/pricing-search.component';
 import { PricingInitiateComponent } from './PRICING/pricing-initiate/pricing-initiate.component';
 import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-finalised.component';
+import { QuoteReportV2Component } from './PRICING/quote-report-v2/quote-report-v2.component';
 
 
 const routes: Routes = [
-  { path: '', component: PricingSearchComponent },
+  { path: '', component: QuoteReportV2Component},
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},

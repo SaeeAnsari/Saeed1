@@ -46,6 +46,7 @@ export class InitiateMainComponent implements OnInit {
 
   
   public quoteSubmitted: boolean = false;
+  public quoteFinalised: boolean = false;
 
   ngOnInit(): void {
 
@@ -344,9 +345,14 @@ export class InitiateMainComponent implements OnInit {
     this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub=>{
       if(sub == true){
         this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value).subscribe(sub=>{
+          this.quoteFinalised = true;
           alert('Quote Finalised')
         });
       }
     })
+  }
+
+  viewQuote(){
+        
   }
 }

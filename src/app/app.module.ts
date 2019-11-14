@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -60,6 +60,8 @@ import { ProductDetailsComponent } from './PRICING/product-details/product-detai
 import { ProductFinalisedComponent } from './PRICING/product-finalised/product-finalised.component';
 import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-finalised.component';
 
+import { QuoteReportV2Component } from './PRICING/quote-report-v2/quote-report-v2.component';
+
 
 @NgModule({
   declarations: [
@@ -72,8 +74,8 @@ import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-f
     DialogConfirmDeleteComponent,
     ProductDetailsComponent,
     ProductFinalisedComponent,
-    PricingFinalisedComponent
-
+    PricingFinalisedComponent,        
+    QuoteReportV2Component
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,6 @@ import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-f
     ReactiveFormsModule,
     FormsModule,
     HttpModule,
-
 
     MatFormFieldModule,
     A11yModule,

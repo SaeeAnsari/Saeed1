@@ -29,7 +29,7 @@ export class BaseLinkService {
     //return 'http://localhost/change.api/api';
      
      return 'http://localhost/Caldic.API/API';
-     //return 'http://localhost/Change.API/api';
+     //return 'http://toro-web-002.ca.caldic.cgn/CaldicAPI/api';
    }
 
    public _url = BaseLinkService.GetBaseUrl() + '/Pricing';

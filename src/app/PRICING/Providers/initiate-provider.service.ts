@@ -356,5 +356,15 @@ export class InitiateProviderService {
       .map(post => post.json())
       .catch(this.handleError);
   }  
+
+  getQuoteReportData(quoteID) {
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    return this._http.get(this._url + '/GetQuoteReportData?quoteID=' + quoteID)
+    .map(ret => ret.json());    
+  }
 }
 
