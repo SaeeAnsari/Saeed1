@@ -1,6 +1,6 @@
 <form class="container" [formGroup]="pricingGroup">
 
-    <mat-card *ngIf="ShowGrid!='no'">
+    <mat-card *ngIf="ShowGrid!='no'" class="container-padding">
         <table mat-table [dataSource]="productResults" class="mat-elevation-z8 product-lines-table">
 
             <!--- Note that these columns can be defined in any order.
@@ -40,7 +40,7 @@
 
 
 
-    <div *ngIf="showProductDetails == true">
+    <div *ngIf="showProductDetails == true" class="container-padding">
 
         <mat-form-field class="container-half-width">
 

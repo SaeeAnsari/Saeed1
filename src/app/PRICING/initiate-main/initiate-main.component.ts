@@ -247,7 +247,7 @@ export class InitiateMainComponent implements OnInit {
         return item.id == data.CustomerID;
       })[0].name;
 
-      this.initiate.saveQuoteHeader(data.QuoteNumber, data.PriorityLevel, customerName, data.OpportunityOwner, data.OpportunityType, data.OpportunityName, null, data.RequestedBy, data.CompanyName, data.CustomerID, opportunityOwnerID, false).subscribe(sub=>{
+      this.initiate.saveQuoteHeader(this.quoteID, data.PriorityLevel, customerName, data.OpportunityOwner, data.OpportunityType, data.OpportunityName, null, data.RequestedBy, data.CompanyName, data.CustomerID, opportunityOwnerID, false).subscribe(sub=>{
         this.quoteID = sub;
         this.loadQuote(this.quoteID);
       });

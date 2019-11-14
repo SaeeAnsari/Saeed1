@@ -23,4 +23,7 @@ export class AppComponent {
     })    
   }
 
+  search_Click(){
+    this.router.navigate(['pricingsearch']);
+  }
 }
