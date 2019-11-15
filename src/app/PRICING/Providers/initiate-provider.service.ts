@@ -270,7 +270,7 @@ export class InitiateProviderService {
       containerTypeID: containerTypeID,
       targetPrice: targetPrice,
       targetCurrencyID: targetCurrencyID,
-      comments: comments
+      comments: comments == null ? '': comments
     };
 
     return this._http.post(this._url + '/SaveQuoteLine',
