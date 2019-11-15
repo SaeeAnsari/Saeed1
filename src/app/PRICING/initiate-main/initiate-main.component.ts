@@ -344,8 +344,11 @@ export class InitiateMainComponent implements OnInit {
 
   finalise(){
     this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub=>{
+      console.log("received request form Finalised Validation: " + sub)
       if(sub == true){
         this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value, this.pricingGroup.value.CCEmail).subscribe(sub=>{
+          console.log("received request form Finalised");
+
           this.quoteFinalised = true;
           alert('Quote Finalised')
         });

@@ -61,6 +61,8 @@ import { ProductFinalisedComponent } from './PRICING/product-finalised/product-f
 import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-finalised.component';
 
 import { QuoteReportV2Component } from './PRICING/quote-report-v2/quote-report-v2.component';
+import { PathLocationStrategy, LocationStrategy } from '@angular/common';
+import { LandingComponent } from './landing/landing.component';
 
 
 @NgModule({
@@ -75,7 +77,7 @@ import { QuoteReportV2Component } from './PRICING/quote-report-v2/quote-report-v
     ProductDetailsComponent,
     ProductFinalisedComponent,
     PricingFinalisedComponent,        
-    QuoteReportV2Component
+    QuoteReportV2Component, LandingComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +131,9 @@ import { QuoteReportV2Component } from './PRICING/quote-report-v2/quote-report-v
     PortalModule,
     ScrollingModule
   ],
-  providers: [],
+  providers: [
+    {provide: LocationStrategy, useClass: PathLocationStrategy},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

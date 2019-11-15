@@ -217,14 +217,20 @@ export class InitiateProviderService {
 
 
 
-    var methodURL = this._url + '/FinaliseQuote?quoteID=' + quoteID + '&paymentTermID=' + paymentTermsID;
+    var methodURL = this._url + '/FinaliseQuote';
     if(ccEmail != null && ccEmail != ''){
       methodURL += '&ccEmail=' + ccEmail;
     }
 
+    var data = {
+      QuoteID: quoteID,
+      PaymentTermID : paymentTermsID,
+      CCEmail : ccEmail
+    }
+
 
     return this._http.post(methodURL,
-    null      
+      data      
       ,
       { headers: header })
       .map(post => post.json())

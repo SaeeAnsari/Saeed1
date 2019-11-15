@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BaseLinkService } from './PRICING/Providers/base-link.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'bootstraptest';
 
 
-  constructor(private router: Router, private baseLink: BaseLinkService){
+  constructor(private router: Router, private route: ActivatedRoute, private baseLink: BaseLinkService){
 
   }
 

@@ -5,10 +5,11 @@ import { PricingSearchComponent } from './PRICING/pricing-search/pricing-search.
 import { PricingInitiateComponent } from './PRICING/pricing-initiate/pricing-initiate.component';
 import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-finalised.component';
 import { QuoteReportV2Component } from './PRICING/quote-report-v2/quote-report-v2.component';
+import { LandingComponent } from './landing/landing.component';
 
 
 const routes: Routes = [
-  { path: '', component: QuoteReportV2Component},
+  { path: '', component: LandingComponent},
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},

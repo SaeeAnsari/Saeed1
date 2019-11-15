@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+
 
 
 import { SearchProvider } from '../Providers/search-provider';
@@ -30,7 +32,7 @@ export class PricingSearchComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder, private sp: SearchProvider, private router: Router,
-    private activatedRout: ActivatedRoute) {
+    private activatedRout: ActivatedRoute, private locationStrategy: LocationStrategy) {
 
     localStorage.setItem("activeQuoteID", "");
 
@@ -48,6 +50,10 @@ export class PricingSearchComponent implements OnInit {
       PriorityLevel: [''],
       RequestedBy: ['']
     })
+
+    console.log("Location");
+
+    console.log(this.locationStrategy.getBaseHref());
   }
 
   ngOnInit() {
@@ -199,6 +205,8 @@ export class PricingSearchComponent implements OnInit {
 
   search(searchType) {
 
+
+    console.log(this.router.getCurrentNavigation());
 
     let queryString;
     if (searchType == 'custom')
