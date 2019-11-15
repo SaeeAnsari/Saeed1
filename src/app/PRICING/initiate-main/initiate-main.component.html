@@ -96,7 +96,7 @@
 
             <mat-form-field class="container-half-width">
                 <mat-label>Payment Terms</mat-label>
-                <mat-select name="lstPaymentTerms" formControlName="PaymentTerm" >
+                <mat-select name="lstPaymentTerms" formControlName="PaymentTerm" [required]="quoteSubmitted">
                     <mat-option>--</mat-option>
                     <mat-option *ngFor="let term of paymentTerms" [value]="term.id">
                         {{term.id }} - {{term.name}}
@@ -125,7 +125,7 @@
 
         <div *ngIf="DisabledMode=='yes'">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
-                <mat-button-toggle *ngIf="!quoteFinalised" color="warn" (click)="finalise()">Finalise</mat-button-toggle>
+                <mat-button-toggle *ngIf="!quoteFinalised" color="warn" (click)="finalise()" >Finalise</mat-button-toggle>
                 <mat-button-toggle *ngIf="quoteFinalised" color="warn" (click)="viewQuote()">ViewQuote</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
