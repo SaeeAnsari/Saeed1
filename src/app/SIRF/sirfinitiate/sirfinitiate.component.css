@@ -1,0 +1,28 @@
+.container {
+    
+    max-width: 900px;
+    width: 100%;
+  }
+  
+  .container-half-width {
+    width: 40%;
+    padding-left: 20px;
+    padding-right: 40px;
+  }
+
+  .container-full-width {
+    width: 80%;
+    padding-left: 20px;
+    padding-right: 40px;
+  }
+
+  .btn-add-product{
+      width: 200px;
+      margin-left: 220px;
+  }
+
+  .container-padding{
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  

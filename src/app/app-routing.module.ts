@@ -6,10 +6,11 @@ import { PricingInitiateComponent } from './PRICING/pricing-initiate/pricing-ini
 import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-finalised.component';
 import { QuoteReportV2Component } from './PRICING/quote-report-v2/quote-report-v2.component';
 import { LandingComponent } from './landing/landing.component';
+import { SIRFInitiateComponent } from './SIRF/sirfinitiate/sirfinitiate.component';
 
 
 const routes: Routes = [
-  { path: '', component: LandingComponent},
+  { path: '', component: SIRFInitiateComponent},
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},

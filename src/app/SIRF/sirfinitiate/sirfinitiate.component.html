@@ -1,0 +1,141 @@
+<form class="container" [formGroup]="sirfGroup">
+
+    <mat-card class="container-padding">
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="SIRF Number" formControlName="SIRFNumber">
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+
+            <mat-label>Primary Responsibility</mat-label>
+            <mat-select name="lstPrimaryResponsibility" formControlName="PrimaryResponsibility" required
+                [(value)]="selectedResponsibility">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let item of responsibilities" [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+
+        </mat-form-field>
+
+
+        <mat-form-field class="container-half-width">
+
+            <mat-label>Company Name</mat-label>
+            <mat-select name="lstCompanyName" formControlName="CompanyName" required [(value)]="selectedCompany"
+                (selectionChange)="companyname_change($event)">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let company of companyNames" [value]="company">
+                    {{company}}
+                </mat-option>
+            </mat-select>
+
+        </mat-form-field>
+
+       
+
+        <mat-form-field class="container-half-width">
+                <mat-label>Priority Level</mat-label>
+                <mat-select name="lstPriorityLevel" formControlName="Priority" required
+                    [(value)]="selectedCategory">
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let item of priorities" [value]="item.id">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+
+
+
+        <mat-form-field class="container-half-width">
+            <mat-label>Request Category</mat-label>
+            <mat-select name="lstRequestCategory" formControlName="RequestCategory" required
+                [(value)]="selectedCategory">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let item of requestCategories" [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <mat-label>Customer ID</mat-label>
+            <mat-select name="lstCustomerID" formControlName="CustomerID" required [(value)]="selectedCustomer"
+                (selectionChange)="customer_change($event)">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let customer of customers" [value]="customer.id">
+                    {{customer.id}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <mat-label>Customer Name</mat-label>
+            <mat-select name="lstCustomerName" formControlName="CustomerName" required [(value)]="selectedCustomer"
+                (selectionChange)="customer_change($event)">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let customer of customers" [value]="customer.id">
+                    {{customer.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <mat-label>Customer Region</mat-label>
+            <mat-select name="lstCustomerRegion" formControlName="CustomerRegion" required
+                [(value)]="selectedCustomerRegion">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let item of customerRegions" [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field class="container-half-width">
+            <mat-label>Business Region</mat-label>
+            <mat-select name="lstBusinessRegion" formControlName="BusinessRegion" required
+                [(value)]="selectedBusinessRegion">
+                
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let item of businessRegions" [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+
+            </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field class="container-half-width">
+            <input matInput [matDatepicker]="pickerDOI" placeholder="Date Of Incident" formControlName="DateOfIncident"
+                required>
+            <mat-datepicker-toggle matSuffix [for]="pickerDOI"></mat-datepicker-toggle>
+            <mat-datepicker #pickerDOI></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Requested By" formControlName="RequestedBy" required>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <input matInput [matDatepicker]="pickerRD" placeholder="Requested Date" formControlName="RequestedDate"
+                required>
+            <mat-datepicker-toggle matSuffix [for]="pickerRD"></mat-datepicker-toggle>
+            <mat-datepicker #pickerRD></mat-datepicker>
+        </mat-form-field>
+
+
+
+
+
+        <div>
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
+                <mat-button-toggle color="warn" (click)="delete()">Delete</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+
+    </mat-card>
+</form>

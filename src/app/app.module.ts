@@ -63,6 +63,7 @@ import { PricingFinalisedComponent } from './PRICING/pricing-finalised/pricing-f
 import { QuoteReportV2Component } from './PRICING/quote-report-v2/quote-report-v2.component';
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { LandingComponent } from './landing/landing.component';
+import { SIRFInitiateComponent } from './SIRF/sirfinitiate/sirfinitiate.component';
 
 
 @NgModule({
@@ -77,7 +78,7 @@ import { LandingComponent } from './landing/landing.component';
     ProductDetailsComponent,
     ProductFinalisedComponent,
     PricingFinalisedComponent,        
-    QuoteReportV2Component, LandingComponent
+    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent
   ],
   imports: [
     BrowserModule,
