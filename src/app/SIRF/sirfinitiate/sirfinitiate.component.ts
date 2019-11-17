@@ -86,7 +86,7 @@ export class SIRFInitiateComponent implements OnInit {
 
     if(this.SIRFID <1){
       this.sirfGroup.controls.SIRFNumber.disable();
-      this.sirfGroup.controls.requestDate.disable();
+      this.sirfGroup.controls.RequestedDate.disable();
     }
 
     this.companyNames = [];
