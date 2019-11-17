@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import { SirfInitaiteService } from '../Providers/sirf-initaite.service';
 export class SIRFInitiateComponent implements OnInit {
 
   constructor(
-    fb: FormBuilder,
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
@@ -25,7 +25,8 @@ export class SIRFInitiateComponent implements OnInit {
     private SIRF: SirfInitaiteService) {
 
     this.sirfGroup = fb.group({
-      SIRFNumber: ['', [Validators.required]],
+
+      SIRFNumber: [''],
       PrimaryResponsibility: ['', [Validators.required]],
       CompanyName: ['', [Validators.required]],
       Priority: ['', [Validators.required]],
@@ -36,7 +37,17 @@ export class SIRFInitiateComponent implements OnInit {
       BusinessRegion: ['', [Validators.required]],
       DateOfIncident: ['', [Validators.required]],
       RequestedBy: ['', [Validators.required]],
-      RequestedDate: ['', [Validators.required]]
+      RequestedDate: [''],
+      ReoccuringIssue: ['', [Validators.required]],
+      ProductType: [''],
+      ComplaintDetails: ['', [Validators.required]],
+      PartID: [''],
+      PartName: [''],
+      SalesOrderNumber: [''],
+      LotNumber: [''],
+      CustomerPO: [''],
+      ComplaintSampleReceived: ['']
+      
     });
   }
 
@@ -49,24 +60,34 @@ export class SIRFInitiateComponent implements OnInit {
   public customers = [];
   public businessRegions = [];
   public customerRegions = [];
+  public reoccuringIssue = [];
+  public partList = [];
 
 
-
-
+  public requestDate;
   public selectedCompany = '';
+  public selectedCustomer ='';
 
 
   ngOnInit() {
+    
+    
     this.sirfGroup.valueChanges.subscribe(val => {
       this.sirfGroup.updateValueAndValidity({ onlySelf: false, emitEvent: false })
     });
+
+    //this.sirfGroup.controls.SIRFNumber.disable();
+    //this.sirfGroup.controls.RequestedDate.disable();
 
     this.loadSIRF();
   }
 
   private loadSIRF() {
 
-
+    if(this.SIRFID <1){
+      this.sirfGroup.controls.SIRFNumber.disable();
+      this.sirfGroup.controls.requestDate.disable();
+    }
 
     this.companyNames = [];
     this.responsibilities = [];
@@ -74,6 +95,8 @@ export class SIRFInitiateComponent implements OnInit {
     this.requestCategories = [];
     this.businessRegions = [];
     this.customerRegions = [];
+    this.reoccuringIssue = [];
+    this.partList = [];
 
     this.initiate.getCompanyList().subscribe(sub => {
       this.companyNames = sub;
@@ -98,6 +121,15 @@ export class SIRFInitiateComponent implements OnInit {
     this.SIRF.getCustomerRegions().subscribe(sub => {
       this.customerRegions = sub;
     })
+
+    this.SIRF.getRequestCategories().subscribe(sub=>{
+      this.reoccuringIssue = sub;
+    })
+
+    this.requestDate = new Date().toLocaleDateString();
+
+
+    
   }
 
 
@@ -105,9 +137,61 @@ export class SIRFInitiateComponent implements OnInit {
     this.initiate.getCustomerIDList(this.selectedCompany).subscribe(sub=>{
       this.customers = sub;
     })
+
+    this.initiate.getPartList(this.selectedCompany, "e.desc_long_stock").subscribe(sub=>{
+      this.partList = sub;
+    })    
   }
 
   public customer_change(e){
 
+
+  this.sirfGroup.controls.CustomerID.setValue(this.selectedCustomer);
+  this.sirfGroup.controls.CustomerName.setValue(this.selectedCustomer);
   }
+
+  public Submit(){
+    if(this.sirfGroup.valid){
+      
+      
+      var data = {
+        SIRFNumber : this.sirfGroup.value.SIRFNumber,
+        PrimaryResponsibilityID: this.sirfGroup.value.PrimaryResponsibility,
+        CompanyName : this.sirfGroup.value.CompanyName.trim(),
+        PriorityID : this.sirfGroup.value.Priority,
+        RequestCategoryID : this.sirfGroup.value.RequestCategory,
+        CustomerID : this.sirfGroup.value.CustomerID,
+        CustomerName : this.sirfGroup.value.CustomerName,
+        CustomerRegionID : this.sirfGroup.value.CustomerRegion,
+        BusinessRegionID : this.sirfGroup.value.BusinessRegion,
+        DateOfIncident : this.sirfGroup.value.DateOfIncident,
+        RequestedDate : this.sirfGroup.value.RequestedDate,
+        RequestedBy : this.sirfGroup.value.RequestedBy,
+        ReoccuringIssueID : this.sirfGroup.value.ReoccuringIssue,      
+        ProductType : this.sirfGroup.value.ProductType,
+        ComplaintDetails: this.sirfGroup.value.ComplaintDetails,
+        PartID : this.sirfGroup.value.PartID,
+        PartName : this.sirfGroup.value.PartName,
+        SalesOrderNumber : this.sirfGroup.value.SalesOrderNumber,
+        LotNumber : this.sirfGroup.value.LotNumber,
+        CustomerPO : this.sirfGroup.value.CustomerPO,
+        ComplaintSampleReceived : this.sirfGroup.value.ComplaintSampleReceived
+      };
+
+      if(this.SIRFID <1){
+        data.RequestedDate = new Date().toLocaleDateString();
+      }
+      
+    
+      this.SIRF.submitOpportunity(data).subscribe(sub=>{
+        this.SIRFID = sub;
+        this.sirfGroup.reset();
+        alert('Service Improvement Request Form Submitted');
+
+      })
+    }
+  }
+  onFileComplete(data: any) {
+    console.log(data); // We just print out data bubbled up from event emitter.
+}
 }

@@ -33,19 +33,18 @@
 
         </mat-form-field>
 
-       
+
 
         <mat-form-field class="container-half-width">
-                <mat-label>Priority Level</mat-label>
-                <mat-select name="lstPriorityLevel" formControlName="Priority" required
-                    [(value)]="selectedCategory">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let item of priorities" [value]="item.id">
-                        {{item.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-    
+            <mat-label>Priority Level</mat-label>
+            <mat-select name="lstPriorityLevel" formControlName="Priority" required >
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let item of priorities" [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
 
 
 
@@ -98,7 +97,7 @@
             <mat-label>Business Region</mat-label>
             <mat-select name="lstBusinessRegion" formControlName="BusinessRegion" required
                 [(value)]="selectedBusinessRegion">
-                
+
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let item of businessRegions" [value]="item.id">
                     {{item.name}}
@@ -122,18 +121,90 @@
 
         <mat-form-field class="container-half-width">
             <input matInput [matDatepicker]="pickerRD" placeholder="Requested Date" formControlName="RequestedDate"
-                required>
+            >
             <mat-datepicker-toggle matSuffix [for]="pickerRD"></mat-datepicker-toggle>
             <mat-datepicker #pickerRD></mat-datepicker>
         </mat-form-field>
+        <br><br>
+        <mat-divider></mat-divider><br>
+        <mat-form-field class="container-half-width">
+            <mat-label>Reoccuring Issue</mat-label>
+            <mat-select name="lstReoccuringIssue" formControlName="ReoccuringIssue" required>
+
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let item of reoccuringIssue" [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+
+            <mat-label>Product Type</mat-label>
+            <mat-select name="lstProductType" formControlName="ProductType">
+                <mat-option value="M">M</mat-option>
+                <mat-option value="P">P</mat-option>
+                <mat-option value="D">D</mat-option>
+            </mat-select>
+
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <textarea matInput placeholder="Complaint Details" formControlName="ComplaintDetails" required></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+
+            <mat-label>Product Code</mat-label>
+            <mat-select name="lstPartID" formControlName="PartID" [(value)]="selectedPart">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let part of partList" [value]="part.id">
+                    {{part.id}}
+                </mat-option>
+            </mat-select>
+
+
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <mat-label>Product Description</mat-label>
+            <mat-select name="lstPartName" formControlName="PartName" [(value)]="selectedPart">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let part of partList" [value]="part.id">
+                    {{part.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Sales Order #" formControlName="SalesOrderNumber">
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Lot Number" formControlName="LotNumber">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Customer PO" formControlName="CustomerPO">
+        </mat-form-field>
+
+        <mat-checkbox formControlName="ComplaintSampleReceived">Complaint Sample Received</mat-checkbox>
+
+        <br><br>
+        <mat-divider></mat-divider><br>
+
+        <div class="container-half-width">
+            <mat-label>Attachments:</mat-label>
+            <app-material-file-upload (complete)="onFileComplete($event)"></app-material-file-upload>
+
+        </div>
 
 
 
-
-
+        <br><br>
         <div>
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
-                <mat-button-toggle color="warn" (click)="delete()">Delete</mat-button-toggle>
+                <mat-button-toggle color="warn" (click)="Submit()">Submit</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
 

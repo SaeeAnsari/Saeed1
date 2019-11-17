@@ -69,4 +69,38 @@ export class SirfInitaiteService {
   }
 
 
+  public getReOccurinigIssue() {
+
+    return this._http.get(this._url + '/GetReOccurinigIssue')
+      .map(ret => ret.json());
+
+  }
+
+  submitOpportunity(data: any): Observable<any> {
+
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+
+    return this._http.post(this._url + '/SubmitSIRF',
+      data
+      ,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+  private handleError(error: any) {
+    let errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    console.error(errMsg);
+    console.log(error._body);
+    return Observable.throw(errMsg);
+  }
+
+
+
+
 }

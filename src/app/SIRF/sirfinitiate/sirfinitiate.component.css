@@ -26,3 +26,8 @@
     padding-bottom: 20px;
   }
   
+  .container-full-width textarea{
+    min-height: 100px;
+  }
+
+  

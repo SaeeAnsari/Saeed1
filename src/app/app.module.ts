@@ -64,6 +64,8 @@ import { QuoteReportV2Component } from './PRICING/quote-report-v2/quote-report-v
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { LandingComponent } from './landing/landing.component';
 import { SIRFInitiateComponent } from './SIRF/sirfinitiate/sirfinitiate.component';
+import { FileUploadComponent } from './SIRF/file-upload/file-upload.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -78,7 +80,7 @@ import { SIRFInitiateComponent } from './SIRF/sirfinitiate/sirfinitiate.componen
     ProductDetailsComponent,
     ProductFinalisedComponent,
     PricingFinalisedComponent,        
-    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent
+    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent, FileUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +89,7 @@ import { SIRFInitiateComponent } from './SIRF/sirfinitiate/sirfinitiate.componen
     ReactiveFormsModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
 
     MatFormFieldModule,
     A11yModule,
