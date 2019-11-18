@@ -69,6 +69,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SIRFDetailsComponent } from './SIRF/sirfdetails/sirfdetails.component';
 import { SIRFCostTrackingComponent } from './SIRF/sirfcost-tracking/sirfcost-tracking.component';
 import { RootCauseCategoryListComponent } from './SIRF/root-cause-category-list/root-cause-category-list.component';
+import { SIRFCompleteComponent } from './SIRF/sirfcomplete/sirfcomplete.component';
 
 
 @NgModule({
@@ -83,7 +84,7 @@ import { RootCauseCategoryListComponent } from './SIRF/root-cause-category-list/
     ProductDetailsComponent,
     ProductFinalisedComponent,
     PricingFinalisedComponent,        
-    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent, FileUploadComponent, SIRFDetailsComponent, SIRFCostTrackingComponent, RootCauseCategoryListComponent
+    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent, FileUploadComponent, SIRFDetailsComponent, SIRFCostTrackingComponent, RootCauseCategoryListComponent, SIRFCompleteComponent
   ],
   imports: [
     BrowserModule,

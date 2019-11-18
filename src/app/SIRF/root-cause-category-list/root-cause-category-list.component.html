@@ -1,11 +1,11 @@
 <form class="container" [formGroup]="sirfRootCause">
-
+<mat-card>
     <table>
         <tr>
             <td style="width:200px;">Root Cause Category *
             </td>
             <td>
-
+                <mat-error *ngIf="!IsRootCauseSelected">Please select a root cause</mat-error>
             </td>
         </tr>
         <tr *ngFor="let item of categoryList">
@@ -17,16 +17,17 @@
         </tr>
         <tr>
             <td colspan="2">
-                    <mat-error *ngIf="!IsRootCauseSelected">Please select a root cause</mat-error>
+
             </td>
         </tr>
         <tr>
             <td colspan="2">
                 <mat-form-field class="container-full-width">
-                    <textarea formControlName="comments" matInput placeholder="Please use the text field below to provide further details if needed or If you have selected 'Other as a Root Cause Category Reason above"></textarea>
+                    <textarea formControlName="comments" matInput
+                        placeholder="Please use the text field below to provide further details if needed or If you have selected 'Other as a Root Cause Category Reason above"></textarea>
                 </mat-form-field>
             </td>
         </tr>
     </table>
-
+</mat-card>
 </form>

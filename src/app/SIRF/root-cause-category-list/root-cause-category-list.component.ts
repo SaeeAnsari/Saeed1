@@ -36,7 +36,7 @@ export class RootCauseCategoryListComponent implements OnInit {
     private SIRF: SirfInitaiteService
   ) {
 
-    this.SIRFNumber = '29'
+    this.SIRFNumber = '0'
 
     if (this.SIRFNumber != '') {
       this.SIRFID = +this.SIRFNumber;
@@ -76,9 +76,9 @@ export class RootCauseCategoryListComponent implements OnInit {
 
 
       this.SIRF.GetRootCauseCategoriesBySIRF(this.SIRFID).subscribe(sirf => {
-        
 
-        sirf.forEach(item => {          
+
+        sirf.forEach(item => {
           this.categoryList.filter(function (o) {
             if (o.id == item.id) {
               o.checked = true;
@@ -115,8 +115,11 @@ export class RootCauseCategoryListComponent implements OnInit {
 
     }
 
-    this.SIRF.updateSIRFRootCauseItem(data).subscribe(sub=>{      
+    this.SIRF.updateSIRFRootCauseItem(data).subscribe(sub => {
       this.loadData();
+
+
+
     });
   }
 }

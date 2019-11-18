@@ -10,10 +10,11 @@ import { SIRFInitiateComponent } from './SIRF/sirfinitiate/sirfinitiate.componen
 import { SIRFDetailsComponent } from './SIRF/sirfdetails/sirfdetails.component';
 import { SIRFCostTrackingComponent } from './SIRF/sirfcost-tracking/sirfcost-tracking.component';
 import { RootCauseCategoryListComponent } from './SIRF/root-cause-category-list/root-cause-category-list.component';
+import { SIRFCompleteComponent } from './SIRF/sirfcomplete/sirfcomplete.component';
 
 
 const routes: Routes = [
-  { path: '', component: RootCauseCategoryListComponent},
+  { path: '', component: SIRFCompleteComponent},
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},
