@@ -66,6 +66,9 @@ import { LandingComponent } from './landing/landing.component';
 import { SIRFInitiateComponent } from './SIRF/sirfinitiate/sirfinitiate.component';
 import { FileUploadComponent } from './SIRF/file-upload/file-upload.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SIRFDetailsComponent } from './SIRF/sirfdetails/sirfdetails.component';
+import { SIRFCostTrackingComponent } from './SIRF/sirfcost-tracking/sirfcost-tracking.component';
+import { RootCauseCategoryListComponent } from './SIRF/root-cause-category-list/root-cause-category-list.component';
 
 
 @NgModule({
@@ -80,7 +83,7 @@ import { HttpClientModule } from '@angular/common/http';
     ProductDetailsComponent,
     ProductFinalisedComponent,
     PricingFinalisedComponent,        
-    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent, FileUploadComponent
+    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent, FileUploadComponent, SIRFDetailsComponent, SIRFCostTrackingComponent, RootCauseCategoryListComponent
   ],
   imports: [
     BrowserModule,

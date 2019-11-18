@@ -1,0 +1,59 @@
+<form class="container" [formGroup]="sirfDetail">
+
+    <mat-card class="container-padding">
+
+        <mat-form-field class="container-full-width">
+            <textarea matInput placeholder="Internal Root Cause" required formControlName="InternalRootCause"
+                required></textarea>
+        </mat-form-field>
+        <mat-form-field class="container-full-width">
+            <textarea matInput placeholder="Internal Preventive/ Corrective Actions"
+                formControlName="InternalPreventiveCorrectiveActions" required></textarea>
+        </mat-form-field>
+        <mat-form-field class="container-full-width">
+            <textarea matInput placeholder="Customer Root Cause" formControlName="CustomerRootCause"
+                required></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <textarea matInput placeholder="Customer Response Preventive/ Corrective Actions"
+                formControlName="CustomerResponsePreventiveCorrectiveActions" required></textarea>
+        </mat-form-field>
+
+        <app-sirfcost-tracking SIRFNumber={{SIRFID}}></app-sirfcost-tracking>
+        <br><br>
+
+        <mat-form-field class="container-half-width">
+            <input matInput [matDatepicker]="picker" placeholder="Date of Implementation"
+                formControlName="DateOfImplementation" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <input matInput [matDatepicker]="pickerCompletionDate" placeholder="Request Completion Date"
+                formControlName="RequestCompletionDate" required>
+            <mat-datepicker-toggle matSuffix [for]="pickerCompletionDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerCompletionDate></mat-datepicker>
+        </mat-form-field>
+
+        <div class="container-full-width"><b>Person Responsible</b></div>
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="First Name" formControlName="FirstName">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Last Name" formControlName="LastName">
+        </mat-form-field>
+
+
+
+        <br><br>
+        <div>
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
+                <mat-button-toggle color="warn" (click)="Submit()">Submit</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+
+    </mat-card>
+</form>

@@ -100,6 +100,86 @@ export class SirfInitaiteService {
     return Observable.throw(errMsg);
   }
 
+  SIRFAddCost(data: any): Observable<any> {
+
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+
+    return this._http.post(this._url + '/SIRFAddCost',
+    data
+      ,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+  SIRFDeleteCost(costCategoryID: any): Observable<any> {
+
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+
+    return this._http.post(this._url + '/SIRFDeleteCost',
+    costCategoryID
+      ,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+
+  public SIRFGetAllCost(sirfNumber) {
+
+    return this._http.get(this._url + '/SIRFGetAllCost?sirfNumber=' + sirfNumber)
+      .map(ret => ret.json());
+
+  }
+
+  public GetCostCategories() {
+
+    return this._http.get(this._url + '/GetCostCategories')
+      .map(ret => ret.json());
+
+  }
+
+  public GetRootCauseCategories() {
+
+    return this._http.get(this._url + '/GetRootCauseCategories')
+      .map(ret => ret.json());
+
+  }
+
+  public GetRootCauseCategoriesBySIRF(sirfNumber) {
+
+    return this._http.get(this._url + '/GetRootCauseCategoriesBySIRF?SIRFNumber=' + sirfNumber)
+      .map(ret => ret.json());
+
+  }
+
+  public updateSIRFRootCauseItem(data: any): Observable<any> {
+
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+    
+
+
+    return this._http.post(this._url + '/UpdateSIRFRootCauseItem',
+    JSON.stringify(data)
+      ,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+
+
 
 
 
