@@ -137,7 +137,7 @@
 
         <div *ngIf="DisabledMode=='yes'">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
-                <mat-button-toggle *ngIf="!quoteFinalised" color="warn" (click)="finalise()" >Finalise</mat-button-toggle>
+                <button *ngIf="!quoteFinalised" (click)="finalise()" type="submit">Finalise</button>
                 <mat-button-toggle *ngIf="quoteFinalised" color="warn" (click)="viewQuote()">ViewQuote</mat-button-toggle>
             </mat-button-toggle-group>
         </div>

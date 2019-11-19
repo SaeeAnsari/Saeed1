@@ -161,10 +161,15 @@ export class ProductFinalisedComponent implements OnInit {
       if (sub.priceApprovedByID != null) {
         this.pricingFinaliseGroup.controls.PriceApprovedBy.setValue(sub.priceApprovedByID.toString());
       }
-      else{
+      else {
         this.pricingFinaliseGroup.controls.PriceApprovedBy.setValue('1');
       }
-      if (sub.completionDate != null) this.pricingFinaliseGroup.controls.CompletionDate.setValue(new Date(Date.parse(sub.completionDate)))
+      if (sub.completionDate != null && sub.completionDate != '') {
+        this.pricingFinaliseGroup.controls.CompletionDate.setValue(new Date(Date.parse(sub.completionDate)))
+      }
+      else{
+        this.pricingFinaliseGroup.controls.CompletionDate.setValue(new Date());
+      }
       if (sub.exchangeRate != null) this.pricingFinaliseGroup.controls.ExchangeRate.setValue(sub.exchangeRate)
 
       this.loadBreakDownLines();
