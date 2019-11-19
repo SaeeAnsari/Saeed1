@@ -260,6 +260,7 @@ export class InitiateMainComponent implements OnInit {
 
       this.initiate.submitOpportunity(this.quoteID).subscribe(sub=> {
         this.loadQuote(this.quoteID);
+        alert("Quote " + this.quoteID + " Submitted.")
         
       });
     }

@@ -14,7 +14,7 @@ import { SIRFCompleteComponent } from './SIRF/sirfcomplete/sirfcomplete.componen
 
 
 const routes: Routes = [
-  { path: '', component: SIRFCompleteComponent},
+  { path: '', component: PricingInitiateComponent},
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},

@@ -1,4 +1,4 @@
-<form class="container" [formGroup]="pricingGroup">
+<form class="container" [formGroup]="pricingFinaliseGroup">
 
     <mat-card>
         <table mat-table [dataSource]="productResults" class="mat-elevation-z8 product-lines-table">
@@ -113,27 +113,46 @@
         </mat-form-field>
 
 
-        <mat-form-field class="container-half-width">
-
-            <input matInput placeholder="Quote Expiration Date - mm/dd/yyyy"  formControlName="QuoteExpirationDate">
-        </mat-form-field>
-        <mat-form-field class="container-half-width">
-            <input matInput placeholder="Price Validity Date - mm/dd/yyyy"  formControlName="PriceValidityDate">
-        </mat-form-field>
-        <mat-form-field class="container-half-width">
-            <input matInput placeholder="Sent To CM Date - mm/dd/yyyy"  formControlName="SentToCMDate">
-        </mat-form-field>
 
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Price Prepared By"  formControlName="PricePreparedBy">
+            <input matInput [matDatepicker]="picker" placeholder="Quote Expiration Date"
+                formControlName="QuoteExpirationDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Approval - mm/dd/yyyy" formControlName="ApprovalDate">
+            <input matInput [matDatepicker]="pickerPriceValidityDate" placeholder="Price Validity Date"
+                formControlName="PriceValidityDate">
+            <mat-datepicker-toggle matSuffix [for]="pickerPriceValidityDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerPriceValidityDate></mat-datepicker>
         </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <input matInput [matDatepicker]="pickerSentToCMDate" placeholder="Sent To CM Date"
+                formControlName="SentToCMDate">
+            <mat-datepicker-toggle matSuffix [for]="pickerSentToCMDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerSentToCMDate></mat-datepicker>
+        </mat-form-field>
+
+
+
+
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Price Prepared By" formControlName="PricePreparedBy">
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
+            <input matInput [matDatepicker]="pickerApprovalDate" placeholder="Approval Date"
+                formControlName="ApprovalDate">
+            <mat-datepicker-toggle matSuffix [for]="pickerApprovalDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerApprovalDate></mat-datepicker>
+        </mat-form-field>
+
+
 
         <mat-form-field class="container-half-width">
             <mat-label>Price Approved By</mat-label>
@@ -145,8 +164,12 @@
             </mat-select>
         </mat-form-field>
 
+
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Completion Date - mm/dd/yyyy" formControlName="CompletionDate">
+            <input matInput [matDatepicker]="pickerCompletionDate" placeholder="Completion Date"
+                formControlName="CompletionDate">
+            <mat-datepicker-toggle matSuffix [for]="pickerCompletionDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerCompletionDate></mat-datepicker>
         </mat-form-field>
 
 
@@ -169,7 +192,7 @@
         <br><br>
 
 
-       
+
 
         <div class="container-full-width">
             <div class="key-val-style">

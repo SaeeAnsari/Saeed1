@@ -20,7 +20,7 @@ export class ProductFinalisedComponent implements OnInit {
 
   public completionLineID;
   private _data;
-  public pricingGroup: FormGroup;
+  public pricingFinaliseGroup: FormGroup;
   public productResults = [];
   public uomList = [];
   public currencyCodes = [];
@@ -46,7 +46,7 @@ export class ProductFinalisedComponent implements OnInit {
     private initiate: InitiateProviderService) {
 
 
-    this.pricingGroup = fb.group({
+    this.pricingFinaliseGroup = fb.group({
       UnitOfMeasure: [''],
       QuoteCurrency: [''],
       CostPerUOM: [''],
@@ -130,7 +130,7 @@ export class ProductFinalisedComponent implements OnInit {
         this.productDetails.QuoteID = value.QuoteID;
         this.productDetails.quoteLineID = value.QuoteLineID;
         this.productDetails.CompanyName = this.CompanyName;
-        this.productDetails.showProductDetails = true;        
+        this.productDetails.showProductDetails = true;
         this.productDetails.ngOnInit()
         this.productDetails.lineEdit(value.QuoteLineID);
 
@@ -142,25 +142,30 @@ export class ProductFinalisedComponent implements OnInit {
   loadLine() {
     this.initiate.getCompletionLineId(this.completionLineID).subscribe(sub => {
 
-      this.pricingGroup.reset();
+      this.pricingFinaliseGroup.reset();
 
 
-      if (sub.uom != null) { this.pricingGroup.controls.UnitOfMeasure.setValue(sub.uom) };
-      if (sub.currencyID != null) this.pricingGroup.controls.QuoteCurrency.setValue(sub.currencyID.toString())
-      if (sub.costPerUOM != null) this.pricingGroup.controls.CostPerUOM.setValue(sub.costPerUOM)
-      if (sub.sellingPricePerUOM != null) this.pricingGroup.controls.SellingPricePerUOM.setValue(sub.sellingPricePerUOM)
-      if (sub.transportTermID != null) this.pricingGroup.controls.TransportTerms.setValue(sub.transportTermID.toString())
-      if (sub.shippingWarehouseID != null) this.pricingGroup.controls.ShippingWarehouse.setValue(sub.shippingWarehouseID.toString())
-      if (sub.minimumOrderQuantity != null) this.pricingGroup.controls.MinimumOrderQuantity.setValue(sub.minimumOrderQuantity)
-      if (sub.estimatedLeadTime != null) this.pricingGroup.controls.EstimatedLeadTime.setValue(sub.estimatedLeadTime)
-      if (sub.quoteExpirationDate != null) this.pricingGroup.controls.QuoteExpirationDate.setValue(sub.quoteExpirationDate)
-      if (sub.priceValidityDate != null) this.pricingGroup.controls.PriceValidityDate.setValue(sub.priceValidityDate)
-      if (sub.sentToCMDate != null) this.pricingGroup.controls.SentToCMDate.setValue(sub.sentToCMDate)
-      if (sub.pricePreparedBy != null) this.pricingGroup.controls.PricePreparedBy.setValue(sub.pricePreparedBy)
-      if (sub.approvalDate != null) this.pricingGroup.controls.ApprovalDate.setValue(sub.approvalDate)
-      if (sub.priceApprovedByID != null) this.pricingGroup.controls.PriceApprovedBy.setValue(sub.priceApprovedByID.toString())
-      if (sub.completionDate != null) this.pricingGroup.controls.CompletionDate.setValue(sub.completionDate)
-      if (sub.exchangeRate != null) this.pricingGroup.controls.ExchangeRate.setValue(sub.exchangeRate)
+      if (sub.uom != null) { this.pricingFinaliseGroup.controls.UnitOfMeasure.setValue(sub.uom) };
+      if (sub.currencyID != null) this.pricingFinaliseGroup.controls.QuoteCurrency.setValue(sub.currencyID.toString())
+      if (sub.costPerUOM != null) this.pricingFinaliseGroup.controls.CostPerUOM.setValue(sub.costPerUOM)
+      if (sub.sellingPricePerUOM != null) this.pricingFinaliseGroup.controls.SellingPricePerUOM.setValue(sub.sellingPricePerUOM)
+      if (sub.transportTermID != null) this.pricingFinaliseGroup.controls.TransportTerms.setValue(sub.transportTermID.toString())
+      if (sub.shippingWarehouseID != null) this.pricingFinaliseGroup.controls.ShippingWarehouse.setValue(sub.shippingWarehouseID.toString())
+      if (sub.minimumOrderQuantity != null) this.pricingFinaliseGroup.controls.MinimumOrderQuantity.setValue(sub.minimumOrderQuantity)
+      if (sub.estimatedLeadTime != null) this.pricingFinaliseGroup.controls.EstimatedLeadTime.setValue(sub.estimatedLeadTime)
+      if (sub.quoteExpirationDate != null) this.pricingFinaliseGroup.controls.QuoteExpirationDate.setValue(new Date(Date.parse(sub.quoteExpirationDate)))
+      if (sub.priceValidityDate != null) this.pricingFinaliseGroup.controls.PriceValidityDate.setValue(new Date(Date.parse(sub.priceValidityDate)))
+      if (sub.sentToCMDate != null) this.pricingFinaliseGroup.controls.SentToCMDate.setValue(new Date(Date.parse(sub.sentToCMDate)))
+      if (sub.pricePreparedBy != null) this.pricingFinaliseGroup.controls.PricePreparedBy.setValue(sub.pricePreparedBy)
+      if (sub.approvalDate != null) this.pricingFinaliseGroup.controls.ApprovalDate.setValue(new Date(Date.parse(sub.approvalDate)))
+      if (sub.priceApprovedByID != null) {
+        this.pricingFinaliseGroup.controls.PriceApprovedBy.setValue(sub.priceApprovedByID.toString());
+      }
+      else{
+        this.pricingFinaliseGroup.controls.PriceApprovedBy.setValue('1');
+      }
+      if (sub.completionDate != null) this.pricingFinaliseGroup.controls.CompletionDate.setValue(new Date(Date.parse(sub.completionDate)))
+      if (sub.exchangeRate != null) this.pricingFinaliseGroup.controls.ExchangeRate.setValue(sub.exchangeRate)
 
       this.loadBreakDownLines();
 
@@ -170,24 +175,24 @@ export class ProductFinalisedComponent implements OnInit {
   saveline() {
     this.initiate.saveCompletionLine(this.completionLineID,
       this.QuoteID,
-      this.pricingGroup.value.UnitOfMeasure,
-      this.pricingGroup.value.CostPerUOM,
-      this.pricingGroup.value.QuoteCurrency,
-      this.pricingGroup.value.SellingPricePerUOM,
-      this.pricingGroup.value.TransportTerms,
-      this.pricingGroup.value.ShippingWarehouse,
-      this.pricingGroup.value.MinimumOrderQuantity,
-      this.pricingGroup.value.EstimatedLeadTime,
-      this.pricingGroup.value.QuoteExpirationDate,
-      this.pricingGroup.value.PriceValidityDate,
-      this.pricingGroup.value.SentToCMDate,
-      this.pricingGroup.value.ExchangeRate,
-      this.pricingGroup.value.PricePreparedBy,
-      this.pricingGroup.value.ApprovalDate,
-      this.pricingGroup.value.PriceApprovedBy,
-      this.pricingGroup.value.CompletionDate
+      this.pricingFinaliseGroup.value.UnitOfMeasure,
+      this.pricingFinaliseGroup.value.CostPerUOM,
+      this.pricingFinaliseGroup.value.QuoteCurrency,
+      this.pricingFinaliseGroup.value.SellingPricePerUOM,
+      this.pricingFinaliseGroup.value.TransportTerms,
+      this.pricingFinaliseGroup.value.ShippingWarehouse,
+      this.pricingFinaliseGroup.value.MinimumOrderQuantity,
+      this.pricingFinaliseGroup.value.EstimatedLeadTime,
+      this.pricingFinaliseGroup.value.QuoteExpirationDate,
+      this.pricingFinaliseGroup.value.PriceValidityDate,
+      this.pricingFinaliseGroup.value.SentToCMDate,
+      this.pricingFinaliseGroup.value.ExchangeRate,
+      this.pricingFinaliseGroup.value.PricePreparedBy,
+      this.pricingFinaliseGroup.value.ApprovalDate,
+      this.pricingFinaliseGroup.value.PriceApprovedBy,
+      this.pricingFinaliseGroup.value.CompletionDate
     ).subscribe(sub => {
-      this.pricingGroup.reset();
+      this.pricingFinaliseGroup.reset();
       this.showCompletionLine = false;
       this.loadData()
       this.productDetails.showProductDetails = false;
@@ -195,7 +200,7 @@ export class ProductFinalisedComponent implements OnInit {
   }
 
   cancel() {
-    this.pricingGroup.reset();
+    this.pricingFinaliseGroup.reset();
     this.showCompletionLine = false;
 
     this.productDetails.showProductDetails = false;
@@ -205,20 +210,20 @@ export class ProductFinalisedComponent implements OnInit {
 
   addKeyValue() {
 
-    if (this.pricingGroup.value.FinaliseKey != "" && this.pricingGroup.value.FinaliseValue != "") {
+    if (this.pricingFinaliseGroup.value.FinaliseKey != "" && this.pricingFinaliseGroup.value.FinaliseValue != "") {
 
-      var keyToFind = this.pricingGroup.value.FinaliseKey.toString().trim()
+      var keyToFind = this.pricingFinaliseGroup.value.FinaliseKey.toString().trim()
 
       let item = this.lineKeyVal.filter(function (item) {
         return item.Key == keyToFind;
       });
       if (item != null) {
-        this.initiate.saveCompletionLineBreakdownLine(this.keyID, this.completionLineID, this.pricingGroup.value.FinaliseValue, this.pricingGroup.value.FinaliseKey).subscribe(sub => {
+        this.initiate.saveCompletionLineBreakdownLine(this.keyID, this.completionLineID, this.pricingFinaliseGroup.value.FinaliseValue, this.pricingFinaliseGroup.value.FinaliseKey).subscribe(sub => {
 
           this.loadBreakDownLines();
 
-          this.pricingGroup.controls.FinaliseKey.setValue("");
-          this.pricingGroup.controls.FinaliseValue.setValue("");
+          this.pricingFinaliseGroup.controls.FinaliseKey.setValue("");
+          this.pricingFinaliseGroup.controls.FinaliseValue.setValue("");
 
           this.keyID = 0;
         });
@@ -226,9 +231,9 @@ export class ProductFinalisedComponent implements OnInit {
     }
   }
 
-  clear(){
-    this.pricingGroup.controls.FinaliseKey.setValue("");
-    this.pricingGroup.controls.FinaliseValue.setValue("");
+  clear() {
+    this.pricingFinaliseGroup.controls.FinaliseKey.setValue("");
+    this.pricingFinaliseGroup.controls.FinaliseValue.setValue("");
 
     this.keyID = 0;
   }
@@ -247,14 +252,14 @@ export class ProductFinalisedComponent implements OnInit {
 
     this.keyID = val.ID;
 
-    this.pricingGroup.controls.FinaliseKey.setValue(val.Key);
-    this.pricingGroup.controls.FinaliseValue.setValue(val.Value);
-   
+    this.pricingFinaliseGroup.controls.FinaliseKey.setValue(val.Key);
+    this.pricingFinaliseGroup.controls.FinaliseValue.setValue(val.Value);
+
   }
 
   delete(val) {
 
-    this.initiate.deleteCompletionLineBreakDown(val.ID).subscribe(sub=>{
+    this.initiate.deleteCompletionLineBreakDown(val.ID).subscribe(sub => {
       this.loadBreakDownLines();
     })
   }
