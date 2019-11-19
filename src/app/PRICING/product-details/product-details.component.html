@@ -1,4 +1,4 @@
-<form class="container" [formGroup]="pricingGroup">
+<form class="container" [formGroup]="pricingGroup" (ngSubmit)="save()">
 
     <mat-card *ngIf="ShowGrid!='no'" class="container-padding">
         <table mat-table [dataSource]="productResults" class="mat-elevation-z8 product-lines-table">
@@ -133,7 +133,8 @@
 
         <div *ngIf="ShowGrid!='no'">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                <mat-button-toggle color="warn" (click)="save()">Save</mat-button-toggle>
+                    <button  (click)="save()" type="submit">Save</button>
+                
                 <mat-button-toggle (click)="cancel()">Cancel</mat-button-toggle>
 
             </mat-button-toggle-group>

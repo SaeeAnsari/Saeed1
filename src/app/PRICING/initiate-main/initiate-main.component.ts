@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input} from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 
@@ -18,10 +18,10 @@ import { Observable } from 'rxjs';
   providers: [InitiateProviderService]
 })
 export class InitiateMainComponent implements OnInit {
-  
+
   @Input() QuoteID: string = '0';
-  @Input() DisabledMode: string = "no";  
-  @Output() AddNewQuote =  new EventEmitter();
+  @Input() DisabledMode: string = "no";
+  @Output() AddNewQuote = new EventEmitter();
   @Output() BroadcastQuoteID = new EventEmitter<any>();
 
   public pricingGroup: FormGroup;
@@ -39,12 +39,14 @@ export class InitiateMainComponent implements OnInit {
   public selectedCustomerName = "";
   public selectedOpportunityType = "";
   public selectedPriority = "";
+  public selectedRequestedBy = "";
+  public selectedResponsibility = "";
   public quoteID = 0;
   public quoteLineID = 0;
   private _quoteData = null;
   private _lineData = null;
 
-  
+
   public quoteSubmitted: boolean = false;
   public quoteFinalised: boolean = false;
 
@@ -53,11 +55,11 @@ export class InitiateMainComponent implements OnInit {
     this.pricingGroup.valueChanges.subscribe(val => {
       this.pricingGroup.updateValueAndValidity({ onlySelf: false, emitEvent: false })
     });
-     
-     if(this.QuoteID!= ""){
-       this.quoteID = +this.QuoteID;
-       this.loadQuote(this.quoteID);
-     }
+
+    if (this.QuoteID != "") {
+      this.quoteID = +this.QuoteID;
+      this.loadQuote(this.quoteID);
+    }
   }
 
 
@@ -96,9 +98,9 @@ export class InitiateMainComponent implements OnInit {
 
             });
 
-            this.initiate.getPaymentTerms().subscribe(terms=>{
-              terms.forEach(element =>{
-                this.paymentTerms.push({ id:element.id, name: element.name});
+            this.initiate.getPaymentTerms().subscribe(terms => {
+              terms.forEach(element => {
+                this.paymentTerms.push({ id: element.id, name: element.name });
               });
             });
 
@@ -117,7 +119,7 @@ export class InitiateMainComponent implements OnInit {
         this._lineData = [];
         this.initiate.getQuoteLines(quoteID).subscribe(line => {
           line.forEach(element => {
-            this._lineData.push({ ProductDescription: element.productDescription, ProductCode: element.productCode, lineID: element.quoteLineID});
+            this._lineData.push({ ProductDescription: element.productDescription, ProductCode: element.productCode, lineID: element.quoteLineID });
           });
 
           console.log(this.productResults);
@@ -132,7 +134,7 @@ export class InitiateMainComponent implements OnInit {
           this.selectedPriority = this._quoteData.priorityLevel;
           this.pricingGroup.controls.PriorityLevel.setValue(this._quoteData.priorityLevel);
           this.pricingGroup.controls.CustomerID.setValue(this._quoteData.customerID);
-          this.pricingGroup.controls.CustomerName.setValue(this._quoteData.customerID);
+          this.pricingGroup.controls.CustomerName.setValue(this._quoteData.customerName);
           this.pricingGroup.controls.OpportunityType.setValue(this._quoteData.opportunityType);
           this.pricingGroup.controls.OpportunityOwner.setValue(this._quoteData.opportunityOwner);
 
@@ -142,36 +144,36 @@ export class InitiateMainComponent implements OnInit {
           this.pricingGroup.controls.OpportunityName.setValue(this._quoteData.opportunityName);
           this.pricingGroup.controls.RequestedBy.setValue(this._quoteData.requestedBy);
           this.pricingGroup.controls.SubmittedDate.setValue(this._quoteData.submittedDate);
-          if( this._quoteData.paymentTermID != null){
+          if (this._quoteData.paymentTermID != null) {
             this.pricingGroup.controls.PaymentTerm.setValue(this._quoteData.paymentTermID.toString());
           }
-          
 
-          this.productResults = this._lineData;         
 
-          if(this._quoteData.submittedDate != null && this._quoteData.submittedDate != ""){
+          this.productResults = this._lineData;
+
+          if (this._quoteData.submittedDate != null && this._quoteData.submittedDate != "") {
             this.quoteSubmitted = true;
           }
-          else{
+          else {
             this.quoteSubmitted = false;
           }
 
-          if(this.DisabledMode == "yes"){
+          if (this.DisabledMode == "yes") {
             var disableControls = this.DisabledMode == "yes";
 
-            this.pricingGroup.controls.CompanyName.disable({onlySelf: true, emitEvent: false});
-            this.pricingGroup.controls.CustomerID.disable({onlySelf: true, emitEvent: false});
-            this.pricingGroup.controls.PriorityLevel.disable({onlySelf: true, emitEvent: false});
-            this.pricingGroup.controls.CustomerName.disable({onlySelf: true, emitEvent: false});
-            this.pricingGroup.controls.OpportunityName.disable({onlySelf: true, emitEvent: false});
-            this.pricingGroup.controls.OpportunityOwner.disable({onlySelf: true, emitEvent: false});
-            this.pricingGroup.controls.OpportunityType.disable({onlySelf: true, emitEvent: false});
-            this.pricingGroup.controls.RequestedBy.disable({onlySelf: true, emitEvent: false});
-            this.pricingGroup.controls.SubmittedDate.disable({onlySelf: true, emitEvent: false});
+            this.pricingGroup.controls.CompanyName.disable({ onlySelf: true, emitEvent: false });
+            this.pricingGroup.controls.CustomerID.disable({ onlySelf: true, emitEvent: false });
+            this.pricingGroup.controls.PriorityLevel.disable({ onlySelf: true, emitEvent: false });
+            this.pricingGroup.controls.CustomerName.disable({ onlySelf: true, emitEvent: false });
+            this.pricingGroup.controls.OpportunityName.disable({ onlySelf: true, emitEvent: false });
+            this.pricingGroup.controls.OpportunityOwner.disable({ onlySelf: true, emitEvent: false });
+            this.pricingGroup.controls.OpportunityType.disable({ onlySelf: true, emitEvent: false });
+            this.pricingGroup.controls.RequestedBy.disable({ onlySelf: true, emitEvent: false });
+            this.pricingGroup.controls.SubmittedDate.disable({ onlySelf: true, emitEvent: false });
           }
         }, 2000);
         /**/
-      }     
+      }
     });
   }
 
@@ -194,8 +196,8 @@ export class InitiateMainComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     public initiateService: InitiateProviderService,
-    public initiate: InitiateProviderService, 
-    private activeRoute: ActivatedRoute) {     
+    public initiate: InitiateProviderService,
+    private activeRoute: ActivatedRoute) {
 
     this.pricingGroup = fb.group({
       CompanyName: ['', [Validators.required]],
@@ -208,9 +210,9 @@ export class InitiateMainComponent implements OnInit {
       SubmittedDate: ['', [Validators.required]],
       PriorityLevel: ['', [Validators.required]],
       RequestedBy: ['', [Validators.required]],
-      PaymentTerm : [''],
+      PaymentTerm: [''],
       CCEmail: ['']
-    });    
+    });
   }
 
   getFormData() {
@@ -243,11 +245,19 @@ export class InitiateMainComponent implements OnInit {
         return item.name == data.OpportunityOwner;
       })[0].id;
 
-      let customerName = this.customerNames.filter(function (item) {
-        return item.id == data.CustomerID;
-      })[0].name;
+      let customerName = '';
 
-      this.initiate.saveQuoteHeader(this.quoteID, data.PriorityLevel, customerName, data.OpportunityOwner, data.OpportunityType, data.OpportunityName, null, data.RequestedBy, data.CompanyName, data.CustomerID, opportunityOwnerID, false).subscribe(sub=>{
+      if (this.selectedCustomer != '-PRPOTENTI') {
+        customerName = this.customerNames.filter(function (item) {
+          return item.id == data.CustomerID;
+        })[0].name;
+      }
+      else{
+        customerName = this.pricingGroup.value.CustomerName;
+      }
+
+
+      this.initiate.saveQuoteHeader(this.quoteID, data.PriorityLevel, customerName, data.OpportunityOwner, data.OpportunityType, data.OpportunityName, null, data.RequestedBy, data.CompanyName, data.CustomerID, opportunityOwnerID, false).subscribe(sub => {
         this.quoteID = sub;
         this.loadQuote(this.quoteID);
       });
@@ -258,19 +268,24 @@ export class InitiateMainComponent implements OnInit {
 
     if (this.pricingGroup.valid) {
 
-      this.initiate.submitOpportunity(this.quoteID).subscribe(sub=> {
+      this.initiate.submitOpportunity(this.quoteID).subscribe(sub => {
         this.loadQuote(this.quoteID);
         alert("Quote " + this.quoteID + " Submitted.")
-        
+
       });
     }
   }
 
-  
+
 
   customer_change(e) {
     if (this.selectedCustomer.length > 0) {
-      this.pricingGroup.controls.CustomerName.setValue(this.selectedCustomer);
+      if (this.selectedCustomer != "-PRPOTENTI") {
+        this.pricingGroup.controls.CustomerName.setValue(this.selectedCustomer);
+      }
+      else {
+        this.pricingGroup.controls.CustomerName.setValue('');
+      }
       this.pricingGroup.controls.CustomerID.setValue(this.selectedCustomer);
     }
   }
@@ -322,32 +337,32 @@ export class InitiateMainComponent implements OnInit {
       })
     }
   }
-  
+
   delete() {
-    
-    if(this.quoteID >0 ){
-      this.initiate.deleteOpportunity(this.quoteID).subscribe(sub=>{
+
+    if (this.quoteID > 0) {
+      this.initiate.deleteOpportunity(this.quoteID).subscribe(sub => {
         window.location.reload();
       });
-    }    
+    }
   }
 
-  addProduct(){
+  addProduct() {
     //if(this.quoteSubmitted){
-      this.AddNewQuote.emit("");
+    this.AddNewQuote.emit("");
     //}    
   }
 
-  newQuote(){
+  newQuote() {
     localStorage.setItem("activeQuoteID", "");
     window.location.reload();
   }
 
-  finalise(){
-    this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub=>{
+  finalise() {
+    this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub => {
       console.log("received request form Finalised Validation: " + sub)
-      if(sub == true){
-        this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value, this.pricingGroup.value.CCEmail).subscribe(sub=>{
+      if (sub == true) {
+        this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value, this.pricingGroup.value.CCEmail).subscribe(sub => {
           console.log("received request form Finalised");
 
           this.quoteFinalised = true;
@@ -357,7 +372,7 @@ export class InitiateMainComponent implements OnInit {
     })
   }
 
-  viewQuote(){
-    window.open(window.location.href.replace('pricingFinalise','quoteReport/' + this.quoteID.toString()), '_blank');         
+  viewQuote() {
+    window.open(window.location.href.replace('pricingFinalise', 'quoteReport/' + this.quoteID.toString()), '_blank');
   }
 }

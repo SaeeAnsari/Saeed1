@@ -6,3 +6,4 @@ Worry about breakout lines
 Busienss Logic:
 txtCompletiondate.backcolor
 
+ng build --prod --base-href /Pricing/
