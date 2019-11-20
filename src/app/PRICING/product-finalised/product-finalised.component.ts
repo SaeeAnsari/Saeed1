@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailsComponent } from '../product-details/product-details.component';
@@ -47,21 +47,21 @@ export class ProductFinalisedComponent implements OnInit {
 
 
     this.pricingFinaliseGroup = fb.group({
-      UnitOfMeasure: [''],
-      QuoteCurrency: [''],
-      CostPerUOM: [''],
-      SellingPricePerUOM: [''],
-      TransportTerms: [''],
-      ShippingWarehouse: [''],
-      MinimumOrderQuantity: [''],
-      EstimatedLeadTime: [''],
-      QuoteExpirationDate: [''],
-      PriceValidityDate: [''],
-      SentToCMDate: [''],
-      PricePreparedBy: [''],
-      ApprovalDate: [''],
-      PriceApprovedBy: [''],
-      CompletionDate: [''],
+      UnitOfMeasure: ['', [Validators.required]],
+      QuoteCurrency: ['', [Validators.required]],
+      CostPerUOM: ['', [Validators.required]],
+      SellingPricePerUOM: ['', [Validators.required]],
+      TransportTerms: ['', [Validators.required]],
+      ShippingWarehouse: ['', [Validators.required]],
+      MinimumOrderQuantity: ['', [Validators.required]],
+      EstimatedLeadTime: ['', [Validators.required]],
+      QuoteExpirationDate: ['', [Validators.required]],
+      PriceValidityDate: ['', [Validators.required]],
+      SentToCMDate: ['', [Validators.required]],
+      PricePreparedBy: ['', [Validators.required]],
+      ApprovalDate: ['', [Validators.required]],
+      PriceApprovedBy: ['', [Validators.required]],
+      CompletionDate: [new Date(), [Validators.required]],
       ExchangeRate: [''],
       FinaliseKey: [''],
       FinaliseValue: ['']
@@ -133,6 +133,7 @@ export class ProductFinalisedComponent implements OnInit {
         this.productDetails.showProductDetails = true;
         this.productDetails.ngOnInit()
         this.productDetails.lineEdit(value.QuoteLineID);
+        this.productDetails.pricingGroup.disable();
 
         this.loadLine();
       }
@@ -167,7 +168,7 @@ export class ProductFinalisedComponent implements OnInit {
       if (sub.completionDate != null && sub.completionDate != '') {
         this.pricingFinaliseGroup.controls.CompletionDate.setValue(new Date(Date.parse(sub.completionDate)))
       }
-      else{
+      else {
         this.pricingFinaliseGroup.controls.CompletionDate.setValue(new Date());
       }
       if (sub.exchangeRate != null) this.pricingFinaliseGroup.controls.ExchangeRate.setValue(sub.exchangeRate)
@@ -177,31 +178,75 @@ export class ProductFinalisedComponent implements OnInit {
     });
   }
 
-  saveline() {
-    this.initiate.saveCompletionLine(this.completionLineID,
-      this.QuoteID,
-      this.pricingFinaliseGroup.value.UnitOfMeasure,
-      this.pricingFinaliseGroup.value.CostPerUOM,
-      this.pricingFinaliseGroup.value.QuoteCurrency,
-      this.pricingFinaliseGroup.value.SellingPricePerUOM,
-      this.pricingFinaliseGroup.value.TransportTerms,
-      this.pricingFinaliseGroup.value.ShippingWarehouse,
-      this.pricingFinaliseGroup.value.MinimumOrderQuantity,
-      this.pricingFinaliseGroup.value.EstimatedLeadTime,
-      this.pricingFinaliseGroup.value.QuoteExpirationDate,
-      this.pricingFinaliseGroup.value.PriceValidityDate,
-      this.pricingFinaliseGroup.value.SentToCMDate,
-      this.pricingFinaliseGroup.value.ExchangeRate,
-      this.pricingFinaliseGroup.value.PricePreparedBy,
-      this.pricingFinaliseGroup.value.ApprovalDate,
-      this.pricingFinaliseGroup.value.PriceApprovedBy,
-      this.pricingFinaliseGroup.value.CompletionDate
-    ).subscribe(sub => {
-      this.pricingFinaliseGroup.reset();
-      this.showCompletionLine = false;
-      this.loadData()
-      this.productDetails.showProductDetails = false;
+  public costValidationError = false;
+
+  public costValidator() {
+
+    this.costValidationError = false;
+
+    var cost = 0;
+    this.lineKeyVal.forEach(element => {
+
+      if (element.Value != '') {
+        try {
+          var tmp: number= +element.Value;
+
+          if(tmp != null){
+            cost = cost +tmp
+          }          
+        }
+        catch (ex) {
+          console.log("Error Occured - Finalised - costValidator");
+          console.log(ex);
+        }
+      }
     });
+
+    if (this.pricingFinaliseGroup.value.CostPerUOM != '' && 
+    +this.pricingFinaliseGroup.value.CostPerUOM == cost) {
+      this.costValidationError == false;
+      return true;
+    }
+    else {
+      this.costValidationError = true;
+      return false;
+    }
+  }
+
+
+
+
+  saveline($event) {
+
+    if (this.pricingFinaliseGroup.valid && this.costValidator()) {
+
+      this.initiate.saveCompletionLine(this.completionLineID,
+        this.QuoteID,
+        this.pricingFinaliseGroup.value.UnitOfMeasure,
+        this.pricingFinaliseGroup.value.CostPerUOM,
+        this.pricingFinaliseGroup.value.QuoteCurrency,
+        this.pricingFinaliseGroup.value.SellingPricePerUOM,
+        this.pricingFinaliseGroup.value.TransportTerms,
+        this.pricingFinaliseGroup.value.ShippingWarehouse,
+        this.pricingFinaliseGroup.value.MinimumOrderQuantity,
+        this.pricingFinaliseGroup.value.EstimatedLeadTime,
+        this.pricingFinaliseGroup.value.QuoteExpirationDate,
+        this.pricingFinaliseGroup.value.PriceValidityDate,
+        this.pricingFinaliseGroup.value.SentToCMDate,
+        this.pricingFinaliseGroup.value.ExchangeRate,
+        this.pricingFinaliseGroup.value.PricePreparedBy,
+        this.pricingFinaliseGroup.value.ApprovalDate,
+        this.pricingFinaliseGroup.value.PriceApprovedBy,
+        this.pricingFinaliseGroup.value.CompletionDate
+      ).subscribe(sub => {
+        this.pricingFinaliseGroup.reset();
+        this.showCompletionLine = false;
+        this.loadData()
+        this.productDetails.showProductDetails = false;
+      });
+
+      $event.preventDefault();
+    }
   }
 
   cancel() {
@@ -209,13 +254,17 @@ export class ProductFinalisedComponent implements OnInit {
     this.showCompletionLine = false;
 
     this.productDetails.showProductDetails = false;
+    this.costValidationError = false;
   }
 
   private keyID: number;
 
   addKeyValue() {
 
-    if (this.pricingFinaliseGroup.value.FinaliseKey != "" && this.pricingFinaliseGroup.value.FinaliseValue != "") {
+    if (this.pricingFinaliseGroup.value.FinaliseKey != "" && 
+    this.pricingFinaliseGroup.value.FinaliseValue != "" ) {
+
+      this.costValidationError = false;
 
       var keyToFind = this.pricingFinaliseGroup.value.FinaliseKey.toString().trim()
 
@@ -239,6 +288,7 @@ export class ProductFinalisedComponent implements OnInit {
   clear() {
     this.pricingFinaliseGroup.controls.FinaliseKey.setValue("");
     this.pricingFinaliseGroup.controls.FinaliseValue.setValue("");
+    this.costValidationError = false;
 
     this.keyID = 0;
   }

@@ -1,4 +1,4 @@
-<form class="container" [formGroup]="pricingFinaliseGroup">
+<form class="container" [formGroup]="pricingFinaliseGroup" (ngSubmit)="saveline($event)">
 
     <mat-card>
         <table mat-table [dataSource]="productResults" class="mat-elevation-z8 product-lines-table">
@@ -50,7 +50,7 @@
     </mat-card>
 
     <mat-card *ngIf="showCompletionLine">
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
 
             <mat-label>Unit Of Measure</mat-label>
             <mat-select name="lstUnitOfMeasure" formControlName="UnitOfMeasure">
@@ -62,7 +62,7 @@
 
         </mat-form-field>
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <mat-label>Quote Currency</mat-label>
             <mat-select name="lstQuoteCurrency" formControlName="QuoteCurrency">
                 <mat-option>--</mat-option>
@@ -72,17 +72,17 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput placeholder="Cost Per UOM" formControlName="CostPerUOM">
         </mat-form-field>
 
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput placeholder="Selling Price Per UOM" formControlName="SellingPricePerUOM">
         </mat-form-field>
 
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <mat-label>Transport Terms</mat-label>
             <mat-select name="lstTransportTerms" formControlName="TransportTerms">
                 <mat-option>--</mat-option>
@@ -92,7 +92,7 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <mat-label>Shipping Warehouse</mat-label>
             <mat-select name="lstShippingWarehouse" formControlName="ShippingWarehouse">
                 <mat-option>--</mat-option>
@@ -104,11 +104,11 @@
 
 
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput placeholder="Minimum Order Quantity" formControlName="MinimumOrderQuantity">
         </mat-form-field>
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput placeholder="Estimated Lead Time" formControlName="EstimatedLeadTime">
         </mat-form-field>
 
@@ -116,7 +116,7 @@
 
 
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput [matDatepicker]="picker" placeholder="Quote Expiration Date"
                 formControlName="QuoteExpirationDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -124,14 +124,14 @@
         </mat-form-field>
 
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput [matDatepicker]="pickerPriceValidityDate" placeholder="Price Validity Date"
                 formControlName="PriceValidityDate">
             <mat-datepicker-toggle matSuffix [for]="pickerPriceValidityDate"></mat-datepicker-toggle>
             <mat-datepicker #pickerPriceValidityDate></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput [matDatepicker]="pickerSentToCMDate" placeholder="Sent To CM Date"
                 formControlName="SentToCMDate">
             <mat-datepicker-toggle matSuffix [for]="pickerSentToCMDate"></mat-datepicker-toggle>
@@ -141,11 +141,11 @@
 
 
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput placeholder="Price Prepared By" formControlName="PricePreparedBy">
         </mat-form-field>
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput [matDatepicker]="pickerApprovalDate" placeholder="Approval Date"
                 formControlName="ApprovalDate">
             <mat-datepicker-toggle matSuffix [for]="pickerApprovalDate"></mat-datepicker-toggle>
@@ -154,7 +154,7 @@
 
 
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <mat-label>Price Approved By</mat-label>
             <mat-select name="lstPriceApprovedBy" formControlName="PriceApprovedBy">
                 <mat-option>--</mat-option>
@@ -165,7 +165,7 @@
         </mat-form-field>
 
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field required class="container-half-width">
             <input matInput [matDatepicker]="pickerCompletionDate" placeholder="Completion Date"
                 formControlName="CompletionDate">
             <mat-datepicker-toggle matSuffix [for]="pickerCompletionDate"></mat-datepicker-toggle>
@@ -179,9 +179,11 @@
 
 
         <br><br>
+        <mat-error *ngIf="costValidationError">Cost Per UOM needs to match the Sum of Breakdown Line Values</mat-error>
+        <br>
         <div>
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
-                <button type="button" (click)="saveline()" class="btn btn-success">Save</button>
+                <button type="submit" (click)="saveline($event)" class="btn btn-success">Save</button>
                 <button type="button" (click)="cancel()">Cancel</button>
             </mat-button-toggle-group>
         </div>
@@ -214,12 +216,13 @@
                     type="number">
             </div>
             <div class="key-val-style">
-                <button class="btn-add-product" class="btn btn-outline-success" (click)="addKeyValue()"
+                <button type="button" class="btn-add-product" class="btn btn-outline-success" (click)="addKeyValue()"
                     color="primary">Save</button>
-                <button class="btn-add-product" class="btn btn-outline-success" (click)="clear()">Clear</button>
+                <button type="button"  class="btn-add-product" class="btn btn-outline-success" (click)="clear()">Clear</button>
             </div>
 
         </div>
+        <br>
         <br>
         <div class="container-full-width" *ngFor="let pair of lineKeyVal">
             <div class="key-val-style">
@@ -229,10 +232,10 @@
                 {{pair.Value}}
             </div>
             <div class="key-val-style-15">
-                <button class="btn-add-product" mat-raised-button (click)="edit(pair)">Edit</button>
+                <button type="button"  class="btn-add-product" mat-raised-button (click)="edit(pair)">Edit</button>
             </div>
             <div class="key-val-style-15">
-                <button class="btn-add-product" mat-raised-button (click)="delete(pair)">Delete</button>
+                <button type="button"  class="btn-add-product" mat-raised-button (click)="delete(pair)">Delete</button>
             </div>
         </div>
         <br><br>
