@@ -287,8 +287,7 @@ export class InitiateMainComponent implements OnInit {
       }
       else {
         this.pricingGroup.controls.CustomerName.setValue('');
-      }
-      this.pricingGroup.controls.CustomerID.setValue(this.selectedCustomer);
+      }      
     }
   }
 
@@ -360,10 +359,11 @@ export class InitiateMainComponent implements OnInit {
     window.location.reload();
   }
 
-  finalise() {
+  finalise($event) {
 
     if (this.pricingGroup.value.PaymentTerm != '') {
 
+      $event.preventDefault();
       //this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub => {
         //console.log("received request form Finalised Validation: " + sub)
         //if (sub == true) {
@@ -375,6 +375,8 @@ export class InitiateMainComponent implements OnInit {
           });
         //}
       //})
+
+     
     }
   }
 
