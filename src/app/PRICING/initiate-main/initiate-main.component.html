@@ -1,4 +1,4 @@
-<form class="container" [formGroup]="pricingGroup" (ngSubmit)="save()">
+<form class="container" [formGroup]="pricingGroup" (ngSubmit)="save($event)">
 
 
 
@@ -131,7 +131,7 @@
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
                 <mat-button-toggle color="warn" (click)="delete()">Delete</mat-button-toggle>
 
-                <button [disabled]="quoteSubmitted" (click)="save()" type="submit">Save</button>
+                <button [disabled]="quoteSubmitted" (click)="save($event)" type="submit">Save</button>
                 <!--<mat-button-toggle [disabled]="quoteSubmitted" (click)="save()">Save</mat-button-toggle>-->
                 <mat-button-toggle (click)="submit()">Submit</mat-button-toggle>
                 <mat-button-toggle (click)="newQuote()">New Quote</mat-button-toggle>
@@ -143,7 +143,7 @@
 
         <div *ngIf="DisabledMode=='yes'">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
-                <button *ngIf="!quoteFinalised" (click)="finalise()" type="submit">Finalise</button>
+                <button *ngIf="!quoteFinalised" (click)="finalise($event)" type="submit">Finalise</button>
                 <mat-button-toggle *ngIf="quoteFinalised" color="warn" (click)="viewQuote()">ViewQuote
                 </mat-button-toggle>
             </mat-button-toggle-group>

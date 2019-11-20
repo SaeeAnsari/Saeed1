@@ -1,4 +1,4 @@
-<form class="container" [formGroup]="pricingGroup" (ngSubmit)="save()">
+<form class="container" [formGroup]="pricingGroup" (ngSubmit)="save($event)">
 
     <mat-card *ngIf="ShowGrid!='no'" class="container-padding">
         <table mat-table [dataSource]="productResults" class="mat-elevation-z8 product-lines-table">
@@ -56,7 +56,7 @@
 
         </mat-form-field>
 
-        <mat-form-field class="container-half-width">
+        <mat-form-field class="container-half-width" *ngIf="showTextPartName() == false">
             <mat-label>Part Name</mat-label>
             <mat-select name="lstPartName" formControlName="PartName" required [(value)]="selectedPart"
                 (selectionChange)="part_change()">
@@ -65,6 +65,12 @@
                     {{part.name}}
                 </mat-option>
             </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width" *ngIf="showTextPartName() == true">
+
+            <input matInput placeholder="Please enter a Part Name" formControlName="PartName" required>
+
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
@@ -84,7 +90,7 @@
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Typical Order Size" formControlName="TypicalOrderSize">
+            <input matInput placeholder="Typical Order Size" formControlName="TypicalOrderSize" required>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
@@ -105,7 +111,7 @@
 
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Target Price" formControlName="TargetPrice">
+            <input matInput placeholder="Target Price" formControlName="TargetPrice" required>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
@@ -120,21 +126,21 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Usage Level" formControlName="UsageLevel">
+            <input matInput placeholder="Usage Level" formControlName="UsageLevel" required>
         </mat-form-field>
 
         <mat-form-field class="container-full-width">
-            <textarea matInput placeholder="Notes and Comment" formControlName="NotesAndComment"></textarea>
+            <textarea matInput placeholder="Notes and Comment" formControlName="NotesAndComment" required></textarea>
         </mat-form-field>
 
 
-        
+
 
 
         <div *ngIf="ShowGrid!='no'">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                    <button  (click)="save()" type="submit">Save</button>
-                
+                <button (click)="save($event)" type="submit">Save</button>
+
                 <mat-button-toggle (click)="cancel()">Cancel</mat-button-toggle>
 
             </mat-button-toggle-group>

@@ -237,7 +237,7 @@ export class InitiateMainComponent implements OnInit {
     return data;
   }
 
-  save() {
+  save($event) {
     if (this.pricingGroup.valid) {
       let data = this.getFormData();
 
@@ -262,6 +262,8 @@ export class InitiateMainComponent implements OnInit {
         this.loadQuote(this.quoteID);
       });
     }
+
+    $event.preventDefault();
   }
 
   submit() {

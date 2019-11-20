@@ -54,13 +54,13 @@ export class ProductDetailsComponent implements OnInit {
       PartName: [{ value: '', disabled: disableColumns }, [Validators.required]],
       UnitOfMeasure: [{ value: '', disabled: disableColumns }, [Validators.required]],
       AnnualVolume: [{ value: '', disabled: disableColumns }, [Validators.required]],
-      TypicalOrderSize: [{ value: '', disabled: disableColumns }],
+      TypicalOrderSize: [{ value: '', disabled: disableColumns }, [Validators.required]],
       PackSize: [{ value: '', disabled: disableColumns }, [Validators.required]],
       ContainerType: [{ value: '', disabled: disableColumns }, [Validators.required]],
-      TargetPrice: [{ value: '', disabled: disableColumns }],
+      TargetPrice: [{ value: '', disabled: disableColumns }, [Validators.required]],
       CurrencyOfTargetPrice: [{ value: '', disabled: disableColumns }],
-      UsageLevel: [{ value: '', disabled: disableColumns }],
-      NotesAndComment: [{ value: '', disabled: disableColumns }]
+      UsageLevel: [{ value: '', disabled: disableColumns }, [Validators.required]],
+      NotesAndComment: [{ value: '', disabled: disableColumns }, [Validators.required]]
     });
   }
 
@@ -149,8 +149,13 @@ export class ProductDetailsComponent implements OnInit {
         this.selectedPart = this._data.productCode;
 
         this.pricingGroup.controls.PartID.setValue(this._data.productCode);
-        this.pricingGroup.controls.PartName.setValue(this._data.productCode);
 
+        if (this.showTextPartName()) {
+          this.pricingGroup.controls.PartName.setValue(this._data.productDescription);
+        }
+        else {
+          this.pricingGroup.controls.PartName.setValue(this._data.productCode);
+        }
 
         if (this._data.containerTypeID) this.pricingGroup.controls['ContainerType'].setValue(this._data.containerTypeID.toString());
         if (this._data.unitOfMeasure) this.pricingGroup.controls['UnitOfMeasure'].setValue(this._data.unitOfMeasure.toString());
@@ -174,7 +179,7 @@ export class ProductDetailsComponent implements OnInit {
 
     let data = {
       PartID: this.pricingGroup.value.PartID,
-      PartName: '',
+      PartName: this.pricingGroup.value.PartName,
       UnitOfMeasure: this.pricingGroup.value.UnitOfMeasure,
       AnnualVolume: this.pricingGroup.value.AnnualVolume,
       TypicalOrderSize: this.pricingGroup.value.TypicalOrderSize,
@@ -186,19 +191,26 @@ export class ProductDetailsComponent implements OnInit {
       NotesAndComment: this.pricingGroup.value.NotesAndComment
     };
 
-    data.PartName = this.partList.filter(function (item) {
-      return item.id == data.PartID;
-    })[0].name;
+    if(!this.showTextPartName()){
+      data.PartName = this.partList.filter(function (item) {
+        return item.id == data.PartID;
+      })[0].name;
+    }
 
     return data;
   }
 
   part_change() {
     this.pricingGroup.controls.PartID.setValue(this.selectedPart);
-    this.pricingGroup.controls.PartName.setValue(this.selectedPart);
 
+    if(this.showTextPartName()){
+      this.pricingGroup.controls.PartName.setValue('');
+    }
+    else{
+      this.pricingGroup.controls.PartName.setValue(this.selectedPart);
+    }
 
-    this.initiate.getPart(this.selectedPart, this.CompanyName).subscribe(sub=>{
+    this.initiate.getPart(this.selectedPart, this.CompanyName).subscribe(sub => {
 
       /*
       this.CompanyCode = companyCode;
@@ -227,7 +239,7 @@ export class ProductDetailsComponent implements OnInit {
 
       //this.pricingGroup.controls['UnitOfMeasure'].setValue(this._data.unitOfMeasure.toString())
       this.pricingGroup.controls.UnitOfMeasure.setValue(uomID);
-  
+
 
     });
   }
@@ -238,7 +250,7 @@ export class ProductDetailsComponent implements OnInit {
     this.showProductDetails = false;
   }
 
-  save() {
+  save($event) {
 
     if (this.pricingGroup.valid) {
       let data = this.gatherFieldData();
@@ -250,6 +262,11 @@ export class ProductDetailsComponent implements OnInit {
           this.showProductDetails = false;
           this.loadLinesGrid();
         })
+
+      $event.preventDefault();
+
+
+
       /*
 
       line.AnnualVolume,
@@ -263,6 +280,7 @@ export class ProductDetailsComponent implements OnInit {
       */
       //this.initiate.saveProductDetails(data);      
     }
+
   }
 
 
@@ -281,5 +299,21 @@ export class ProductDetailsComponent implements OnInit {
       this.loadLinesGrid();
     });
   }
+
+
+
+  showTextPartName() {
+    if (this.selectedPart.indexOf('RDBAKERY') > 0 ||
+      this.selectedPart.indexOf('RDNUTRITION') > 0 ||
+      this.selectedPart.indexOf('RDSWEET') > 0 ||
+      this.selectedPart.indexOf('RDSAVOURY') > 0
+    ) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
 }
 
