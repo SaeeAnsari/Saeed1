@@ -24,7 +24,7 @@ export class PricingFinalisedComponent implements OnInit {
         if (this.router.getCurrentNavigation().extras.state) {
           this.quoteID = this.router.getCurrentNavigation().extras.state.quoteID;
 
-          localStorage.setItem("activeQuoteID", this.quoteID.toString());          
+          sessionStorage.setItem("activeQuoteID", this.quoteID.toString());          
         }
       });
     
@@ -36,8 +36,8 @@ export class PricingFinalisedComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.quoteID <= 0 && (localStorage.getItem("activeQuoteID")!= null || localStorage.getItem("activeQuoteID")!= ''))
-    this.quoteID = +localStorage.getItem("activeQuoteID");
+    if(this.quoteID <= 0 && (sessionStorage.getItem("activeQuoteID")!= null || sessionStorage.getItem("activeQuoteID")!= ''))
+    this.quoteID = +sessionStorage.getItem("activeQuoteID");
   }
 
   ReceiveQuoteID(data) {

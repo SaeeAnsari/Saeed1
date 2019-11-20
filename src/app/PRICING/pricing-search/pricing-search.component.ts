@@ -34,7 +34,7 @@ export class PricingSearchComponent implements OnInit {
   constructor(private fb: FormBuilder, private sp: SearchProvider, private router: Router,
     private activatedRout: ActivatedRoute, private locationStrategy: LocationStrategy) {
 
-    localStorage.setItem("activeQuoteID", "");
+      sessionStorage.setItem("activeQuoteID", "");
 
 
     this.pricingGroup = fb.group({

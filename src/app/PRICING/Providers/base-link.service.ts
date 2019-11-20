@@ -28,8 +28,8 @@ export class BaseLinkService {
   static GetBaseUrl() {
     //return 'http://localhost/change.api/api';
      
-     return 'http://localhost/Caldic.API/API';
-    //eturn 'http://toro-web-002.ca.caldic.cgn/CaldicAPI/api';
+     //return 'http://localhost/Caldic.API/API';
+    return 'http://toro-web-002.ca.caldic.cgn/CaldicAPI/api';
    }
 
    public _url = BaseLinkService.GetBaseUrl() + '/Pricing';

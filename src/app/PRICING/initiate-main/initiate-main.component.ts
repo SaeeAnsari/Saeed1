@@ -252,7 +252,7 @@ export class InitiateMainComponent implements OnInit {
           return item.id == data.CustomerID;
         })[0].name;
       }
-      else{
+      else {
         customerName = this.pricingGroup.value.CustomerName;
       }
 
@@ -356,22 +356,26 @@ export class InitiateMainComponent implements OnInit {
   }
 
   newQuote() {
-    localStorage.setItem("activeQuoteID", "");
+    sessionStorage.setItem("activeQuoteID", "");
     window.location.reload();
   }
 
   finalise() {
-    this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub => {
-      console.log("received request form Finalised Validation: " + sub)
-      if (sub == true) {
-        this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value, this.pricingGroup.value.CCEmail).subscribe(sub => {
-          console.log("received request form Finalised");
 
-          this.quoteFinalised = true;
-          alert('Quote Finalised')
-        });
-      }
-    })
+    if (this.pricingGroup.value.PaymentTerm != '') {
+
+      this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub => {
+        console.log("received request form Finalised Validation: " + sub)
+        if (sub == true) {
+          this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value, this.pricingGroup.value.CCEmail).subscribe(sub => {
+            console.log("received request form Finalised");
+
+            this.quoteFinalised = true;
+            alert('Quote Finalised')
+          });
+        }
+      })
+    }
   }
 
   viewQuote() {

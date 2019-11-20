@@ -77,9 +77,9 @@ export class ProductDetailsComponent implements OnInit {
 
     if (this.QuoteID != "" && this.CompanyName != "") {
 
-      if (localStorage.getItem('parts_list_' + this.CompanyName) != null) {
+      if (sessionStorage.getItem('parts_list_' + this.CompanyName) != null) {
         delayedLoad = 500;
-        this.partList = JSON.parse(localStorage.getItem('parts_list_' + this.CompanyName));
+        this.partList = JSON.parse(sessionStorage.getItem('parts_list_' + this.CompanyName));
       }
       else {
         delayedLoad = 5000;
@@ -89,7 +89,7 @@ export class ProductDetailsComponent implements OnInit {
             this.partList.push({ id: element.id, name: element.name });
           });
 
-          localStorage.setItem('parts_list_' + this.CompanyName, JSON.stringify(this.partList));
+          sessionStorage.setItem('parts_list_' + this.CompanyName, JSON.stringify(this.partList));
 
         });
       }
