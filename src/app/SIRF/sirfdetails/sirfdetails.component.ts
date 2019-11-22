@@ -24,6 +24,7 @@ export class SIRFDetailsComponent implements OnInit {
   public sirfDetail: FormGroup;
   public SIRFID: number = 0;
   public categoriesNotSelectedError = false;
+  public showSaved = false;
 
 
   constructor(
@@ -98,12 +99,24 @@ export class SIRFDetailsComponent implements OnInit {
         CustomerResponsePreventiveActions : this.sirfDetail.value.CustomerResponsePreventiveCorrectiveActions,
         DateOfImplementation : this.sirfDetail.value.DateOfImplementation,
         FirstName : this.sirfDetail.value.FirstName,
-        LastName : this.sirfDetail.value.LastName
+        LastName : this.sirfDetail.value.LastName,
+        RootCauseOtherComment : ''
       };
-      
+
+      if(this.sirfCategory.sirfRootCause.value.comments != ''){
+        data.RootCauseOtherComment = this.sirfCategory.sirfRootCause.value.comments;
+      }      
+
+
 
       this.SIRF.updateSIRFDetails(data).subscribe(sub=>{
               console.log(data);
+              this.showSaved = true;
+              this.sirfCategory.loadData();
+              
+              setTimeout(() => {
+                this.showSaved = false;
+              }, 5000);
       });
 
       $event.preventDefault();

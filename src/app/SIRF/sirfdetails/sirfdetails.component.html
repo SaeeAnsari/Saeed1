@@ -59,6 +59,9 @@
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
                 <button type="submit" color="warn" (click)="Submit($event)">Submit</button>
             </mat-button-toggle-group>
+            <i *ngIf="showSaved" class="material-icons" color="primary">
+                check_circle
+            </i>
         </div>
     </mat-card>
 </form>

@@ -88,6 +88,7 @@ export class RootCauseCategoryListComponent implements OnInit {
               that.IsRootCauseSelected = true;
               if (o.id == 13) {
                 that.sirfRootCause.controls.comments.enable();
+                that.sirfRootCause.controls.comments.setValue(item.name);
                 that.IsOtherChecked = true;
               }
             }

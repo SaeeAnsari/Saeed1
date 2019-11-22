@@ -30,4 +30,6 @@
     min-height: 100px;
   }
 
-  
+  div i{
+    padding-left: 20px;
+  }
