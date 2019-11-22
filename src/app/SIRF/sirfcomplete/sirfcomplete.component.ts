@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SirfInitaiteService } from '../Providers/sirf-initaite.service';
 import { SIRFInitiateComponent } from '../sirfinitiate/sirfinitiate.component';
+import { SIRFDetailsComponent } from '../sirfdetails/sirfdetails.component';
 
 @Component({
   selector: 'app-sirfcomplete',
@@ -14,6 +15,8 @@ export class SIRFCompleteComponent implements OnInit {
 
   public sirfData = null;
   @ViewChild("initiate", {static: false}) initiate: SIRFInitiateComponent;
+  @ViewChild("details", {static: false}) details: SIRFDetailsComponent;
+  
 
   constructor(private route: ActivatedRoute,
     private router: Router, private sirf: SirfInitaiteService) {
@@ -41,6 +44,7 @@ export class SIRFCompleteComponent implements OnInit {
     this.sirf.getSIRF(this.SIRFID).subscribe(sub => {
       this.sirfData = sub;
       this.initiate.SetValues(this.sirfData);
+      this.details.SetValue(this.sirfData);
     });
   }
 

@@ -29,6 +29,7 @@ import { BaseLinkService } from 'src/app/PRICING/Providers/base-link.service';
 export class SirfInitaiteService {
 
 
+
   private _url = BaseLinkService.GetBaseUrl() + '/SIRF';
 
   constructor(private _http: Http) { }
@@ -109,7 +110,7 @@ export class SirfInitaiteService {
 
 
     return this._http.post(this._url + '/SIRFAddCost',
-    data
+      data
       ,
       { headers: header })
       .map(post => post.json())
@@ -125,7 +126,7 @@ export class SirfInitaiteService {
 
 
     return this._http.post(this._url + '/SIRFDeleteCost',
-    costCategoryID
+      costCategoryID
       ,
       { headers: header })
       .map(post => post.json())
@@ -167,11 +168,11 @@ export class SirfInitaiteService {
       'Content-Type': 'application/json',
       'Accept': 'q=0.8;application/json;q=0.9'
     });
-    
+
 
 
     return this._http.post(this._url + '/UpdateSIRFRootCauseItem',
-    JSON.stringify(data)
+      JSON.stringify(data)
       ,
       { headers: header })
       .map(post => post.json())
@@ -183,6 +184,23 @@ export class SirfInitaiteService {
 
     return this._http.get(this._url + '/GetSIRF?SIRFID=' + sirfNumber)
       .map(ret => ret.json());
+  }
+
+
+  updateSIRFDetails(data) {
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+
+
+    return this._http.post(this._url + '/UpdateSIRFDetails',
+      data
+      ,
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
   }
 
 

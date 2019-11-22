@@ -17,8 +17,8 @@
       padding-left: 20px;
   }
 
-  .container-full-width textarea{
+  .container-full-width {textarea{
     min-height: 100px;
-    min-width: 600px;
+    min-width: 600px;}
     
   }

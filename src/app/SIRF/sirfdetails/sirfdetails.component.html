@@ -1,4 +1,4 @@
-<form class="container" [formGroup]="sirfDetail">
+<form class="container" [formGroup]="sirfDetail" (ngSubmit)="Submit($event)">
 
     <mat-card class="container-padding">
 
@@ -11,16 +11,15 @@
                 formControlName="InternalPreventiveCorrectiveActions" required></textarea>
         </mat-form-field>
         <mat-form-field class="container-full-width">
-            <textarea matInput placeholder="Customer Root Cause" formControlName="CustomerRootCause"
-                required></textarea>
+            <textarea matInput placeholder="Customer Root Cause" formControlName="CustomerRootCause"></textarea>
         </mat-form-field>
 
         <mat-form-field class="container-full-width">
             <textarea matInput placeholder="Customer Response Preventive/ Corrective Actions"
-                formControlName="CustomerResponsePreventiveCorrectiveActions" required></textarea>
+                formControlName="CustomerResponsePreventiveCorrectiveActions"></textarea>
         </mat-form-field>
 
-        <app-sirfcost-tracking SIRFNumber={{SIRFID}}></app-sirfcost-tracking>
+        <app-sirfcost-tracking #costTracking SIRFNumber={{SIRFID}}></app-sirfcost-tracking>
         <br><br>
 
         <mat-form-field class="container-half-width">
@@ -46,15 +45,20 @@
             <input matInput placeholder="Last Name" formControlName="LastName">
         </mat-form-field>
 
+        <br>
+        <app-root-cause-category-list #sirfCategory SIRFNumber={{SIRFID}}></app-root-cause-category-list>
 
 
 
-        <div *ngIf="SIRFCompleteMode!='true'">
-            <br><br>
+
+        <div>
+            <br>
+            <mat-error *ngIf="categoriesNotSelectedError">Please select a Root Cause Category</mat-error>
+
+            <br>
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
-                <mat-button-toggle color="warn" (click)="Submit()">Submit</mat-button-toggle>
+                <button type="submit" color="warn" (click)="Submit($event)">Submit</button>
             </mat-button-toggle-group>
         </div>
-
     </mat-card>
 </form>

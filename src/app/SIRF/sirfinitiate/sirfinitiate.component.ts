@@ -81,12 +81,18 @@ export class SIRFInitiateComponent implements OnInit {
 
     console.log('Initiate=>SIRFCompleteMode: ' + this.SIRFCompleteMode);
 
+
+    if(this.SIRFCompleteMode == 'true'){
+     this.sirfGroup.disable();
+    }
+
+
     this.sirfGroup.valueChanges.subscribe(val => {
       this.sirfGroup.updateValueAndValidity({ onlySelf: false, emitEvent: false })
     });
 
-    //this.sirfGroup.controls.SIRFNumber.disable();
-    //this.sirfGroup.controls.RequestedDate.disable();
+    this.sirfGroup.controls.SIRFNumber.disable();
+    this.sirfGroup.controls.RequestedDate.disable();
 
     this.defaultFields();
   }

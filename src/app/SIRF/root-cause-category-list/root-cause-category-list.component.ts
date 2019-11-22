@@ -36,9 +36,9 @@ export class RootCauseCategoryListComponent implements OnInit {
     private SIRF: SirfInitaiteService
   ) {
 
-    
 
-   
+
+
 
     this.sirfRootCause = fb.group({
       comments: ['']
@@ -54,7 +54,7 @@ export class RootCauseCategoryListComponent implements OnInit {
     if (this.SIRFNumber != '') {
       this.SIRFID = +this.SIRFNumber;
     }
-    
+
 
     if (this.SIRFID > 0) {
       this.loadData();
@@ -100,13 +100,17 @@ export class RootCauseCategoryListComponent implements OnInit {
 
   check_change(e, categoryID) {
 
-    if (categoryID == 13) {
-      this.sirfRootCause.controls.comments.enable();
-      this.IsOtherChecked = true;
-    }
-
-
     if (e != null) {
+
+      if (categoryID == 13 && e.checked) {
+        this.sirfRootCause.controls.comments.enable();
+        this.IsOtherChecked = true;
+      }
+      else if (categoryID == 13 && !e.checked) {
+        this.sirfRootCause.controls.comments.disable();
+        this.IsOtherChecked = false;
+      }
+
       var data = {
         SIRFNumber: this.SIRFID,
         SIRFRootCategoryID: categoryID,
@@ -120,8 +124,6 @@ export class RootCauseCategoryListComponent implements OnInit {
 
     this.SIRF.updateSIRFRootCauseItem(data).subscribe(sub => {
       this.loadData();
-
-
 
     });
   }
