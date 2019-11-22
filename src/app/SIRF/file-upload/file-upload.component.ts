@@ -33,6 +33,7 @@ export class FileUploadComponent implements OnInit {
       By the default, it's set to 'image/*'. */
   @Input() accept = 'image/*';
   /** Allow you to add handler after its completion. Bubble up response text from remote. */
+  
 
 
 
@@ -121,7 +122,7 @@ export class FileUploadComponent implements OnInit {
     if (index > -1) {
       this.files.splice(index, 1);
     }
-  }
+  }  
 
 }
 

@@ -37,7 +37,7 @@
 
         <mat-form-field class="container-half-width">
             <mat-label>Priority Level</mat-label>
-            <mat-select name="lstPriorityLevel" formControlName="Priority" required >
+            <mat-select name="lstPriorityLevel" formControlName="Priority" required>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let item of priorities" [value]="item.id">
                     {{item.name}}
@@ -120,8 +120,7 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput [matDatepicker]="pickerRD" placeholder="Requested Date" formControlName="RequestedDate"
-            >
+            <input matInput [matDatepicker]="pickerRD" placeholder="Requested Date" formControlName="RequestedDate">
             <mat-datepicker-toggle matSuffix [for]="pickerRD"></mat-datepicker-toggle>
             <mat-datepicker #pickerRD></mat-datepicker>
         </mat-form-field>
@@ -199,11 +198,22 @@
 
         </div>
 
+        <div class="container-half-width">
+            <div *ngFor="let item of SIRFAttachmentsVIew">
+
+                    <button mat-flat-button (click)="openDocument(item)">{{item}}</button>
+
+                
 
 
-        
+            </div>
+        </div>
+
+
+
+
         <div *ngIf="SIRFCompleteMode!='true'">
-                <br><br>
+            <br><br>
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
                 <button type="submit" color="warn" (click)="Submit($event)">Submit</button>
             </mat-button-toggle-group>

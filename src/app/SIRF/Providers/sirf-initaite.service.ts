@@ -203,8 +203,15 @@ export class SirfInitaiteService {
       .catch(this.handleError);
   }
 
+  public sirfGetAttachments(sirfNumber) {
 
+    return this._http.get(this._url + '/SIRFGetAttachments?SIRFNumber=' + sirfNumber)
+      .map(ret => ret.json());
+  }
 
+  public sirfSaveAttachment(sirfNumber, fileName) {
 
-
+    return this._http.get(this._url + '/SIRFSaveAttachment?SIRFNumber=' + sirfNumber + '&Filename=' + fileName)
+      .map(ret => ret.json());
+  }
 }

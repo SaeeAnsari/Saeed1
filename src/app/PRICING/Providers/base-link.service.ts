@@ -39,5 +39,9 @@ export class BaseLinkService {
         .map(ret => ret.json());      
    }
 
+   public static GetFileDownloadFolder(){
+    return 'http://localhost/Caldic.API/FileUploads/';
+   }
+
    
 }

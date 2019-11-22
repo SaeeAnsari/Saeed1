@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Observable } from 'rxjs';
 import { InitiateProviderService } from 'src/app/PRICING/Providers/initiate-provider.service';
 import { SirfInitaiteService } from '../Providers/sirf-initaite.service';
+import { BaseLinkService } from 'src/app/PRICING/Providers/base-link.service';
 
 
 @Component({
@@ -18,6 +19,9 @@ export class SIRFInitiateComponent implements OnInit {
   public selectedPart = '';
   @Input() SIRFCompleteMode = 'false';
 
+  public SIRFAttachments = [];
+  public SIRFAttachmentsVIew = [];
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -26,7 +30,7 @@ export class SIRFInitiateComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private initiate: InitiateProviderService,
     private SIRF: SirfInitaiteService,
-    ) {
+  ) {
 
     this.sirfGroup = fb.group({
 
@@ -53,6 +57,7 @@ export class SIRFInitiateComponent implements OnInit {
       ComplaintSampleReceived: ['']
 
     });
+    this.SIRFAttachments = [];
   }
 
   @Input() SIRFNumber = '';
@@ -82,8 +87,8 @@ export class SIRFInitiateComponent implements OnInit {
     console.log('Initiate=>SIRFCompleteMode: ' + this.SIRFCompleteMode);
 
 
-    if(this.SIRFCompleteMode == 'true'){
-     this.sirfGroup.disable();
+    if (this.SIRFCompleteMode == 'true') {
+      this.sirfGroup.disable();
     }
 
 
@@ -174,25 +179,27 @@ export class SIRFInitiateComponent implements OnInit {
       this.sirfGroup.controls.ReoccuringIssue.setValue(data.reoccuringIssueID.toString());
       this.sirfGroup.controls.ProductType.setValue(data.productType);
       this.sirfGroup.controls.ComplaintDetails.setValue(data.complaintDetails);
-      
-      
-      this.initiate.getPartList(data.companyName, 'e.desc_long_stock').subscribe(sub=>{
+
+
+      this.initiate.getPartList(data.companyName, 'e.desc_long_stock').subscribe(sub => {
         this.partList = sub;
       });
 
-      
+
       this.sirfGroup.controls.PartID.setValue(data.partID);
       this.sirfGroup.controls.PartName.setValue(data.partID);
       this.sirfGroup.controls.SalesOrderNumber.setValue(data.salesOrderNumber);
       this.sirfGroup.controls.LotNumber.setValue(data.lotNumber);
       this.sirfGroup.controls.CustomerPO.setValue(data.customerPO);
       this.sirfGroup.controls.ComplaintSampleReceived.setValue(data.complaintSampleReceived)
-    
+
+      this.loadAttachments();
+
       this.customers = [];
 
-      this.initiate.getCustomerNameList(data.companyName).subscribe(sub=>{
+      this.initiate.getCustomerNameList(data.companyName).subscribe(sub => {
         this.customers = sub;
-      })           
+      })
     }
   }
 
@@ -243,6 +250,8 @@ export class SIRFInitiateComponent implements OnInit {
 
       this.SIRF.submitOpportunity(data).subscribe(sub => {
         this.SIRFID = sub;
+
+        this.saveAttachments();
         this.sirfGroup.reset();
         alert('Service Improvement Request Form Submitted');
 
@@ -251,7 +260,47 @@ export class SIRFInitiateComponent implements OnInit {
       $event.preventDefault();
     }
   }
+  public saveAttachments() {
+
+
+    if (this.SIRFID > 0) {
+      this.SIRFAttachments.forEach(element => {
+        this.SIRF.sirfSaveAttachment(this.SIRFID, element).subscribe();       
+      });
+
+      setTimeout(() => {
+        this.loadAttachments();
+      }, 1000);
+      
+    }
+
+    this.SIRFAttachments = [];
+  }
+
+ public buildFileDownloadLink(fileName){
+   return BaseLinkService.GetFileDownloadFolder() + fileName;
+ }
+
+ public loadAttachments(){
+   this.SIRFAttachmentsVIew = [];
+   this.SIRF.sirfGetAttachments(this.SIRFID).subscribe(sub=>{
+     this.SIRFAttachmentsVIew = sub;
+   })
+ }
+
+
   onFileComplete(data: any) {
-    console.log(data); // We just print out data bubbled up from event emitter.
+
+    var filename = data;
+
+    this.SIRFAttachmentsVIew.push(data);
+    this.SIRFAttachments.push(data);
+    if (this.SIRFID > 0) {
+      this.saveAttachments();
+    }
+  }
+
+  public openDocument(item){
+    window.open(this.buildFileDownloadLink(item), "_blank");
   }
 }
