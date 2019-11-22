@@ -15,6 +15,9 @@ import { SirfInitaiteService } from '../Providers/sirf-initaite.service';
 })
 export class SIRFInitiateComponent implements OnInit {
 
+  public selectedPart = '';
+  @Input() SIRFCompleteMode = 'false';
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -22,7 +25,8 @@ export class SIRFInitiateComponent implements OnInit {
     public dialog: MatDialog,
     private activeRoute: ActivatedRoute,
     private initiate: InitiateProviderService,
-    private SIRF: SirfInitaiteService) {
+    private SIRF: SirfInitaiteService,
+    ) {
 
     this.sirfGroup = fb.group({
 
@@ -37,7 +41,7 @@ export class SIRFInitiateComponent implements OnInit {
       BusinessRegion: ['', [Validators.required]],
       DateOfIncident: ['', [Validators.required]],
       RequestedBy: ['', [Validators.required]],
-      RequestedDate: [''],
+      RequestedDate: [new Date()],
       ReoccuringIssue: ['', [Validators.required]],
       ProductType: [''],
       ComplaintDetails: ['', [Validators.required]],
@@ -47,9 +51,11 @@ export class SIRFInitiateComponent implements OnInit {
       LotNumber: [''],
       CustomerPO: [''],
       ComplaintSampleReceived: ['']
-      
+
     });
   }
+
+  @Input() SIRFNumber = '';
 
   public sirfGroup: FormGroup;
   public SIRFID: number = 0;
@@ -66,12 +72,15 @@ export class SIRFInitiateComponent implements OnInit {
 
   public requestDate;
   public selectedCompany = '';
-  public selectedCustomer ='';
+  public selectedCustomer = '';
 
 
   ngOnInit() {
-    
-    
+
+    if (this.SIRFNumber != '') this.SIRFID = +this.SIRFNumber;
+
+    console.log('Initiate=>SIRFCompleteMode: ' + this.SIRFCompleteMode);
+
     this.sirfGroup.valueChanges.subscribe(val => {
       this.sirfGroup.updateValueAndValidity({ onlySelf: false, emitEvent: false })
     });
@@ -79,12 +88,12 @@ export class SIRFInitiateComponent implements OnInit {
     //this.sirfGroup.controls.SIRFNumber.disable();
     //this.sirfGroup.controls.RequestedDate.disable();
 
-    this.loadSIRF();
+    this.defaultFields();
   }
 
-  private loadSIRF() {
+  private defaultFields() {
 
-    if(this.SIRFID <1){
+    if (this.SIRFID < 1) {
       this.sirfGroup.controls.SIRFNumber.disable();
       this.sirfGroup.controls.RequestedDate.disable();
     }
@@ -122,76 +131,121 @@ export class SIRFInitiateComponent implements OnInit {
       this.customerRegions = sub;
     })
 
-    this.SIRF.getRequestCategories().subscribe(sub=>{
+    this.SIRF.getRequestCategories().subscribe(sub => {
       this.reoccuringIssue = sub;
     })
 
     this.requestDate = new Date().toLocaleDateString();
 
-
-    
   }
 
 
   public companyname_change(e) {
-    this.initiate.getCustomerIDList(this.selectedCompany).subscribe(sub=>{
+    this.initiate.getCustomerIDList(this.selectedCompany).subscribe(sub => {
       this.customers = sub;
     })
 
-    this.initiate.getPartList(this.selectedCompany, "e.desc_long_stock").subscribe(sub=>{
+    this.initiate.getPartList(this.selectedCompany, "e.desc_long_stock").subscribe(sub => {
       this.partList = sub;
-    })    
+    })
   }
 
-  public customer_change(e){
+  public SetValues(data) {
 
+    if (data != null) {
+      this.sirfGroup.controls.SIRFNumber.setValue(data.sirfNumber);
+      this.sirfGroup.controls.PrimaryResponsibility.setValue(data.primaryResponsibilityID.toString());
+      this.sirfGroup.controls.CompanyName.setValue(data.companyName);
+      this.sirfGroup.controls.Priority.setValue(data.priorityID.toString());
+      this.sirfGroup.controls.RequestCategory.setValue(data.requestCategoryID.toString());
+      this.sirfGroup.controls.CustomerID.setValue(data.customerID.toString());
+      this.sirfGroup.controls.CustomerName.setValue(data.customerName);
+      this.sirfGroup.controls.CustomerRegion.setValue(data.customerRegionID.toString());
+      this.sirfGroup.controls.BusinessRegion.setValue(data.businessRegionID.toString());
+      this.sirfGroup.controls.DateOfIncident.setValue(data.dateOfIncident);
+      this.sirfGroup.controls.RequestedBy.setValue(data.requestedBy);
+      this.sirfGroup.controls.RequestedDate.setValue(new Date(Date.parse(data.requestedDate)));
+      this.sirfGroup.controls.ReoccuringIssue.setValue(data.reoccuringIssueID.toString());
+      this.sirfGroup.controls.ProductType.setValue(data.productType);
+      this.sirfGroup.controls.ComplaintDetails.setValue(data.complaintDetails);
+      
+      
+      this.initiate.getPartList(data.companyName, 'e.desc_long_stock').subscribe(sub=>{
+        this.partList = sub;
+      });
 
-  this.sirfGroup.controls.CustomerID.setValue(this.selectedCustomer);
-  this.sirfGroup.controls.CustomerName.setValue(this.selectedCustomer);
+      
+      this.sirfGroup.controls.PartID.setValue(data.partID);
+      this.sirfGroup.controls.PartName.setValue(data.partID);
+      this.sirfGroup.controls.SalesOrderNumber.setValue(data.salesOrderNumber);
+      this.sirfGroup.controls.LotNumber.setValue(data.lotNumber);
+      this.sirfGroup.controls.CustomerPO.setValue(data.customerPO);
+      this.sirfGroup.controls.ComplaintSampleReceived.setValue(data.complaintSampleReceived)
+    
+      this.customers = [];
+
+      this.initiate.getCustomerNameList(data.companyName).subscribe(sub=>{
+        this.customers = sub;
+      })           
+    }
   }
 
-  public Submit(){
-    if(this.sirfGroup.valid){
-      
-      
+  public customer_change(e) {
+
+
+    this.sirfGroup.controls.CustomerID.setValue(this.selectedCustomer);
+    this.sirfGroup.controls.CustomerName.setValue(this.selectedCustomer);
+  }
+
+  public Submit($event) {
+    if (this.sirfGroup.valid) {
+
+
       var data = {
-        SIRFNumber : this.sirfGroup.value.SIRFNumber,
+        SIRFNumber: this.sirfGroup.value.SIRFNumber,
         PrimaryResponsibilityID: this.sirfGroup.value.PrimaryResponsibility,
-        CompanyName : this.sirfGroup.value.CompanyName.trim(),
-        PriorityID : this.sirfGroup.value.Priority,
-        RequestCategoryID : this.sirfGroup.value.RequestCategory,
-        CustomerID : this.sirfGroup.value.CustomerID,
-        CustomerName : this.sirfGroup.value.CustomerName,
-        CustomerRegionID : this.sirfGroup.value.CustomerRegion,
-        BusinessRegionID : this.sirfGroup.value.BusinessRegion,
-        DateOfIncident : this.sirfGroup.value.DateOfIncident,
-        RequestedDate : this.sirfGroup.value.RequestedDate,
-        RequestedBy : this.sirfGroup.value.RequestedBy,
-        ReoccuringIssueID : this.sirfGroup.value.ReoccuringIssue,      
-        ProductType : this.sirfGroup.value.ProductType,
+        CompanyName: this.sirfGroup.value.CompanyName.trim(),
+        PriorityID: this.sirfGroup.value.Priority,
+        RequestCategoryID: this.sirfGroup.value.RequestCategory,
+        CustomerID: this.sirfGroup.value.CustomerID,
+        CustomerName: this.sirfGroup.value.CustomerName,
+        CustomerRegionID: this.sirfGroup.value.CustomerRegion,
+        BusinessRegionID: this.sirfGroup.value.BusinessRegion,
+        DateOfIncident: this.sirfGroup.value.DateOfIncident,
+        RequestedDate: this.sirfGroup.value.RequestedDate,
+        RequestedBy: this.sirfGroup.value.RequestedBy,
+        ReoccuringIssueID: this.sirfGroup.value.ReoccuringIssue,
+        ProductType: this.sirfGroup.value.ProductType,
         ComplaintDetails: this.sirfGroup.value.ComplaintDetails,
-        PartID : this.sirfGroup.value.PartID,
-        PartName : this.sirfGroup.value.PartName,
-        SalesOrderNumber : this.sirfGroup.value.SalesOrderNumber,
-        LotNumber : this.sirfGroup.value.LotNumber,
-        CustomerPO : this.sirfGroup.value.CustomerPO,
-        ComplaintSampleReceived : this.sirfGroup.value.ComplaintSampleReceived
+        PartID: this.sirfGroup.value.PartID,
+        PartName: this.sirfGroup.value.PartName,
+        SalesOrderNumber: this.sirfGroup.value.SalesOrderNumber,
+        LotNumber: this.sirfGroup.value.LotNumber,
+        CustomerPO: this.sirfGroup.value.CustomerPO,
+        ComplaintSampleReceived: this.sirfGroup.value.ComplaintSampleReceived
       };
 
-      if(this.SIRFID <1){
+      data.PartName = this.partList.filter(function (item) {
+        return item.id == data.PartID;
+      })[0].name;
+
+
+      if (this.SIRFID < 1) {
         data.RequestedDate = new Date().toLocaleDateString();
       }
-      
-    
-      this.SIRF.submitOpportunity(data).subscribe(sub=>{
+
+
+      this.SIRF.submitOpportunity(data).subscribe(sub => {
         this.SIRFID = sub;
         this.sirfGroup.reset();
         alert('Service Improvement Request Form Submitted');
 
       })
+
+      $event.preventDefault();
     }
   }
   onFileComplete(data: any) {
     console.log(data); // We just print out data bubbled up from event emitter.
-}
+  }
 }

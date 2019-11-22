@@ -16,7 +16,7 @@ import { utf8Encode } from '@angular/compiler/src/util';
 })
 export class RootCauseCategoryListComponent implements OnInit {
 
-  @Input() SIRFNumber;
+  @Input() SIRFNumber = '';
 
   public SIRFID: number = 0;
 
@@ -36,11 +36,9 @@ export class RootCauseCategoryListComponent implements OnInit {
     private SIRF: SirfInitaiteService
   ) {
 
-    this.SIRFNumber = '0'
+    
 
-    if (this.SIRFNumber != '') {
-      this.SIRFID = +this.SIRFNumber;
-    }
+   
 
     this.sirfRootCause = fb.group({
       comments: ['']
@@ -52,6 +50,11 @@ export class RootCauseCategoryListComponent implements OnInit {
 
 
   ngOnInit() {
+
+    if (this.SIRFNumber != '') {
+      this.SIRFID = +this.SIRFNumber;
+    }
+    
 
     if (this.SIRFID > 0) {
       this.loadData();

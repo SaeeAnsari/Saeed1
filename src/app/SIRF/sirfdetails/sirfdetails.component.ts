@@ -14,6 +14,9 @@ import { SirfInitaiteService } from '../Providers/sirf-initaite.service';
 })
 export class SIRFDetailsComponent implements OnInit {
 
+  @Input() SIRFNumber = '';
+  @Input() SIRFCompleteMode = 'false';
+
   public sirfDetail: FormGroup;
   public SIRFID: number = 0;
 
@@ -40,6 +43,10 @@ export class SIRFDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.SIRFNumber != '') this.SIRFID = +this.SIRFNumber;     
+
+    console.log('Details=>SIRFCompleteMode: ' + this.SIRFCompleteMode);
+  
   }
 
 }

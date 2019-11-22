@@ -33,9 +33,7 @@ export class SIRFCostTrackingComponent implements OnInit {
     private initiate: InitiateProviderService,
     private SIRF: SirfInitaiteService) {
 
-      if(this.SIRFNumber != ''){
-        this.SIRFID = +this.SIRFNumber;
-      }
+      
 
     this.sirfCost = fb.group({
 
@@ -46,6 +44,11 @@ export class SIRFCostTrackingComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    if(this.SIRFNumber != ''){
+      this.SIRFID = +this.SIRFNumber;
+    }
+    
     if (this.SIRFID > 0) {
       this.loadData();
     }

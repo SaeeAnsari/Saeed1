@@ -48,8 +48,9 @@
 
 
 
-        <br><br>
-        <div>
+
+        <div *ngIf="SIRFCompleteMode!='true'">
+            <br><br>
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
                 <mat-button-toggle color="warn" (click)="Submit()">Submit</mat-button-toggle>
             </mat-button-toggle-group>

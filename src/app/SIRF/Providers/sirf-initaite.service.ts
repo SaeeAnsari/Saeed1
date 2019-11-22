@@ -179,6 +179,12 @@ export class SirfInitaiteService {
   }
 
 
+  public getSIRF(sirfNumber) {
+
+    return this._http.get(this._url + '/GetSIRF?SIRFID=' + sirfNumber)
+      .map(ret => ret.json());
+  }
+
 
 
 

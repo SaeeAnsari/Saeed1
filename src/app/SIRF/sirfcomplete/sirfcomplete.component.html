@@ -1,4 +1,3 @@
-<app-sirfinitiate></app-sirfinitiate>
-<app-sirfdetails></app-sirfdetails>
-<app-root-cause-category-list></app-root-cause-category-list>
-<app-material-file-upload></app-material-file-upload>
+<app-sirfinitiate #initiate SIRFNumber={{SIRFID}} SIRFCompleteMode="true" ></app-sirfinitiate>
+<app-sirfdetails SIRFNumber={{SIRFID}} SIRFCompleteMode="true" ></app-sirfdetails>
+<app-root-cause-category-list SIRFNumber={{SIRFID}}></app-root-cause-category-list>

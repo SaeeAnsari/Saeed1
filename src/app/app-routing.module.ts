@@ -14,12 +14,16 @@ import { SIRFCompleteComponent } from './SIRF/sirfcomplete/sirfcomplete.componen
 
 
 const routes: Routes = [
-  { path: '', component: PricingInitiateComponent},
+  { path: '', component: SIRFCompleteComponent},
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},
   { path: 'pricingFinalise', component: PricingFinalisedComponent},
-  { path: 'quoteReport/:quoteID', component: QuoteReportV2Component}
+  { path: 'quoteReport/:quoteID', component: QuoteReportV2Component},
+  { path: 'sirfCompleted', component: SIRFCompleteComponent},
+  { path: 'sirfCompleted/:sirfID', component: SIRFCompleteComponent},
+  { path: 'sirfInitiate', component: SIRFInitiateComponent}
+
 ];
 
 @NgModule({
