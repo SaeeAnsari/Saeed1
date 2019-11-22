@@ -9,21 +9,40 @@ import { BaseLinkService } from './PRICING/Providers/base-link.service';
   providers: [BaseLinkService]
 })
 export class AppComponent {
-  title = 'bootstraptest';
+  public title = 'Pricing Portal';
 
 
-  constructor(private router: Router, private route: ActivatedRoute, private baseLink: BaseLinkService){
+  constructor(private router: Router, private route: ActivatedRoute, private baseLink: BaseLinkService) {
 
+    var titleSet = false;
+
+    router.events.subscribe((e: any) => {
+      if (!titleSet) {
+
+        try {
+
+          if (e != null && e.url != null) {
+
+            if (e.url.toLowerCase().indexOf('sirf') > -1) {
+              this.title = "Service Improvement Request Form"
+            }
+          }
+        }
+        catch (e) { }
+      }
+
+
+    })
   }
 
 
-  pricingHome_Click(){
-    this.baseLink.GetPricingHome().subscribe(sub=>{
+  pricingHome_Click() {
+    this.baseLink.GetPricingHome().subscribe(sub => {
       window.location.href = sub;
-    })    
+    })
   }
 
-  search_Click(){
+  search_Click() {
     this.router.navigate(['pricingsearch']);
   }
 }
