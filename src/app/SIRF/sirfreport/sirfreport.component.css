@@ -1,0 +1,48 @@
+#wrapper {
+    width:700px;
+}
+#left {
+    float:left;
+    width:300px;
+    line-height: 2.0;
+}
+#right {
+    float:right;
+    width: 300px;
+    line-height: 2.0;
+}
+
+#right2 {
+    padding-top: 20px;
+    float:right;    
+}
+
+table{
+    border: 1px solid black;
+}
+
+.table-container{
+    width:700px;
+    padding-top: 100px;
+    
+}
+
+
+
+.table-container tr:first-child { 
+    background-color: sandybrown;
+    font-weight: bold;
+    color: white;    
+    font-size: 12pt;
+    padding-top: 20px;
+    padding-bottom: 20px;
+ };
+
+ .table-container tr:first-child td { 
+    
+    padding-top: 20px;padding-bottom: 20px;
+ };
+
+ .table-container tr{
+    text-align: center;
+ }

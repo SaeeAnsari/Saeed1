@@ -1,0 +1,76 @@
+<div id="wrapper">
+
+    <h2>CALDIC CUSTOMER COMPLAINT ANALYSIS</h2><br>
+    <br>
+    <br>
+        
+
+    <div id="left">
+        Customer Name : {{data.customerName}}
+        Customer Region: {{data.customerRegion}}
+    </div>
+    <div id="right">
+        Complaint Number: {{data.SIRFNumber}} <br>
+        Request Date: {{data.requestDate}} <br>
+        Completion Date: {{data.completionDate}} <br>
+    </div>
+
+<br>
+
+<div class="table-container">
+    <table>
+        <tr>
+            <td style="width:350px;padding-top: 10px;padding-bottom: 10px;">Product Description</td>
+            <td style="width:250px;padding-top: 10px;padding-bottom: 10px;">Product Code</td>
+            <td style="width:100px;padding-top: 10px;padding-bottom: 10px;">Lot Number</td>
+        </tr>
+        <tr>
+            <td style="width:250px;padding-top: 10px;">{{data.productDescription}}</td>
+            <td style="width:200px;padding-top: 10px;">{{data.productCode}}</td>
+            <td style="width:100px;padding-top: 10px;">{{data.lotNumber}}</td>
+        </tr>
+    </table>
+
+
+</div>
+
+<div class="table-container" style="padding-top: 40px;">
+    <table>
+        <tr>
+            <td style="width:700px;padding-top: 10px;padding-bottom: 10px;">Details of the Complaint</td>
+
+        </tr>
+        <tr>
+            <td style="width:250px;padding-top: 10px;">{{data.complaint}}</td>
+
+        </tr>
+    </table>
+</div>
+<div class="table-container" style="padding-top: 40px;">
+    <table>
+        <tr>
+            <td style="width:700px;padding-top: 10px;padding-bottom: 10px;">RootCauseAnalysis</td>
+
+        </tr>
+        <tr>
+            <td style="width:250px;padding-top: 10px;">{{data.rootCauseAnalysis}}</td>
+
+        </tr>
+    </table>
+</div>
+
+<div class="table-container" style="padding-top: 40px;">
+    <table>
+        <tr>
+            <td style="width:700px;padding-top: 10px;padding-bottom: 10px;">Corrective/ Preventive Actions</td>
+
+        </tr>
+        <tr>
+            <td style="width:250px;padding-top: 10px;">{{data.correctiveActions}}</td>
+
+        </tr>
+    </table>
+</div>
+<div id="right2">
+    Completed By : {{data.requestedBy}}
+</div></div>

@@ -11,6 +11,7 @@ import { SIRFDetailsComponent } from './SIRF/sirfdetails/sirfdetails.component';
 import { SIRFCostTrackingComponent } from './SIRF/sirfcost-tracking/sirfcost-tracking.component';
 import { RootCauseCategoryListComponent } from './SIRF/root-cause-category-list/root-cause-category-list.component';
 import { SIRFCompleteComponent } from './SIRF/sirfcomplete/sirfcomplete.component';
+import { SIRFReportComponent } from './SIRF/sirfreport/sirfreport.component';
 
 
 const routes: Routes = [
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'quoteReport/:quoteID', component: QuoteReportV2Component},
   { path: 'sirfCompleted', component: SIRFCompleteComponent},
   { path: 'sirfCompleted/:sirfID', component: SIRFCompleteComponent},
-  { path: 'sirfInitiate', component: SIRFInitiateComponent}
+  { path: 'sirfInitiate', component: SIRFInitiateComponent},
+  { path: 'sirfReport', component: SIRFReportComponent},
 
 ];
 
