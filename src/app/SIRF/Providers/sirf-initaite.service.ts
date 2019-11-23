@@ -214,4 +214,11 @@ export class SirfInitaiteService {
     return this._http.get(this._url + '/SIRFSaveAttachment?SIRFNumber=' + sirfNumber + '&Filename=' + fileName)
       .map(ret => ret.json());
   }
+
+  public searchSIRF(searchCriteria) {
+
+    return this._http.get(this._url + '/SearchSIRF?searchCriteria=' + searchCriteria)
+      .map(ret => ret.json());
+  }
+
 }

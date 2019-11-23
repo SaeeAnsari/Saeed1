@@ -69,7 +69,7 @@ export class SIRFCostTrackingComponent implements OnInit {
   }
 
 
-  addCost() {
+  addCost($event) {
 
     if (this.sirfCost.valid) {
 
@@ -84,6 +84,8 @@ export class SIRFCostTrackingComponent implements OnInit {
         this.sirfCost.reset();
         this.loadData();
       });
+
+      $event.preventDefault();
     }
   }
 

@@ -15,17 +15,18 @@ import { SIRFReportComponent } from './SIRF/sirfreport/sirfreport.component';
 
 
 const routes: Routes = [
-  { path: '', component: SIRFCompleteComponent},
+  //{ path: '', component: SIRFSearchComponent},
   { path: 'pricingsearch', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},
-  { path: 'pricingFinalise', component: PricingFinalisedComponent},
-  { path: 'quoteReport/:quoteID', component: QuoteReportV2Component},
-  { path: 'sirfCompleted', component: SIRFCompleteComponent},
-  { path: 'sirfCompleted/:sirfID', component: SIRFCompleteComponent},
-  { path: 'sirfInitiate', component: SIRFInitiateComponent},
-  { path: 'sirfReport', component: SIRFReportComponent},
-  { path: 'sirfReport/:sirfID', component: SIRFReportComponent}
+  { path: 'pricingfinalise', component: PricingFinalisedComponent},
+  { path: 'quotereport/:quoteID', component: QuoteReportV2Component},
+  { path: 'sirfcompleted', component: SIRFCompleteComponent},
+  { path: 'sirfcompleted/:sirfID', component: SIRFCompleteComponent},
+  { path: 'sirfinitiate', component: SIRFInitiateComponent},
+  { path: 'sirfreport', component: SIRFReportComponent},
+  { path: 'sirfreport/:sirfID', component: SIRFReportComponent},
+  { path: 'sirfsearch', component: SIRFSearchComponent}
 
 ];
 

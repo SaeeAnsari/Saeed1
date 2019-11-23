@@ -1,0 +1,47 @@
+<form class="container" [formGroup]="sirfGroup">
+
+    <mat-card>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="SIRF Number" formControlName="SIRFNumber">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Customer Region" formControlName="CustomerRegion">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Primary Responsibility" formControlName="PrimaryResponsibility">
+        </mat-form-field>
+        
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Request Category" formControlName="RequestCategory">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Priority Level" formControlName="PriorityLevel">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Customer Name" formControlName="CustomerName">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Customer Region" formControlName="CustomerRegion">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Business Region" formControlName="BusinessRegion">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Date Of Incident" formControlName="DateOfIncident">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Requested By" formControlName="RequestedBy">
+        </mat-form-field>
+        <mat-form-field class="container-half-width">
+            <input matInput placeholder="Requested Date" formControlName="RequestedDate">
+        </mat-form-field>
+
+
+
+
+    </mat-card>
+    <mat-card>
+        <app-sirfcost-tracking SIRFNumber={{SIRFID}}></app-sirfcost-tracking>
+    </mat-card>
+
+</form>

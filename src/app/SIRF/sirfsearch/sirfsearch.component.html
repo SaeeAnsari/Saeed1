@@ -1,4 +1,4 @@
-<form class="container" [formGroup]="sirfGroup" (ngSubmit)="search()">
+<form class="container" [formGroup]="sirfGroup" (ngSubmit)="search('custom')">
 
     <mat-card>
         <mat-form-field class="container-full-width">
@@ -16,6 +16,10 @@
         </mat-form-field>
 
         <mat-form-field class="container-full-width">
+            <input matInput placeholder="Primary Responsible" formControlName="PrimaryResponsible">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
             <input matInput placeholder="Business Region" formControlName="BusinessRegion">
         </mat-form-field>
 
@@ -24,18 +28,38 @@
         </mat-form-field>
 
         <mat-form-field class="container-full-width">
-            <input matInput [matDatepicker]="picker" placeholder="Completion Date" formControlName="CompletionDate">
+            <input matInput placeholder="Customer Region" formControlName="CustomerRegion">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput [matDatepicker]="pickerDOI" placeholder="Date of incident" formControlName="DateOfIncident">
+            <mat-datepicker-toggle matSuffix [for]="pickerDOI"></mat-datepicker-toggle>
+            <mat-datepicker #pickerDOI></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field class="container-full-width">
+            <input matInput [matDatepicker]="pickerRD" placeholder="Request Date" formControlName="RequestedDate">
+            <mat-datepicker-toggle matSuffix [for]="pickerRD"></mat-datepicker-toggle>
+            <mat-datepicker #pickerRD></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput placeholder="Requested By" formControlName="RequestedBy">
+        </mat-form-field>
+
+        <mat-form-field class="container-full-width">
+            <input matInput [matDatepicker]="picker" placeholder="Completion Date"
+                formControlName="RequestCompletionDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-
-        <div *ngIf="validationError">
-            <p class="text-danger">** {{validationMessage}}</p>
-        </div>
+        <mat-error *ngIf="validationError">Please enter atleast 1 seach criteria</mat-error>
 
 
         <button type="submit" mat-raised-button>Search</button>
+        <button type="button" mat-raised-button (click)="search('pending')">All Pending</button>
 
     </mat-card>
 
@@ -48,45 +72,61 @@
 
             <ng-container matColumnDef="SIRFNumber">
                 <th mat-header-cell *matHeaderCellDef> SIRF Number </th>
-                <td mat-cell *matCellDef="let element"> {{element.SIRFNumber}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.sirfNumber}} </td>
             </ng-container>
 
 
             <ng-container matColumnDef="PriorityLevel">
                 <th mat-header-cell *matHeaderCellDef> PriorityLevel </th>
-                <td mat-cell *matCellDef="let element"> {{element.PriorityLevel}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.priorityLevel}} </td>
             </ng-container>
 
 
             <ng-container matColumnDef="RequestCategory">
                 <th mat-header-cell *matHeaderCellDef> Request Category </th>
-                <td mat-cell *matCellDef="let element"> {{element.RequestCategory}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.requestCategory}} </td>
             </ng-container>
 
 
             <ng-container matColumnDef="BusinessRegion">
                 <th mat-header-cell *matHeaderCellDef> Business Region </th>
-                <td mat-cell *matCellDef="let element"> {{element.BusinessRegion}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.businessRegion}} </td>
             </ng-container>
 
             <ng-container matColumnDef="CustomerName">
                 <th mat-header-cell *matHeaderCellDef> Customer Name</th>
-                <td mat-cell *matCellDef="let element"> {{element.CustomerName}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
             </ng-container>
 
             <ng-container matColumnDef="RequestedDate">
                 <th mat-header-cell *matHeaderCellDef> Requested Date</th>
-                <td mat-cell *matCellDef="let element"> {{element.RequestedDate}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.requestedDate}} </td>
             </ng-container>
 
             <ng-container matColumnDef="RequestedBy">
                 <th mat-header-cell *matHeaderCellDef> Requested By</th>
-                <td mat-cell *matCellDef="let element"> {{element.RequestedBy}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.requestedBy}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="RequestCompletionDate">
+            <ng-container matColumnDef="CompletionDate">
                 <th mat-header-cell *matHeaderCellDef> Completion Date </th>
-                <td mat-cell *matCellDef="let element"> {{element.RequestCompletionDate}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.completionDate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef>Actions </th>
+                <td mat-cell *matCellDef="let element">
+
+                    <mat-button-toggle [value]='element.sirfNumber' (click)="costCategory(element)">
+                        <mat-icon aria-hidden="false">monetization_on</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]='element.sirfNumber' (click)="lineEdit(element)">
+                        <mat-icon aria-hidden="false">edit</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]='element.sirfNumber' (click)="viewReport(element)">
+                        <mat-icon aria-hidden="false">description</mat-icon>
+                    </mat-button-toggle>
+                </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

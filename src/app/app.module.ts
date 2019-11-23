@@ -71,6 +71,7 @@ import { SIRFCostTrackingComponent } from './SIRF/sirfcost-tracking/sirfcost-tra
 import { RootCauseCategoryListComponent } from './SIRF/root-cause-category-list/root-cause-category-list.component';
 import { SIRFCompleteComponent } from './SIRF/sirfcomplete/sirfcomplete.component';
 import { SIRFReportComponent } from './SIRF/sirfreport/sirfreport.component';
+import { ModalCostCategoryComponent } from './SIRF/modal-cost-category/modal-cost-category.component';
 
 
 @NgModule({
@@ -85,7 +86,7 @@ import { SIRFReportComponent } from './SIRF/sirfreport/sirfreport.component';
     ProductDetailsComponent,
     ProductFinalisedComponent,
     PricingFinalisedComponent,        
-    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent, FileUploadComponent, SIRFDetailsComponent, SIRFCostTrackingComponent, RootCauseCategoryListComponent, SIRFCompleteComponent, SIRFReportComponent
+    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent, FileUploadComponent, SIRFDetailsComponent, SIRFCostTrackingComponent, RootCauseCategoryListComponent, SIRFCompleteComponent, SIRFReportComponent, ModalCostCategoryComponent
   ],
   imports: [
     BrowserModule,
@@ -142,6 +143,9 @@ import { SIRFReportComponent } from './SIRF/sirfreport/sirfreport.component';
   ],
   providers: [
     {provide: LocationStrategy, useClass: PathLocationStrategy},
+  ],
+  entryComponents: [
+    ModalCostCategoryComponent
   ],
   bootstrap: [AppComponent]
 })

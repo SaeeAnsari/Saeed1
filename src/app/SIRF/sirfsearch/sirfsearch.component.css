@@ -1,6 +1,6 @@
 .container {
     
-    max-width: 900px;
+    max-width: 1200px;
     width: 100%;
   }
   
@@ -8,6 +8,14 @@
     width: 40%;
     padding-left: 20px;
     padding-right: 40px;
+  }
+
+  table{
+    width: 100%;
+  }
+
+  button{
+    margin: 5px;
   }
 
 
