@@ -61,7 +61,16 @@ export class PricingInitiateComponent implements OnInit {
     this.productDetails.showProductDetails = true;
     this.productDetails.pricingGroup.reset();
     this.productDetails.quoteLineID = 0;
-    
-  }
-  
+
+   
+   var defaultCurrencyID = this.productDetails.currencyCodes.filter(function(item){
+    return item.name=='CAD';
+  })[0].id;
+
+   this.productDetails.pricingGroup.controls['UsageLevel'].setValue('0');
+   this.productDetails.pricingGroup.controls['CurrencyOfTargetPrice'].setValue(defaultCurrencyID.toString());
+   this.productDetails.pricingGroup.controls['TargetPrice'].setValue('0');  
+   this.productDetails.pricingGroup.controls['NotesAndComment'].setValue('N/A');  
+
+  }  
 }
