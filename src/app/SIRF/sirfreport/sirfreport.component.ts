@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SirfInitaiteService } from '../Providers/sirf-initaite.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sirfreport',
@@ -7,32 +9,79 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SIRFReportComponent implements OnInit {
 
-  constructor() { }
+
+  public SIRFID = 0;
+
+  constructor(private service: SirfInitaiteService, private route: ActivatedRoute, private router: Router) {
+    this.route.queryParams.subscribe(params => {
+      route.paramMap.subscribe(sub => {
+        if (sub.get("sirfID") != null) {
+          this.SIRFID = +sub.get("sirfID");
+        }
+      })
+    });
+
+  }
   public data = null;
   public sirf = null;
-  
+
+
 
   ngOnInit() {
     var x = document.getElementById('siteHeader');
-    if(x!= null){
+    if (x != null) {
       x.style.display = "none";
     }
 
+    /*
+    this.sirfGroup.controls.SIRFNumber.setValue(data.sirfNumber);
+      this.sirfGroup.controls.PrimaryResponsibility.setValue(data.primaryResponsibilityID.toString());
+      this.sirfGroup.controls.CompanyName.setValue(data.companyName);
+      this.sirfGroup.controls.Priority.setValue(data.priorityID.toString());
+      this.sirfGroup.controls.RequestCategory.setValue(data.requestCategoryID.toString());
+      this.sirfGroup.controls.CustomerID.setValue(data.customerID.toString());
+      this.sirfGroup.controls.CustomerName.setValue(data.customerName);
+      this.sirfGroup.controls.CustomerRegion.setValue(data.customerRegionID.toString());
+      this.sirfGroup.controls.BusinessRegion.setValue(data.businessRegionID.toString());
+      this.sirfGroup.controls.DateOfIncident.setValue(data.dateOfIncident);
+      this.sirfGroup.controls.RequestedBy.setValue(data.requestedBy);
+      this.sirfGroup.controls.RequestedDate.setValue(new Date(Date.parse(data.requestedDate)));
+      this.sirfGroup.controls.ReoccuringIssue.setValue(data.reoccuringIssueID.toString());
+      this.sirfGroup.controls.ProductType.setValue(data.productType);
+      this.sirfGroup.controls.ComplaintDetails.setValue(data.complaintDetails);
 
-    this.data = {
-      customerName : 'Westons - Cobourg',
-      customerRegion : 'Ontario',
-      SIRFNumber : '198',
-      requestDate :'08/25/2011',
-      completionDate : '09/09/2011',
-      productCode: 'NA',
-      productDescription: 'Weston Cobourg Pick-Ups',
-      lotNumber: 'NA',
-      complaint: 'Customer, Danielle Kennedy from Weston Cobourgh, stated that their driver for Shearer Transport said that there has been long wait times at Nealanders lately. Head office contacts were copied on this matter.',
-      rootCauseAnalysis: 'NA',
-      correctiveActions: 'NA',
-      requestedBy: 'sansari'
-    };    
+
+      this.sirfGroup.controls.PartID.setValue(data.partID);
+      this.sirfGroup.controls.PartName.setValue(data.partID);
+      this.sirfGroup.controls.SalesOrderNumber.setValue(data.salesOrderNumber);
+      this.sirfGroup.controls.LotNumber.setValue(data.lotNumber);
+      this.sirfGroup.controls.CustomerPO.setValue(data.customerPO);
+      this.sirfGroup.controls.ComplaintSampleReceived.setValue(data.complaintSampleReceived)
+    */
+
+    this.service.getSIRF(this.SIRFID).subscribe(sub => {
+
+      this.data = {
+        customerName: sub.customerName,
+        customerRegion: sub.customerRegionID.toString(),
+        SIRFNumber: sub.sirfNumber.toString(),
+        requestDate: (new Date(Date.parse(sub.requestedDate))).toLocaleDateString(),
+        completionDate: (new Date(Date.parse(sub.requestCompletionDate))).toLocaleDateString(),
+        productCode: sub.partID,
+        productDescription: sub.partName,
+        lotNumber: sub.lotNumber,
+        complaint: sub.complaintDetails,
+        rootCauseAnalysis: sub.rootCauseAnalysis,
+        correctiveActions: sub.correctiveAnalysis,
+        requestedBy: sub.requestedBy
+      };
+
+    });
+
+
+
+
+
 
 
 

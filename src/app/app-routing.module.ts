@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'sirfCompleted/:sirfID', component: SIRFCompleteComponent},
   { path: 'sirfInitiate', component: SIRFInitiateComponent},
   { path: 'sirfReport', component: SIRFReportComponent},
+  { path: 'sirfReport/:sirfID', component: SIRFReportComponent}
 
 ];
 
