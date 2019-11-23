@@ -374,9 +374,7 @@ export class InitiateMainComponent implements OnInit {
             alert('Quote Finalised')
           });
         }
-      })
-
-     
+      })     
     }
   }
 
