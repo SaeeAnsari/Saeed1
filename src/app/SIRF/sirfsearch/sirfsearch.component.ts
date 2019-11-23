@@ -4,6 +4,7 @@ import { SirfInitaiteService } from '../Providers/sirf-initaite.service';
 import { retryWhen } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalCostCategoryComponent } from '../modal-cost-category/modal-cost-category.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sirfsearch',
@@ -24,7 +25,7 @@ export class SIRFSearchComponent implements OnInit {
   public sirfGroup: FormGroup;
   public searchResults = [];
 
-  constructor(fb: FormBuilder, private sirf: SirfInitaiteService, public dialog: MatDialog) {
+  constructor(fb: FormBuilder, private sirf: SirfInitaiteService, public dialog: MatDialog, private router: Router) {
     this.sirfGroup = fb.group({
       SIRFNumber: [''],
       PriorityLevel: [''],
@@ -129,5 +130,13 @@ export class SIRFSearchComponent implements OnInit {
       width: '900px',
       data: {SIRFID: element.sirfNumber, raw: element}
     });    
+  }
+
+  viewReport(element){
+    window.open(window.location.href.replace('sirfsearch', 'sirfreport/' + element.sirfNumber.toString()), '_blank');    
+  }
+
+  lineEdit(element){
+    this.router.navigate(['sirfcompleted/' + element.sirfNumber.toString()]);
   }
 }

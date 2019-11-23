@@ -10,11 +10,12 @@ import { BaseLinkService } from './PRICING/Providers/base-link.service';
 })
 export class AppComponent {
   public title = 'Pricing Portal';
-
+  private  mode = "pricing";
 
   constructor(private router: Router, private route: ActivatedRoute, private baseLink: BaseLinkService) {
 
     var titleSet = false;
+    
 
     router.events.subscribe((e: any) => {
       if (!titleSet) {
@@ -25,6 +26,7 @@ export class AppComponent {
 
             if (e.url.toLowerCase().indexOf('sirf') > -1) {
               this.title = "Service Improvement Request Form"
+              this.mode = "sirf";
             }
           }
         }
@@ -43,6 +45,12 @@ export class AppComponent {
   }
 
   search_Click() {
-    this.router.navigate(['pricingsearch']);
+    if(this.mode == "sirf"){
+      this.router.navigate(['sirfsearch']);
+    }
+    else
+    {
+      this.router.navigate(['pricingsearch']);
+    }
   }
 }
