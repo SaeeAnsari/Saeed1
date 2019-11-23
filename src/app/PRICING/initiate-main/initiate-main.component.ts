@@ -364,17 +364,17 @@ export class InitiateMainComponent implements OnInit {
     if (this.pricingGroup.value.PaymentTerm != '') {
 
       $event.preventDefault();
-      //this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub => {
+      this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub => {
         //console.log("received request form Finalised Validation: " + sub)
-        //if (sub == true) {
+        if (sub == true) {
           this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value, this.pricingGroup.value.CCEmail).subscribe(sub => {
             console.log("received request form Finalised");
 
             this.quoteFinalised = true;
             alert('Quote Finalised')
           });
-        //}
-      //})
+        }
+      })
 
      
     }
