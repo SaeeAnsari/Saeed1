@@ -24,7 +24,15 @@ export class PricingFinalisedComponent implements OnInit {
         if (this.router.getCurrentNavigation().extras.state) {
           this.quoteID = this.router.getCurrentNavigation().extras.state.quoteID;
 
-          sessionStorage.setItem("activeQuoteID", this.quoteID.toString());          
+          sessionStorage.setItem("activeQuoteID", this.quoteID.toString());                    
+        }
+        else{
+          route.paramMap.subscribe(sub=>{
+            if(sub.get("quoteID") != null){
+              this.quoteID = +sub.get("quoteID");
+              sessionStorage.setItem("activeQuoteID", this.quoteID.toString()); 
+            }
+          })
         }
       });
     

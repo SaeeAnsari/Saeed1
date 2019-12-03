@@ -20,6 +20,7 @@ const routes: Routes = [
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},
   { path: 'pricingfinalise', component: PricingFinalisedComponent},
+  { path: 'pricingfinalise/:quoteID', component: PricingFinalisedComponent},
   { path: 'quotereport/:quoteID', component: QuoteReportV2Component},
   { path: 'sirfcompleted', component: SIRFCompleteComponent},
   { path: 'sirfcompleted/:sirfID', component: SIRFCompleteComponent},

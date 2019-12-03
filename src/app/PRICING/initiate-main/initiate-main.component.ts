@@ -367,7 +367,12 @@ export class InitiateMainComponent implements OnInit {
       this.initiate.validateFinaliseQuote(this.quoteID).subscribe(sub => {
         //console.log("received request form Finalised Validation: " + sub)
         if (sub == true) {
-          this.initiate.finaliseQuote(this.quoteID, this.pricingGroup.controls.PaymentTerm.value, this.pricingGroup.value.CCEmail).subscribe(sub => {
+          this.initiate.finaliseQuote(
+            this.quoteID, 
+            this.pricingGroup.controls.PaymentTerm.value, 
+            this.pricingGroup.value.CCEmail, this.pricingGroup.value.CustomerName,
+            this.pricingGroup.value.OpportunityName, 
+            this.pricingGroup.value.RequestedBy).subscribe(sub => {
             console.log("received request form Finalised");
 
             this.quoteFinalised = true;
@@ -379,6 +384,6 @@ export class InitiateMainComponent implements OnInit {
   }
 
   viewQuote() {
-    window.open(window.location.href.replace('pricingfinalise', 'quoteReport/' + this.quoteID.toString()), '_blank');
+    window.open(window.location.href.replace('pricingfinalise', 'quotereport/' + this.quoteID.toString()), '_blank');
   }
 }

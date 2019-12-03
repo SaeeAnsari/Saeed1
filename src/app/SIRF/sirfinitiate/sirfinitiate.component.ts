@@ -16,6 +16,8 @@ import { BaseLinkService } from 'src/app/PRICING/Providers/base-link.service';
 })
 export class SIRFInitiateComponent implements OnInit {
 
+  private  _uploadURL = BaseLinkService.GetBaseUrl();
+
   public selectedPart = '';
   @Input() SIRFCompleteMode = 'false';
 
@@ -278,7 +280,10 @@ export class SIRFInitiateComponent implements OnInit {
   }
 
  public buildFileDownloadLink(fileName){
-   return BaseLinkService.GetFileDownloadFolder() + fileName;
+
+  
+
+   return this._uploadURL.toLowerCase().replace('/api', '/FileUploads') + '/' + fileName;
  }
 
  public loadAttachments(){

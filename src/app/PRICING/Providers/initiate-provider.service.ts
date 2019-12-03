@@ -209,7 +209,7 @@ export class InitiateProviderService {
       .catch(this.handleError);
   }
 
-  finaliseQuote(quoteID, paymentTermsID, ccEmail): Observable<any> {
+  finaliseQuote(quoteID, paymentTermsID, ccEmail, customerName, opportunityName, requestedBy): Observable<any> {
 
     var header = new Headers({
       'Content-Type': 'application/json',
@@ -226,7 +226,10 @@ export class InitiateProviderService {
     var data = {
       QuoteID: quoteID,
       PaymentTermID : paymentTermsID,
-      CCEmail : ccEmail
+      CCEmail : ccEmail,
+      CustomerName: customerName,
+      OpportunityName: opportunityName,
+      RequestedBy :requestedBy
     }
 
 
