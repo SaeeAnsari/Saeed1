@@ -60,6 +60,12 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
+            <input matInput [matDatepicker]="pickerRD" placeholder="Requested Date" formControlName="RequestedDate">
+            <mat-datepicker-toggle matSuffix [for]="pickerRD"></mat-datepicker-toggle>
+            <mat-datepicker #pickerRD></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="container-half-width">
             <mat-label>Customer ID</mat-label>
             <mat-select name="lstCustomerID" formControlName="CustomerID" required [(value)]="selectedCustomer"
                 (selectionChange)="customer_change($event)">
@@ -117,17 +123,11 @@
 
         <mat-form-field class="container-half-width">
             <input matInput placeholder="Requested By" formControlName="RequestedBy" required>
-        </mat-form-field>
-
-        <mat-form-field class="container-half-width">
-            <input matInput [matDatepicker]="pickerRD" placeholder="Requested Date" formControlName="RequestedDate">
-            <mat-datepicker-toggle matSuffix [for]="pickerRD"></mat-datepicker-toggle>
-            <mat-datepicker #pickerRD></mat-datepicker>
-        </mat-form-field>
+        </mat-form-field>       
         <br><br>
         <mat-divider></mat-divider><br>
         <mat-form-field class="container-half-width">
-            <mat-label>Reoccuring Issue</mat-label>
+            <mat-label>Reccuring Issue</mat-label>
             <mat-select name="lstReoccuringIssue" formControlName="ReoccuringIssue" required>
 
                 <mat-option>--</mat-option>

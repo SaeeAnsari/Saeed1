@@ -144,7 +144,7 @@ export class SIRFInitiateComponent implements OnInit {
       this.customerRegions = sub;
     })
 
-    this.SIRF.getRequestCategories().subscribe(sub => {
+    this.SIRF.getReOccurinigIssue().subscribe(sub => {
       this.reoccuringIssue = sub;
     })
 
