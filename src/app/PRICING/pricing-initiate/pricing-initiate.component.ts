@@ -71,6 +71,7 @@ export class PricingInitiateComponent implements OnInit {
    this.productDetails.pricingGroup.controls['CurrencyOfTargetPrice'].setValue(defaultCurrencyID.toString());
    this.productDetails.pricingGroup.controls['TargetPrice'].setValue('0');  
    this.productDetails.pricingGroup.controls['NotesAndComment'].setValue('N/A');  
+   this.productDetails.pricingGroup.controls['TypicalOrderSize'].setValue('0')
 
   }  
 }

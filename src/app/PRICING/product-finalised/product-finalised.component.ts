@@ -17,6 +17,7 @@ export class ProductFinalisedComponent implements OnInit {
 
   @Input() QuoteID: string
   @Input() CompanyName: string
+  private QuoteFinalised = false;
 
   public completionLineID;
   private _data;
@@ -107,6 +108,15 @@ export class ProductFinalisedComponent implements OnInit {
 
   loadData() {
     if (+this.QuoteID > 0) {
+
+      this.initiate.getQuote(this.QuoteID).subscribe(sub=>{
+        if(sub){                
+          this.QuoteFinalised = sub[0].isFinalised;
+        }
+      })
+
+
+
       this._lineData = [];
       this.initiate.getCompletionLines(this.QuoteID).subscribe(line => {
         line.forEach(element => {

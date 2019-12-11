@@ -27,10 +27,7 @@
                     <mat-button-toggle-group #group="matButtonToggleGroup" name="fontStyle" aria-label="Font Style"
                         class="btn-toggle-group">
 
-                        <mat-button-toggle [value]='element.lineID'>
-                            <mat-icon aria-hidden="false" aria-label="Example home icon">insert_chart_outlined
-                            </mat-icon>
-                        </mat-button-toggle>
+                        
                         <mat-button-toggle [value]='element.lineID' (click)="lineEdit(element)">
                             <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
                         </mat-button-toggle>
@@ -181,7 +178,7 @@
         <br><br>
         <mat-error *ngIf="costValidationError">Cost Per UOM needs to match the Sum of Breakdown Line Values</mat-error>
         <br>
-        <div>
+        <div *ngIf="QuoteFinalised==false">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
                 <button type="submit" (click)="saveline($event)" class="btn btn-success">Save</button>
                 <button type="button" (click)="cancel()">Cancel</button>
@@ -215,7 +212,7 @@
                 <input matInput placeholder="Key" formControlName="FinaliseValue" step="0.01" placeholder="0.00"
                     type="number">
             </div>
-            <div class="key-val-style">
+            <div class="key-val-style"*ngIf="QuoteFinalised==false">
                 <button type="button" class="btn-add-product" class="btn btn-outline-success" (click)="addKeyValue()"
                     color="primary">Save</button>
                 <button type="button"  class="btn-add-product" class="btn btn-outline-success" (click)="clear()">Clear</button>
@@ -231,10 +228,10 @@
             <div class="key-val-style">
                 {{pair.Value}}
             </div>
-            <div class="key-val-style-15">
+            <div class="key-val-style-15" *ngIf="QuoteFinalised==false">
                 <button type="button"  class="btn-add-product" mat-raised-button (click)="edit(pair)">Edit</button>
             </div>
-            <div class="key-val-style-15">
+            <div class="key-val-style-15" *ngIf="QuoteFinalised==false">
                 <button type="button"  class="btn-add-product" mat-raised-button (click)="delete(pair)">Delete</button>
             </div>
         </div>

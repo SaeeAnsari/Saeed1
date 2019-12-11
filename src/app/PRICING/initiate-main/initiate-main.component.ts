@@ -78,6 +78,7 @@ export class InitiateMainComponent implements OnInit {
             this._quoteData = ret[0];
             this.selectedCompany = this._quoteData.companyName;
             this.quoteFinalised = this._quoteData.isFinalised;
+
             this.pricingGroup.controls.CompanyName.setValue(this._quoteData.companyName);
 
             this.BroadcastQuoteID.emit({
@@ -370,9 +371,9 @@ export class InitiateMainComponent implements OnInit {
           this.initiate.finaliseQuote(
             this.quoteID, 
             this.pricingGroup.controls.PaymentTerm.value, 
-            this.pricingGroup.value.CCEmail, this.pricingGroup.value.CustomerName,
-            this.pricingGroup.value.OpportunityName, 
-            this.pricingGroup.value.RequestedBy).subscribe(sub => {
+            this.pricingGroup.value.CCEmail, this.pricingGroup.controls.CustomerName.value,
+            this.pricingGroup.controls.OpportunityName.value, 
+            this.pricingGroup.controls.RequestedBy.value).subscribe(sub => {
             console.log("received request form Finalised");
 
             this.quoteFinalised = true;

@@ -219,9 +219,11 @@ export class InitiateProviderService {
 
 
     var methodURL = this._url + '/FinaliseQuote';
+    /*
     if(ccEmail != null && ccEmail != ''){
       methodURL += '&ccEmail=' + ccEmail;
     }
+    */
 
     var data = {
       QuoteID: quoteID,
