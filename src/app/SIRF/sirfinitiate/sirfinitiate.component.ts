@@ -305,7 +305,10 @@ export class SIRFInitiateComponent implements OnInit {
     }
   }
 
-  public openDocument(item){
+  public openDocument(item, $event){
     window.open(this.buildFileDownloadLink(item), "_blank");
+    this.sirfGroup.controls.RequestedDate.setValue(new Date().toLocaleDateString());
+    $event.preventDefault();
+
   }
 }
