@@ -85,7 +85,7 @@ export class SirfInitaiteService {
     });
 
 
-    return this._http.post(this._url + '/SubmitSIRF',
+    return this._http.post(this._url + '/InitiateSIRF',
       data
       ,
       { headers: header })
