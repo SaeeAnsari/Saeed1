@@ -25,13 +25,13 @@
             <td>To:</td>
             <td>{{firstObject.customerName}}</td>
             <td style="padding-left: 120px;">Qutation Date:</td>
-            <td>{{firstObject.finalisedDate}}</td>
+            <td>{{firstObject.finalisedDate | date}}</td>
         </tr>
         <tr>
             <td>From:</td>
             <td>{{firstObject.opportunityOwner}}</td>
             <td style="padding-left: 120px;">This Quote Expires on:</td>
-            <td>{{firstObject.quoteExpirationDate}}</td>
+            <td>{{firstObject.quoteExpirationDate | date}}</td>
         </tr>
         <tr >
             <td >Quote Number:</td>
@@ -120,6 +120,23 @@
                 Kind Regards,
                 <br><br>
                 {{firstObject.opportunityOwner}}
+            </td>
+        </tr>
+        <tr></tr>
+        <td colspan="4">
+            <br><br>
+        </td>
+        <tr>
+            <td colspan="4">
+                <table style="width: 100%">
+                    <tr>
+                        <td>Toronto 1-800-263-1939</td>
+                        <td>Montreal 1-888-806-5416</td>
+                        <td>Vancouver 1-800-263-1939</td>
+                        <td>Chicago 1-800-500-7676</td>
+                        <td>Los Angeles 1-424-625-2001</td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>

@@ -385,6 +385,7 @@ export class InitiateMainComponent implements OnInit {
   }
 
   viewQuote() {
-    window.open(window.location.href.replace('pricingfinalise', 'quotereport/' + this.quoteID.toString()), '_blank');
+    var url = window.location.href.substring(0,window.location.href.indexOf('pricingfinalise'));
+    window.open( url + 'quotereport/' + this.quoteID.toString(), '_blank');    
   }
 }
