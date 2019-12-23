@@ -18,6 +18,7 @@ export class ProductFinalisedComponent implements OnInit {
   @Input() QuoteID: string
   @Input() CompanyName: string
   private QuoteFinalised = false;
+  public overriteSave = false;
 
   public completionLineID;
   private _data;
@@ -72,7 +73,6 @@ export class ProductFinalisedComponent implements OnInit {
   ngOnInit() {
 
 
-
     this.initiate.getUnitOfMeasureList().subscribe(ret => {
       ret.forEach(element => {
         this.uomList.push({ id: element.id, name: element.name });
@@ -109,9 +109,12 @@ export class ProductFinalisedComponent implements OnInit {
   loadData() {
     if (+this.QuoteID > 0) {
 
-      this.initiate.getQuote(this.QuoteID).subscribe(sub=>{
-        if(sub){                
-          this.QuoteFinalised = sub[0].isFinalised;
+      this.initiate.getQuote(this.QuoteID).subscribe(sub => {
+        if (sub) {
+
+          if (!this.overriteSave) {
+            this.QuoteFinalised = sub[0].isFinalised;
+          }
         }
       })
 
@@ -199,11 +202,11 @@ export class ProductFinalisedComponent implements OnInit {
 
       if (element.Value != '') {
         try {
-          var tmp: number= +element.Value;
+          var tmp: number = +element.Value;
 
-          if(tmp != null){
-            cost = cost +tmp
-          }          
+          if (tmp != null) {
+            cost = cost + tmp
+          }
         }
         catch (ex) {
           console.log("Error Occured - Finalised - costValidator");
@@ -212,8 +215,8 @@ export class ProductFinalisedComponent implements OnInit {
       }
     });
 
-    if (this.pricingFinaliseGroup.value.CostPerUOM != '' && 
-    +this.pricingFinaliseGroup.value.CostPerUOM == cost) {
+    if (this.pricingFinaliseGroup.value.CostPerUOM != '' &&
+      +this.pricingFinaliseGroup.value.CostPerUOM == cost) {
       this.costValidationError == false;
       return true;
     }
@@ -271,8 +274,8 @@ export class ProductFinalisedComponent implements OnInit {
 
   addKeyValue() {
 
-    if (this.pricingFinaliseGroup.value.FinaliseKey != "" && 
-    this.pricingFinaliseGroup.value.FinaliseValue != "" ) {
+    if (this.pricingFinaliseGroup.value.FinaliseKey != "" &&
+      this.pricingFinaliseGroup.value.FinaliseValue != "") {
 
       this.costValidationError = false;
 

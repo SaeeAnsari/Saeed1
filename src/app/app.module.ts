@@ -72,6 +72,7 @@ import { RootCauseCategoryListComponent } from './SIRF/root-cause-category-list/
 import { SIRFCompleteComponent } from './SIRF/sirfcomplete/sirfcomplete.component';
 import { SIRFReportComponent } from './SIRF/sirfreport/sirfreport.component';
 import { ModalCostCategoryComponent } from './SIRF/modal-cost-category/modal-cost-category.component';
+import { PricingFinalisedUpdateComponent } from './PRICING/pricing-finalised-update/pricing-finalised-update.component';
 
 
 @NgModule({
@@ -86,7 +87,7 @@ import { ModalCostCategoryComponent } from './SIRF/modal-cost-category/modal-cos
     ProductDetailsComponent,
     ProductFinalisedComponent,
     PricingFinalisedComponent,        
-    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent, FileUploadComponent, SIRFDetailsComponent, SIRFCostTrackingComponent, RootCauseCategoryListComponent, SIRFCompleteComponent, SIRFReportComponent, ModalCostCategoryComponent
+    QuoteReportV2Component, LandingComponent, SIRFInitiateComponent, FileUploadComponent, SIRFDetailsComponent, SIRFCostTrackingComponent, RootCauseCategoryListComponent, SIRFCompleteComponent, SIRFReportComponent, ModalCostCategoryComponent, PricingFinalisedUpdateComponent
   ],
   imports: [
     BrowserModule,
