@@ -135,8 +135,8 @@ export class ProductFinalisedComponent implements OnInit {
 
     if (value != null) {
 
+      if (value.CompletionLineID > 0) {               
 
-      if (value.CompletionLineID > 0) {
         this.completionLineID = value.CompletionLineID;
         this.showCompletionLine = true;
 
@@ -257,6 +257,8 @@ export class ProductFinalisedComponent implements OnInit {
         this.loadData()
         this.productDetails.showProductDetails = false;
       });
+
+      window.location.reload();
 
       $event.preventDefault();
     }
