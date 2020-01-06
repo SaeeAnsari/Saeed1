@@ -77,6 +77,13 @@ export class SirfInitaiteService {
 
   }
 
+  public getRequestedByUsers() {
+
+    return this._http.get(this._url + '/GetRequestedByUsers')
+      .map(ret => ret.json());
+
+  }
+
   submitOpportunity(data: any): Observable<any> {
 
     var header = new Headers({

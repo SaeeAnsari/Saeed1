@@ -74,6 +74,7 @@ export class SIRFInitiateComponent implements OnInit {
   public businessRegions = [];
   public customerRegions = [];
   public reoccuringIssue = [];
+  public requestedByUsers = [];
   public partList = [];
 
 
@@ -148,8 +149,11 @@ export class SIRFInitiateComponent implements OnInit {
       this.reoccuringIssue = sub;
     })
 
-    this.requestDate = new Date().toLocaleDateString();
+    this.SIRF.getRequestedByUsers().subscribe(sub =>{
+      this.requestedByUsers = sub;
+    })
 
+    this.requestDate = new Date().toLocaleDateString();
   }
 
 

@@ -120,10 +120,19 @@
             <mat-datepicker #pickerDOI></mat-datepicker>
         </mat-form-field>
 
-
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Requested By" formControlName="RequestedBy" required>
-        </mat-form-field>       
+            <mat-label>Requested By</mat-label>
+            <mat-select name="lstRequestedBy" formControlName="RequestedBy" [(value)]="selectedRequestedBy">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let rq of requestedByUsers" [value]="rq.name">
+                    {{rq.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+
+
         <br><br>
         <mat-divider></mat-divider><br>
         <mat-form-field class="container-half-width">
