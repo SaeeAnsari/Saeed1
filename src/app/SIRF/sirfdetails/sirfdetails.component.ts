@@ -45,7 +45,8 @@ export class SIRFDetailsComponent implements OnInit {
       DateOfImplementation: [''],
       RequestCompletionDate: [new Date()],
       FirstName: [''],
-      LastName: ['']      
+      LastName: [''],
+      IsValidComplaint: ['']   
     });
   }
 
@@ -65,6 +66,7 @@ export class SIRFDetailsComponent implements OnInit {
     this.sirfDetail.controls.DateOfImplementation.setValue(new Date(Date.parse(data.implementationDate)));
     this.sirfDetail.controls.FirstName.setValue(data.firstName);
     this.sirfDetail.controls.LastName.setValue(data.lastName);    
+    this.sirfDetail.controls.IsValidComplaint.setValue(data.isValidComplaint);
   }
 
 
@@ -100,7 +102,8 @@ export class SIRFDetailsComponent implements OnInit {
         DateOfImplementation : this.sirfDetail.value.DateOfImplementation,
         FirstName : this.sirfDetail.value.FirstName,
         LastName : this.sirfDetail.value.LastName,
-        RootCauseOtherComment : ''
+        RootCauseOtherComment : '',
+        IsValidComplaint: this.sirfDetail.value.IsValidComplaint        
       };
 
       if(this.sirfCategory.sirfRootCause.value.comments != ''){
