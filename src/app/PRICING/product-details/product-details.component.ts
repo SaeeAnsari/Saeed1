@@ -232,7 +232,7 @@ export class ProductDetailsComponent implements OnInit {
       this.pricingGroup.controls.ContainerType.setValue(containerid.toString());
 
 
-      var uomID = this.containerTypes.filter(function (item) {
+      var uomID = this.uomList.filter(function (item) {
         return item.name.toLocaleLowerCase() == sub.uom.toLocaleLowerCase();
       })[0].name;
 

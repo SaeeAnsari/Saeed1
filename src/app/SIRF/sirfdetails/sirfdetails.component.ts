@@ -116,9 +116,12 @@ export class SIRFDetailsComponent implements OnInit {
               console.log(data);
               this.showSaved = true;
               this.sirfCategory.loadData();
+
+              alert('SIRF Request Completed');
               
               setTimeout(() => {
                 this.showSaved = false;
+
               }, 5000);
       });
 

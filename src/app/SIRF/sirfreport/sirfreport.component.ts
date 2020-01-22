@@ -63,7 +63,7 @@ export class SIRFReportComponent implements OnInit {
 
       this.data = {
         customerName: sub.customerName,
-        customerRegion: sub.customerRegionID.toString(),
+        customerRegion: sub.customerRegion.toString(),
         SIRFNumber: sub.sirfNumber.toString(),
         requestDate: (new Date(Date.parse(sub.requestedDate))).toLocaleDateString(),
         completionDate: (new Date(Date.parse(sub.requestCompletionDate))).toLocaleDateString(),

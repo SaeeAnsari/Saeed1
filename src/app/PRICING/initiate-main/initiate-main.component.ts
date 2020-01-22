@@ -58,12 +58,12 @@ export class InitiateMainComponent implements OnInit {
 
     if (this.QuoteID != "") {
       this.quoteID = +this.QuoteID;
-      this.loadQuote(this.quoteID);
+      this.loadQuote(this.quoteID, false);
     }
   }
 
 
-  loadQuote(quoteID) {
+  loadQuote(quoteID, reloading) {
 
     this.pricingGroup.controls.QuoteNumber.disable();
     this.pricingGroup.controls.SubmittedDate.disable();
@@ -71,6 +71,8 @@ export class InitiateMainComponent implements OnInit {
     this.quoteID = quoteID;
     this.initiateService.getCompanyList().subscribe(ret => {
       this.companyNames = ret;
+
+
 
       if (quoteID > 0) {
         this.initiate.getQuote(quoteID).subscribe(ret => {
@@ -86,6 +88,8 @@ export class InitiateMainComponent implements OnInit {
               CompanyName: this._quoteData.companyName
             });
 
+            if(!reloading){
+
             this.initiate.getCustomerNameList(this.selectedCompany).subscribe(cust1 => {
               cust1.forEach(element => {
                 this.customerNames.push({ id: element.id, name: element.name });
@@ -98,6 +102,8 @@ export class InitiateMainComponent implements OnInit {
               });
 
             });
+
+          }            
 
             this.initiate.getPaymentTerms().subscribe(terms => {
               terms.forEach(element => {
@@ -125,56 +131,57 @@ export class InitiateMainComponent implements OnInit {
 
           console.log(this.productResults);
         })
+           
+
+          setTimeout(() => {
+
+            this.selectedCustomer = this._quoteData.customerID;
+            this.selectedOwner = this._quoteData.opportunityOwner;
+            this.selectedOpportunityType = this._quoteData.opportunityType;
+            this.selectedPriority = this._quoteData.priorityLevel;
+            this.pricingGroup.controls.PriorityLevel.setValue(this._quoteData.priorityLevel);
+            this.pricingGroup.controls.CustomerID.setValue(this._quoteData.customerID);
+            this.pricingGroup.controls.CustomerName.setValue(this._quoteData.customerName.toString());
+            this.pricingGroup.controls.OpportunityType.setValue(this._quoteData.opportunityType);
+            this.pricingGroup.controls.OpportunityOwner.setValue(this._quoteData.opportunityOwner);
 
 
-        setTimeout(() => {
 
-          this.selectedCustomer = this._quoteData.customerID;
-          this.selectedOwner = this._quoteData.opportunityOwner;
-          this.selectedOpportunityType = this._quoteData.opportunityType;
-          this.selectedPriority = this._quoteData.priorityLevel;
-          this.pricingGroup.controls.PriorityLevel.setValue(this._quoteData.priorityLevel);
-          this.pricingGroup.controls.CustomerID.setValue(this._quoteData.customerID);
-          this.pricingGroup.controls.CustomerName.setValue(this._quoteData.customerName);
-          this.pricingGroup.controls.OpportunityType.setValue(this._quoteData.opportunityType);
-          this.pricingGroup.controls.OpportunityOwner.setValue(this._quoteData.opportunityOwner);
+            this.pricingGroup.controls.QuoteNumber.setValue(this._quoteData.quoteID);
+            this.pricingGroup.controls.OpportunityName.setValue(this._quoteData.opportunityName);
+            this.pricingGroup.controls.RequestedBy.setValue(this._quoteData.requestedBy);
+            this.pricingGroup.controls.SubmittedDate.setValue(this._quoteData.submittedDate);
+            if (this._quoteData.paymentTermID != null) {
+              this.pricingGroup.controls.PaymentTerm.setValue(this._quoteData.paymentTermID.toString());
+            }
 
 
+            this.productResults = this._lineData;
 
-          this.pricingGroup.controls.QuoteNumber.setValue(this._quoteData.quoteID);
-          this.pricingGroup.controls.OpportunityName.setValue(this._quoteData.opportunityName);
-          this.pricingGroup.controls.RequestedBy.setValue(this._quoteData.requestedBy);
-          this.pricingGroup.controls.SubmittedDate.setValue(this._quoteData.submittedDate);
-          if (this._quoteData.paymentTermID != null) {
-            this.pricingGroup.controls.PaymentTerm.setValue(this._quoteData.paymentTermID.toString());
-          }
+            if (this._quoteData.submittedDate != null && this._quoteData.submittedDate != "") {
+              this.quoteSubmitted = true;
+            }
+            else {
+              this.quoteSubmitted = false;
+            }
 
+            if (this.DisabledMode == "yes") {
+              var disableControls = this.DisabledMode == "yes";
 
-          this.productResults = this._lineData;
-
-          if (this._quoteData.submittedDate != null && this._quoteData.submittedDate != "") {
-            this.quoteSubmitted = true;
-          }
-          else {
-            this.quoteSubmitted = false;
-          }
-
-          if (this.DisabledMode == "yes") {
-            var disableControls = this.DisabledMode == "yes";
-
-            this.pricingGroup.controls.CompanyName.disable({ onlySelf: true, emitEvent: false });
-            this.pricingGroup.controls.CustomerID.disable({ onlySelf: true, emitEvent: false });
-            this.pricingGroup.controls.PriorityLevel.disable({ onlySelf: true, emitEvent: false });
-            this.pricingGroup.controls.CustomerName.disable({ onlySelf: true, emitEvent: false });
-            this.pricingGroup.controls.OpportunityName.disable({ onlySelf: true, emitEvent: false });
-            this.pricingGroup.controls.OpportunityOwner.disable({ onlySelf: true, emitEvent: false });
-            this.pricingGroup.controls.OpportunityType.disable({ onlySelf: true, emitEvent: false });
-            this.pricingGroup.controls.RequestedBy.disable({ onlySelf: true, emitEvent: false });
-            this.pricingGroup.controls.SubmittedDate.disable({ onlySelf: true, emitEvent: false });
-          }
-        }, 2000);
-        /**/
+              this.pricingGroup.controls.CompanyName.disable({ onlySelf: true, emitEvent: false });
+              this.pricingGroup.controls.CustomerID.disable({ onlySelf: true, emitEvent: false });
+              this.pricingGroup.controls.PriorityLevel.disable({ onlySelf: true, emitEvent: false });
+              this.pricingGroup.controls.CustomerName.disable({ onlySelf: true, emitEvent: false });
+              this.pricingGroup.controls.OpportunityName.disable({ onlySelf: true, emitEvent: false });
+              this.pricingGroup.controls.OpportunityOwner.disable({ onlySelf: true, emitEvent: false });
+              this.pricingGroup.controls.OpportunityType.disable({ onlySelf: true, emitEvent: false });
+              this.pricingGroup.controls.RequestedBy.disable({ onlySelf: true, emitEvent: false });
+              this.pricingGroup.controls.SubmittedDate.disable({ onlySelf: true, emitEvent: false });
+            }
+          }, 2000);
+          /**/        
       }
+    
     });
   }
 
@@ -260,7 +267,7 @@ export class InitiateMainComponent implements OnInit {
 
       this.initiate.saveQuoteHeader(this.quoteID, data.PriorityLevel, customerName, data.OpportunityOwner, data.OpportunityType, data.OpportunityName, null, data.RequestedBy, data.CompanyName, data.CustomerID, opportunityOwnerID, false).subscribe(sub => {
         this.quoteID = sub;
-        this.loadQuote(this.quoteID);
+        this.loadQuote(this.quoteID, true);
       });
     }
 
@@ -272,7 +279,7 @@ export class InitiateMainComponent implements OnInit {
     if (this.pricingGroup.valid) {
 
       this.initiate.submitOpportunity(this.quoteID).subscribe(sub => {
-        this.loadQuote(this.quoteID);
+        this.loadQuote(this.quoteID, true);
         alert("Quote " + this.quoteID + " Submitted.")
 
       });
