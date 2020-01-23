@@ -269,9 +269,10 @@ export class InitiateMainComponent implements OnInit {
         this.quoteID = sub;
         this.loadQuote(this.quoteID, true);
       });
+      $event.preventDefault();
     }
 
-    $event.preventDefault();
+    
   }
 
   submit() {
