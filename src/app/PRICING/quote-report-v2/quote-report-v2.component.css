@@ -1,0 +1,16 @@
+table th:nth-child(1){    
+  
+
+}
+
+.td150{
+    width: 250px;   
+}
+
+.td{
+    padding-right: 15px;
+}
+
+.tdCenterAlign{
+    text-align: center;
+}

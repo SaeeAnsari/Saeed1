@@ -147,6 +147,8 @@ export class ProductFinalisedComponent implements OnInit {
         this.productDetails.ngOnInit()
         this.productDetails.lineEdit(value.QuoteLineID);
         this.productDetails.pricingGroup.disable();
+        this.productDetails.pricingGroup.controls['ContainerType'].enable();
+        this.productDetails.pricingGroup.controls['PackSize'].enable();
 
         this.loadLine();
       }
@@ -161,11 +163,11 @@ export class ProductFinalisedComponent implements OnInit {
 
       if (sub.uom != null) { this.pricingFinaliseGroup.controls.UnitOfMeasure.setValue(sub.uom) };
       if (sub.currencyID != null) this.pricingFinaliseGroup.controls.QuoteCurrency.setValue(sub.currencyID.toString())
-      if (sub.costPerUOM != null) this.pricingFinaliseGroup.controls.CostPerUOM.setValue(sub.costPerUOM)
+      if (sub.costPerUOM != null) this.pricingFinaliseGroup.controls.CostPerUOM.setValue(this.stringDecimalPlaces(sub.costPerUOM, 2))
       if (sub.sellingPricePerUOM != null) this.pricingFinaliseGroup.controls.SellingPricePerUOM.setValue(sub.sellingPricePerUOM)
       if (sub.transportTermID != null) this.pricingFinaliseGroup.controls.TransportTerms.setValue(sub.transportTermID.toString())
       if (sub.shippingWarehouseID != null) this.pricingFinaliseGroup.controls.ShippingWarehouse.setValue(sub.shippingWarehouseID.toString())
-      if (sub.minimumOrderQuantity != null) this.pricingFinaliseGroup.controls.MinimumOrderQuantity.setValue(sub.minimumOrderQuantity)
+      if (sub.minimumOrderQuantity != null) this.pricingFinaliseGroup.controls.MinimumOrderQuantity.setValue(this.stringDecimalPlaces(sub.minimumOrderQuantity, 2))
       if (sub.estimatedLeadTime != null) this.pricingFinaliseGroup.controls.EstimatedLeadTime.setValue(sub.estimatedLeadTime)
       if (sub.quoteExpirationDate != null) this.pricingFinaliseGroup.controls.QuoteExpirationDate.setValue(new Date(Date.parse(sub.quoteExpirationDate)))
       if (sub.priceValidityDate != null) this.pricingFinaliseGroup.controls.PriceValidityDate.setValue(new Date(Date.parse(sub.priceValidityDate)))
@@ -191,13 +193,22 @@ export class ProductFinalisedComponent implements OnInit {
     });
   }
 
+  public stringDecimalPlaces(data, decimalPlaces: number){
+    if(data != null){
+      return parseFloat(data).toFixed(decimalPlaces)
+    }
+    else{
+      return '';
+    }
+  }
+
   public costValidationError = false;
 
   public costValidator() {
 
     this.costValidationError = false;
 
-    var cost = 0;
+    var cost =  0;
     this.lineKeyVal.forEach(element => {
 
       if (element.Value != '') {
@@ -205,7 +216,7 @@ export class ProductFinalisedComponent implements OnInit {
           var tmp: number = +element.Value;
 
           if (tmp != null) {
-            cost = cost + tmp
+            cost = (cost + tmp);
           }
         }
         catch (ex) {
@@ -216,7 +227,7 @@ export class ProductFinalisedComponent implements OnInit {
     });
 
     if (this.pricingFinaliseGroup.value.CostPerUOM != '' &&
-      +this.pricingFinaliseGroup.value.CostPerUOM == cost) {
+      this.pricingFinaliseGroup.value.CostPerUOM == cost.toFixed(2)) {
       this.costValidationError == false;
       return true;
     }
@@ -232,6 +243,8 @@ export class ProductFinalisedComponent implements OnInit {
   saveline($event) {
 
     if (this.pricingFinaliseGroup.valid && this.costValidator()) {
+
+      this.initiate.saveContainerTypePackSize(this.productDetails.quoteLineID, this.productDetails.pricingGroup.value.ContainerType, this.productDetails.pricingGroup.value.PackSize).subscribe(ret=> {});
 
       this.initiate.saveCompletionLine(this.completionLineID,
         this.QuoteID,

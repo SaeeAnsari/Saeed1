@@ -259,7 +259,10 @@ export class SIRFInitiateComponent implements OnInit {
 
         this.saveAttachments();
         this.sirfGroup.reset();
+        this.SIRFAttachmentsVIew = [];
+        
         alert('Service Improvement Request Form Submitted');
+        window.location.reload();
 
       })
 

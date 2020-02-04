@@ -24,7 +24,9 @@ export class SIRFDetailsComponent implements OnInit {
   public sirfDetail: FormGroup;
   public SIRFID: number = 0;
   public categoriesNotSelectedError = false;
-  public showSaved = false;
+  public showSaved = false;  
+  public disableButtons = false;
+  
 
 
   constructor(
@@ -47,13 +49,13 @@ export class SIRFDetailsComponent implements OnInit {
       FirstName: [''],
       LastName: [''],
       IsValidComplaint: ['']   
-    });
+    });    
   }
 
   ngOnInit() {
     if(this.SIRFNumber != '') this.SIRFID = +this.SIRFNumber;     
 
-    console.log('Details=>SIRFCompleteMode: ' + this.SIRFCompleteMode);
+    console.log('Details=>SIRFCompleteMode: ' + this.SIRFCompleteMode);  
   
   }
 
@@ -67,6 +69,7 @@ export class SIRFDetailsComponent implements OnInit {
     this.sirfDetail.controls.FirstName.setValue(data.firstName);
     this.sirfDetail.controls.LastName.setValue(data.lastName);    
     this.sirfDetail.controls.IsValidComplaint.setValue(data.isValidComplaint);
+    
   }
 
 
@@ -90,27 +93,33 @@ export class SIRFDetailsComponent implements OnInit {
    
   }
 
+  gatherControlData(){
+    var data = {
+      SIRFNumber : this.SIRFID,
+      RootCauseAnalysis : this.sirfDetail.value.InternalRootCause,
+      CorrectiveAnalysis : this.sirfDetail.value.InternalPreventiveCorrectiveActions,
+      CustomerRootCause : this.sirfDetail.value.CustomerRootCause,
+      CustomerResponsePreventiveActions : this.sirfDetail.value.CustomerResponsePreventiveCorrectiveActions,
+      DateOfImplementation : this.sirfDetail.value.DateOfImplementation,
+      FirstName : this.sirfDetail.value.FirstName,
+      LastName : this.sirfDetail.value.LastName,
+      RootCauseOtherComment : '',
+      IsValidComplaint: this.sirfDetail.value.IsValidComplaint,
+      SubmitTimeStamp : null
+    };
+
+    if(this.sirfCategory.sirfRootCause.value.comments != ''){
+      data.RootCauseOtherComment = this.sirfCategory.sirfRootCause.value.comments;
+    }      
+
+    return data;
+  }
+
   Submit($event){
     if(this.sirfDetail.valid && this.AdditionalValidation()){
 
-      var data = {
-        SIRFNumber : this.SIRFID,
-        RootCauseAnalysis : this.sirfDetail.value.InternalRootCause,
-        CorrectiveAnalysis : this.sirfDetail.value.InternalPreventiveCorrectiveActions,
-        CustomerRootCause : this.sirfDetail.value.CustomerRootCause,
-        CustomerResponsePreventiveActions : this.sirfDetail.value.CustomerResponsePreventiveCorrectiveActions,
-        DateOfImplementation : this.sirfDetail.value.DateOfImplementation,
-        FirstName : this.sirfDetail.value.FirstName,
-        LastName : this.sirfDetail.value.LastName,
-        RootCauseOtherComment : '',
-        IsValidComplaint: this.sirfDetail.value.IsValidComplaint        
-      };
-
-      if(this.sirfCategory.sirfRootCause.value.comments != ''){
-        data.RootCauseOtherComment = this.sirfCategory.sirfRootCause.value.comments;
-      }      
-
-
+      var data = this.gatherControlData();      
+      data.SubmitTimeStamp = new Date();
 
       this.SIRF.updateSIRFDetails(data).subscribe(sub=>{
               console.log(data);
@@ -125,8 +134,40 @@ export class SIRFDetailsComponent implements OnInit {
               }, 5000);
       });
 
-      $event.preventDefault();
+      
+
+      $event.preventDefault();      
+      window.location.reload();
     }
   }
 
+  Save($event){
+    if(this.sirfDetail.valid && this.AdditionalValidation()){
+
+      var data = this.gatherControlData();      
+
+      this.SIRF.updateSIRFDetails(data).subscribe(sub=>{
+              console.log(data);
+              this.showSaved = true;
+              this.sirfCategory.loadData();
+
+              alert('SIRF Request Saved');
+              
+              setTimeout(() => {
+                this.showSaved = false;
+
+              }, 5000);
+      });
+
+      $event.preventDefault();     
+    }
+  }
+
+  public disableAllControls(){
+    this.sirfDetail.disable();
+    this.sirfCategory.disableControls = true;
+    this.sirfCategory.sirfRootCause.disable();
+    this.costTracking.sirfCost.disable();
+    this.disableButtons = true;   
+  }
 }

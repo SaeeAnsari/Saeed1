@@ -4,7 +4,7 @@ import { SirfInitaiteService } from '../Providers/sirf-initaite.service';
 import { retryWhen } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalCostCategoryComponent } from '../modal-cost-category/modal-cost-category.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sirfsearch',
@@ -25,7 +25,11 @@ export class SIRFSearchComponent implements OnInit {
   public sirfGroup: FormGroup;
   public searchResults = [];
 
-  constructor(fb: FormBuilder, private sirf: SirfInitaiteService, public dialog: MatDialog, private router: Router) {
+  constructor(fb: FormBuilder, 
+    private sirf: SirfInitaiteService, 
+    public dialog: MatDialog, 
+    private router: Router,
+    private route: ActivatedRoute) {
     this.sirfGroup = fb.group({
       SIRFNumber: [''],
       PriorityLevel: [''],
@@ -39,7 +43,17 @@ export class SIRFSearchComponent implements OnInit {
       RequestedBy: [''],
       RequestedDate: ['']
 
-    })
+    })    
+      
+    sessionStorage.setItem("isAdminUser", null);
+    
+    this.route.queryParams.subscribe(params => {
+      route.paramMap.subscribe(sub => {
+        if (sub.get("adminUser") != null) {
+          sessionStorage.setItem("isAdminUser", "true");
+        }        
+      })
+    });
   }
 
   ngOnInit() {
@@ -70,7 +84,7 @@ export class SIRFSearchComponent implements OnInit {
 
       else if (searchType == 'pending') {
         this.validationError = false;
-        queryString = "WHERE RequestCompletionDate IS NULL"
+        queryString = "WHERE SubmitTimeStamp IS NULL"
       }
 
 

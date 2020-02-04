@@ -29,6 +29,7 @@ const routes: Routes = [
   { path: 'sirfreport', component: SIRFReportComponent},
   { path: 'sirfreport/:sirfID', component: SIRFReportComponent},
   { path: 'sirfsearch', component: SIRFSearchComponent},
+  { path: 'sirfsearch/:adminUser', component: SIRFSearchComponent},
   { path: 'pricingupdate', component: PricingFinalisedUpdateComponent},
   { path: 'pricingupdate/:quoteID', component: PricingFinalisedUpdateComponent}
 

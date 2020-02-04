@@ -10,7 +10,7 @@
         <tr *ngFor="let item of categoryList">
             <td></td>
             <td>
-                <mat-checkbox [checked]="item.checked" (change)="check_change($event, item.id)">{{item.name}}
+                <mat-checkbox [checked]="item.checked" [disabled] = "disableControls" (change)="check_change($event, item.id)">{{item.name}}
                 </mat-checkbox>
             </td>
         </tr>

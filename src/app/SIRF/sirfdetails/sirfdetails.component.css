@@ -33,3 +33,8 @@
   div i{
     padding-left: 20px;
   }
+
+  button{
+    padding-right: 10px;
+    margin-right: 20px;    
+  }

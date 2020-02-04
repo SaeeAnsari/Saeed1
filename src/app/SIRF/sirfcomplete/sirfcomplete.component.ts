@@ -45,6 +45,15 @@ export class SIRFCompleteComponent implements OnInit {
       this.sirfData = sub;
       this.initiate.SetValues(this.sirfData);
       this.details.SetValue(this.sirfData);
+
+      //only Enable button if we have a Admin user logged in or when the SIRF is not submitted
+      var adminUser = ( sessionStorage.getItem("isAdminUser") != null && 
+                        sessionStorage.getItem("isAdminUser") == "true");
+      if(!adminUser){
+        if(this.sirfData.submitTimeStamp != null){
+          this.details.disableAllControls();          
+        }
+      }
     });
   }
 

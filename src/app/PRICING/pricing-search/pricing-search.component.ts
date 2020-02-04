@@ -120,7 +120,7 @@ export class PricingSearchComponent implements OnInit {
     }
 
 
-    if (this.pricingGroup.value.ProductDescriptionlength > 0) {
+    if (this.pricingGroup.value.ProductDescription.length > 0) {
       data.ProductDescription = this.pricingGroup.value.ProductDescription;
 
       queryParams.push(this.formCondition("ProductDescription", data.ProductDescription));

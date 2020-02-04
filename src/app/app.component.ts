@@ -25,7 +25,7 @@ export class AppComponent {
           if (e != null && e.url != null) {
 
             if (e.url.toLowerCase().indexOf('sirf') > -1) {
-              this.title = "Service Improvement Request Form"
+              this.title = "Search SIRF Form"
               this.mode = "sirf";
             }
           }

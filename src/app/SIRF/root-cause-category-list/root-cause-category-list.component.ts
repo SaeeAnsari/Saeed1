@@ -26,6 +26,7 @@ export class RootCauseCategoryListComponent implements OnInit {
 
   public IsOtherChecked = false;
   public IsRootCauseSelected = false;
+  public disableControls = false;
 
   constructor(
     private fb: FormBuilder,

@@ -55,17 +55,21 @@
 
 
 
-        <div>
+        <div >
             <br>
             <mat-error *ngIf="categoriesNotSelectedError">Please select a Root Cause Category</mat-error>
 
             <br>
-            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
-                <button type="submit" color="warn" (click)="Submit($event)">Submit</button>
-            </mat-button-toggle-group>
-            <i *ngIf="showSaved" class="material-icons" color="primary">
-                check_circle
-            </i>
+
+            <div *ngIf="!disableButtons">
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btn-toggle-group">
+                    <button type="submit" color="warn" (click)="Save($event)">Save</button>
+                    <button type="submit" color="warn" (click)="Submit($event)">Submit</button>
+                </mat-button-toggle-group>
+                <i *ngIf="showSaved" class="material-icons" color="primary">
+                    check_circle
+                </i>
+            </div>
         </div>
     </mat-card>
 </form>

@@ -257,8 +257,13 @@ export class InitiateProviderService {
       .catch(this.handleError);
   }
 
+  saveContainerTypePackSize(quotelineID, containerTypeID, packSize){
+    return this._http.get(this._url + '/SaveContainerTypePackSize?quoteLineID=' + quotelineID + '&containerTypeID=' + containerTypeID + '&packSize=' + packSize)
+    .map(ret => ret.json());
+  }
+
   saveQuoteLine(quoteLineID, quoteID, productCode, productDescription, usageLevel, unitOfMeasure, comments, targetPrice, targetCurrencyID, annualVolume?, typicalOrderSize?, packSize?, containerTypeID?) {
-    var header = new Headers({
+    var header = new Headers({  
       'Content-Type': 'application/json',
       'Accept': 'q=0.8;application/json;q=0.9'
     });
