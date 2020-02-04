@@ -87,7 +87,7 @@
                     </ng-container>
                     <ng-container matColumnDef="minimumOrderQuantity">
                         <th mat-header-cell *matHeaderCellDef> MOQ</th>
-                        <td class="td tdCenterAlign" mat-cell *matCellDef="let element"> {{element.minimumOrderQuantity}} </td>
+                        <td class="td tdCenterAlign" mat-cell *matCellDef="let element"> {{stringDecimalPlaces(element.minimumOrderQuantity, 2)}} </td>
                     </ng-container>
                     <ng-container matColumnDef="estimnatedLeadTime">
                         <th mat-header-cell *matHeaderCellDef> Est. Lead Time</th>

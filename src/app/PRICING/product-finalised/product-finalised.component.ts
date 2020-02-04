@@ -194,7 +194,7 @@ export class ProductFinalisedComponent implements OnInit {
   }
 
   public stringDecimalPlaces(data, decimalPlaces: number){
-    if(data != null){
+    if(data != null && data != ''){
       return parseFloat(data).toFixed(decimalPlaces)
     }
     else{

@@ -52,6 +52,15 @@ export class QuoteReportV2Component implements OnInit {
     })
   }
 
+  public stringDecimalPlaces(data, decimalPlaces: number){
+    if(data != null && data != ''){
+      return parseFloat(data).toFixed(decimalPlaces)
+    }
+    else{
+      return '';
+    }
+  }
+
   generateReport(){
     var data = document.getElementById('tblReportContent');
     html2canvas(data).then(canvas => {
