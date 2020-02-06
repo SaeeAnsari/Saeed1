@@ -21,6 +21,7 @@ export class SIRFSearchComponent implements OnInit {
 
 
 
+  public isAdminUser = false;
   public validationError: boolean = false;
   public sirfGroup: FormGroup;
   public searchResults = [];
@@ -51,6 +52,7 @@ export class SIRFSearchComponent implements OnInit {
       route.paramMap.subscribe(sub => {
         if (sub.get("adminUser") != null) {
           sessionStorage.setItem("isAdminUser", "true");
+          this.isAdminUser = true;
         }        
       })
     });

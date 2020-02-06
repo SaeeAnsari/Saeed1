@@ -65,8 +65,8 @@ export class SIRFReportComponent implements OnInit {
         customerName: sub.customerName,
         customerRegion: sub.customerRegion.toString(),
         SIRFNumber: sub.sirfNumber.toString(),
-        requestDate: (new Date(Date.parse(sub.requestedDate))).toLocaleDateString(),
-        completionDate: (new Date(Date.parse(sub.requestCompletionDate))).toLocaleDateString(),
+        requestDate: this.parseDate(sub.requestedDate),
+        completionDate: this.parseDate(sub.requestCompletionDate),
         productCode: sub.partID,
         productDescription: sub.partName,
         lotNumber: sub.lotNumber,
@@ -78,13 +78,15 @@ export class SIRFReportComponent implements OnInit {
 
     });
 
-
-
-
-
-
-
-
   }
+
+  parseDate(data) {
+    if (data != null)
+      return (new Date(Date.parse(data))).toLocaleDateString()
+    else
+      return '';
+  }
+
+
 
 }

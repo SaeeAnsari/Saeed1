@@ -161,7 +161,7 @@ export class ProductDetailsComponent implements OnInit {
         if (this._data.unitOfMeasure) this.pricingGroup.controls['UnitOfMeasure'].setValue(this._data.unitOfMeasure.toString());
 
         if (this._data.targetCurrencyID) this.pricingGroup.controls['CurrencyOfTargetPrice'].setValue(this._data.targetCurrencyID.toString());
-        if (this._data.annualVolume ! = null) this.pricingGroup.controls['AnnualVolume'].setValue(this._data.annualVolume.toString());
+        if (this._data.annualVolume != null) this.pricingGroup.controls['AnnualVolume'].setValue(this._data.annualVolume.toString());
 
         if (this._data.typicalOrderSize != null) this.pricingGroup.controls['TypicalOrderSize'].setValue(this._data.typicalOrderSize.toString());
         if (this._data.packSize != null) this.pricingGroup.controls['PackSize'].setValue(this._data.packSize.toString());

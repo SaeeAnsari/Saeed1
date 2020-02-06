@@ -50,11 +50,11 @@
                                                   The actual rendered columns are set as a property on the row definition" -->
         
                     <ng-container matColumnDef="productDescription" >
-                        <th mat-header-cell *matHeaderCellDef> Product Description</th>
+                        <th mat-header-cell *matHeaderCellDef> Product <br> Description</th>
                         <td class="td150 td" mat-cell *matCellDef="let element"> {{element.productDescription}} </td>
                     </ng-container>
                     <ng-container matColumnDef="productCode">
-                        <th mat-header-cell *matHeaderCellDef> Product Code</th>
+                        <th mat-header-cell *matHeaderCellDef> Product <br> Code</th>
                         <td class="td" mat-cell *matCellDef="let element"> {{element.productCode}} </td>
                     </ng-container>
                     <ng-container matColumnDef="quoteUOM">
@@ -62,36 +62,36 @@
                         <td class="td tdCenterAlign" mat-cell *matCellDef="let element"> {{element.quoteUOM}} </td>
                     </ng-container>
                     <ng-container matColumnDef="packSize">
-                        <th mat-header-cell *matHeaderCellDef> Pack Size</th>
-                        <td class="td tdCenterAlign" mat-cell *matCellDef="let element"> {{element.packSize}} </td>
+                        <th mat-header-cell *matHeaderCellDef> Pack<br> Size</th>
+                        <td class="td " mat-cell *matCellDef="let element"> {{element.packSize}} </td>
                     </ng-container>
                     <ng-container matColumnDef="containerType">
-                        <th mat-header-cell *matHeaderCellDef> Packaging Type</th>
+                        <th mat-header-cell *matHeaderCellDef> Packaging<br> Type</th>
                         <td class="td" mat-cell *matCellDef="let element"> {{element.containerType}} </td>
                     </ng-container>
                     <ng-container matColumnDef="sellingPricePerUOM">
-                        <th mat-header-cell *matHeaderCellDef> Selling Price</th>
-                        <td class="td tdCenterAlign" mat-cell *matCellDef="let element"> {{element.sellingPricePerUOM}} </td>
+                        <th mat-header-cell *matHeaderCellDef> Selling<br> Price</th>
+                        <td class="td " mat-cell *matCellDef="let element"> {{element.sellingPricePerUOM}} </td>
                     </ng-container>
                     <ng-container matColumnDef="currencyCode">
-                        <th mat-header-cell *matHeaderCellDef> Quote Currency</th>
+                        <th mat-header-cell *matHeaderCellDef> Quote<br> Currency</th>
                         <td class="td" mat-cell *matCellDef="let element"> {{element.currencyCode}} </td>
                     </ng-container>
                     <ng-container matColumnDef="transportTerms">
-                        <th mat-header-cell *matHeaderCellDef> Transport Terms</th>
+                        <th mat-header-cell *matHeaderCellDef> Transport<br> Terms</th>
                         <td class="td" mat-cell *matCellDef="let element"> {{element.transportTerms}} </td>
                     </ng-container>
                     <ng-container matColumnDef="warehouse">
-                        <th mat-header-cell *matHeaderCellDef> Shipping Warehouse</th>
+                        <th mat-header-cell *matHeaderCellDef> Shipping<br> Warehouse</th>
                         <td class="td" mat-cell *matCellDef="let element"> {{element.warehouse}} </td>
                     </ng-container>
                     <ng-container matColumnDef="minimumOrderQuantity">
                         <th mat-header-cell *matHeaderCellDef> MOQ</th>
-                        <td class="td tdCenterAlign" mat-cell *matCellDef="let element"> {{stringDecimalPlaces(element.minimumOrderQuantity, 2)}} </td>
+                        <td class="td " mat-cell *matCellDef="let element"> {{stringDecimalPlaces(element.minimumOrderQuantity, 2)}} </td>
                     </ng-container>
                     <ng-container matColumnDef="estimnatedLeadTime">
-                        <th mat-header-cell *matHeaderCellDef> Est. Lead Time</th>
-                        <td class="td tdCenterAlign" mat-cell *matCellDef="let element"> {{element.estimnatedLeadTime}} </td>
+                        <th mat-header-cell *matHeaderCellDef> Est. Lead<br> Time</th>
+                        <td class="td " mat-cell *matCellDef="let element"> {{element.estimnatedLeadTime}} </td>
                     </ng-container>                         
                    
         

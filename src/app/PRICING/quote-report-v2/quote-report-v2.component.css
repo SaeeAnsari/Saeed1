@@ -14,3 +14,7 @@ table th:nth-child(1){
 .tdCenterAlign{
     text-align: center;
 }
+
+table{
+    font-family: Arial, Helvetica, sans-serif;
+}
