@@ -141,7 +141,10 @@ export class InitiateMainComponent implements OnInit {
             this.selectedPriority = this._quoteData.priorityLevel;
             this.pricingGroup.controls.PriorityLevel.setValue(this._quoteData.priorityLevel);
             this.pricingGroup.controls.CustomerID.setValue(this._quoteData.customerID);
-            this.pricingGroup.controls.CustomerName.setValue(this._quoteData.customerID.toString());
+            
+            this.pricingGroup.controls.CustomerName.setValue(this._quoteData.customerID.toString() == "-PRPOTENTI" ? this._quoteData.customerName.toString() : this._quoteData.customerID.toString());
+                       
+            
             this.pricingGroup.controls.OpportunityType.setValue(this._quoteData.opportunityType);
             this.pricingGroup.controls.OpportunityOwner.setValue(this._quoteData.opportunityOwner);
 
