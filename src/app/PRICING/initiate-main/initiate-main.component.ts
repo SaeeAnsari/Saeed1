@@ -1,11 +1,14 @@
-import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogConfirmDeleteComponent } from '../dialog-confirm-delete/dialog-confirm-delete.component';
-import { Observable } from 'rxjs';
+import { Observable, Subject, ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+
 
 
 
@@ -17,12 +20,16 @@ import { Observable } from 'rxjs';
   styleUrls: ['./initiate-main.component.css'],
   providers: [InitiateProviderService]
 })
-export class InitiateMainComponent implements OnInit {
+export class InitiateMainComponent implements OnInit, OnDestroy {
+
+  protected _onDestroy = new Subject<void>();
 
   @Input() QuoteID: string = '0';
   @Input() DisabledMode: string = "no";
   @Output() AddNewQuote = new EventEmitter();
   @Output() BroadcastQuoteID = new EventEmitter<any>();
+
+  
 
   public pricingGroup: FormGroup;
   public companyNames: string[] = [];
@@ -50,15 +57,34 @@ export class InitiateMainComponent implements OnInit {
   public quoteSubmitted: boolean = false;
   public quoteFinalised: boolean = false;
 
+  public deliveryAddress: string = '';
+
+  private customerIDsBackup = [];
+
   ngOnInit(): void {
 
     this.pricingGroup.valueChanges.subscribe(val => {
       this.pricingGroup.updateValueAndValidity({ onlySelf: false, emitEvent: false })
     });
 
+    this.pricingGroup.controls.CustomerIDSearch.valueChanges
+    .debounceTime(500)
+    .pipe(takeUntil(this._onDestroy))    
+    .subscribe(()=>{
+      this.filterCustomerIDs();
+    });    
+
+    this.pricingGroup.controls.CustomerNameSearch.valueChanges
+    .debounceTime(500)
+    .pipe(takeUntil(this._onDestroy))    
+    .subscribe(()=>{
+      this.filterCustomerName();
+    });    
+
+
     if (this.QuoteID != "") {
       this.quoteID = +this.QuoteID;
-      this.loadQuote(this.quoteID, false);
+      this.loadQuote(this.quoteID, false);      
     }
   }
 
@@ -99,10 +125,8 @@ export class InitiateMainComponent implements OnInit {
             this.initiate.getCustomerIDList(this.selectedCompany).subscribe(cust => {
               cust.forEach(element => {
                 this.customerIDs.push({ id: element.id, name: element.id });
-              });
-
+              });              
             });
-
           }            
 
             this.initiate.getPaymentTerms().subscribe(terms => {
@@ -158,6 +182,9 @@ export class InitiateMainComponent implements OnInit {
               this.pricingGroup.controls.PaymentTerm.setValue(this._quoteData.paymentTermID.toString());
             }
 
+            this.initiate.getCustomerAddress(this.selectedCustomer).subscribe(sub=>{
+              this.deliveryAddress = sub;    
+            });
 
             this.productResults = this._lineData;
 
@@ -222,8 +249,61 @@ export class InitiateMainComponent implements OnInit {
       PriorityLevel: ['', [Validators.required]],
       RequestedBy: ['', [Validators.required]],
       PaymentTerm: [''],
-      CCEmail: ['']
-    });
+      CCEmail: [''], 
+      CustomerIDSearch : [''],
+      CustomerNameSearch : ['']
+    });    
+  }
+
+  async filterCustomerIDs() {
+    if (this.customerIDs.length = 0) {
+      return;
+    }
+    // get the search keyword
+    let search = this.pricingGroup.controls.CustomerIDSearch.value;
+
+    this.initiate.getCustomerIDList(this.pricingGroup.value.CompanyName).subscribe(ret => {
+      this.customerIDs = [];
+      ret.forEach(element => {
+        this.customerIDs.push({ id: element.id, name: element.id });
+      }); 
+      
+      var data = this.customerIDs.filter(ret=>{
+        if(ret.id != null){
+          var filterItem = ret.id;        
+          return (filterItem.toLowerCase()).includes(search.toLowerCase());
+        }        
+      });    
+      this.customerIDs = data;              
+    });    
+  }
+
+  async filterCustomerName() {
+    if (this.customerNames.length = 0) {
+      return;
+    }
+    // get the search keyword
+    let search = this.pricingGroup.controls.CustomerNameSearch.value;
+
+    this.initiate.getCustomerNameList(this.pricingGroup.value.CompanyName).subscribe(ret => {
+      this.customerNames = [];
+      ret.forEach(element => {
+        this.customerNames.push({ id: element.id, name: element.name });
+      }); 
+      
+      var data = this.customerNames.filter(ret=>{
+        if(ret.id != null){
+          var filterItem = ret.name;        
+          return (filterItem.toLowerCase()).includes(search.toLowerCase());
+        }        
+      });    
+      this.customerNames = data;              
+    });    
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 
   getFormData() {
@@ -296,6 +376,12 @@ export class InitiateMainComponent implements OnInit {
     if (this.selectedCustomer.length > 0) {
       if (this.selectedCustomer != "-PRPOTENTI") {
         this.pricingGroup.controls.CustomerName.setValue(this.selectedCustomer);
+        
+        this.initiate.getCustomerAddress(this.selectedCustomer).subscribe(sub=>{
+
+          this.deliveryAddress = sub;
+
+        });
       }
       else {
         this.pricingGroup.controls.CustomerName.setValue('');
@@ -311,7 +397,7 @@ export class InitiateMainComponent implements OnInit {
 
       this.renderCustomerIDs();
       this.renderCustomerNames();
-      this.renderOpportunityOwners();
+      this.renderOpportunityOwners();      
     }
   }
 
@@ -327,14 +413,14 @@ export class InitiateMainComponent implements OnInit {
       });
     }
   }
-
+ 
   renderCustomerIDs() {
     this.customerIDs = [];
     if (this.selectedCompany != "") {
       this.initiate.getCustomerIDList(this.pricingGroup.value.CompanyName).subscribe(ret => {
         ret.forEach(element => {
           this.customerIDs.push({ id: element.id, name: element.id });
-        });
+        });   
       });
     }
   }
@@ -398,5 +484,12 @@ export class InitiateMainComponent implements OnInit {
   viewQuote() {
     var url = window.location.href.substring(0,window.location.href.indexOf('pricingfinalise'));
     window.open( url + 'quotereport/' + this.quoteID.toString(), '_blank');    
+  }
+
+  newCustomerClick(e){
+    this.pricingGroup.controls.CustomerID.setValue("-PRPOTENTI");
+    this.selectedCustomer = "-PRPOTENTI";
+    this.customer_change(e);
+    e.stopPropagation();
   }
 }

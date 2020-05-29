@@ -11,8 +11,8 @@
             <mat-select name="lstCompanyName" formControlName="CompanyName" required [(value)]="selectedCompany"
                 (selectionChange)="companyname_change($event)">
                 <mat-option>--</mat-option>
-                <mat-option *ngFor="let company of companyNames" [value]="company">
-                    {{company}}
+                <mat-option *ngFor="let company of companyNames" [value]="company.id">
+                    {{company.name}}
                 </mat-option>
             </mat-select>
 
@@ -29,20 +29,42 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <mat-label>Customer ID</mat-label>
+
+
+            <label>Customer ID</label>           
             <mat-select name="lstCustomerID" formControlName="CustomerID" required [(value)]="selectedCustomer"
                 (selectionChange)="customer_change($event)">
+                <mat-option>
+                    <ngx-mat-select-search formControlName="CustomerIDSearch" placeholderLabel="Search...">
+                        <div style="width:100px"></div>
+                    </ngx-mat-select-search>
+                </mat-option>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let customer of customerIDs" [value]="customer.id">
                     {{customer.name}}
                 </mat-option>
             </mat-select>
+           
+           
+            <button mat-raised-button matSuffix mat-stroked-button color="primary" (click)="newCustomerClick($event)">
+                New
+            </button>
+            
         </mat-form-field>
+
+
+           
+     
+
 
         <mat-form-field class="container-half-width" *ngIf="selectedCustomer!='-PRPOTENTI'">
             <mat-label>Customer Name</mat-label>
             <mat-select name="lstCustomerName" formControlName="CustomerName" required [(value)]="selectedCustomer"
                 (selectionChange)="customer_change($event)">
+                <mat-option>
+                    <ngx-mat-select-search formControlName="CustomerNameSearch" placeholderLabel="Search...">
+                    </ngx-mat-select-search>
+                </mat-option>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let customer of customerNames" [value]="customer.id">
                     {{customer.name}}
@@ -51,10 +73,17 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width" *ngIf="selectedCustomer=='-PRPOTENTI'">
-            
-                <input matInput placeholder="Please enter a Customer Name" formControlName="CustomerName" required>
-            </mat-form-field>
-        
+
+            <input matInput placeholder="Please enter a Customer Name" formControlName="CustomerName" required>
+        </mat-form-field>
+
+        <div class="container-full-width" *ngIf="deliveryAddress != ''">
+
+            <mat-label>Delivery Address: <br/>
+            {{deliveryAddress}}</mat-label>    
+
+        </div>
+
 
         <mat-form-field class="container-half-width">
 
@@ -79,7 +108,8 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Opportunity Name" type="text" maxlength="50" formControlName="OpportunityName" required>
+            <input matInput placeholder="Opportunity Name" type="text" maxlength="50" formControlName="OpportunityName"
+                required>
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
@@ -136,8 +166,8 @@
                 <mat-button-toggle (click)="submit()">Submit</mat-button-toggle>
                 <mat-button-toggle (click)="newQuote()">New Quote</mat-button-toggle>
 
-                <button type="button" class="btn-add-product float-right" mat-raised-button (click)="addProduct()"
-                    >Add Product</button>
+                <button type="button" class="btn-add-product float-right" mat-raised-button (click)="addProduct()">Add
+                    Product</button>
             </mat-button-toggle-group>
         </div>
 

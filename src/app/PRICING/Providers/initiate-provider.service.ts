@@ -66,6 +66,12 @@ export class InitiateProviderService {
     return this._http.get(this._url + '/GetCustomerNameList?companyID=' + companyID)
       .map(ret => ret.json());
   }
+  
+  getCustomerAddress(customerID){
+    return this._http.get(this._url + '/GetCustomerAddress?customerID=' + customerID)
+      .map(ret => ret.json());
+  }
+
 
   getCustomerIDList(companyID) {
     return this._http.get(this._url + '/GetCustomerIDList?companyID=' + companyID)
@@ -286,6 +292,19 @@ export class InitiateProviderService {
 
     return this._http.post(this._url + '/SaveQuoteLine',
       JSON.stringify(data),
+      { headers: header })
+      .map(post => post.json())
+      .catch(this.handleError);
+  }
+
+  deleteQuote(quoteID) {
+    var header = new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'q=0.8;application/json;q=0.9'
+    });
+
+    return this._http.post(this._url + '/DeleteQuote',
+    quoteID,
       { headers: header })
       .map(post => post.json())
       .catch(this.handleError);

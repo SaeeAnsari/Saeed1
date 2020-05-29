@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailsComponent } from '../product-details/product-details.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { matTabsAnimations } from '@angular/material/tabs';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class ProductFinalisedComponent implements OnInit {
 
   @Input() QuoteID: string
   @Input() CompanyName: string
-  private QuoteFinalised = false;
+  public QuoteFinalised = false;
   public overriteSave = false;
 
   public completionLineID;
@@ -31,6 +32,8 @@ export class ProductFinalisedComponent implements OnInit {
   public shippingWarehouseList = [];
   private _lineData: any[];
   public showCompletionLine: boolean = false;
+  public marginPercentage = '';
+  public marginPerDollar = '';
 
   public displayedColumns: string[] = ['ProductCode', 'ProductDescription', 'IsCompleted', 'Actions'];
 
@@ -131,6 +134,8 @@ export class ProductFinalisedComponent implements OnInit {
     }
   }
 
+  
+
   lineEdit(value) {
 
     if (value != null) {
@@ -151,6 +156,8 @@ export class ProductFinalisedComponent implements OnInit {
         this.productDetails.pricingGroup.controls['PackSize'].enable();
 
         this.loadLine();
+
+        
       }
     }
   }
@@ -188,9 +195,34 @@ export class ProductFinalisedComponent implements OnInit {
       }
       if (sub.exchangeRate != null) this.pricingFinaliseGroup.controls.ExchangeRate.setValue(sub.exchangeRate)
 
+
+      this.calculateMargins();
+
+
       this.loadBreakDownLines();
 
     });
+  }
+
+  calculateMargins(){
+
+    this.marginPerDollar = '';
+    this.marginPercentage = '';
+
+    var sellPrice = 0;
+    var cost = 0;
+
+    if(this.pricingFinaliseGroup.value.SellingPricePerUOM != "" && this.pricingFinaliseGroup.value.CostPerUOM){
+      sellPrice = Number.parseFloat(this.pricingFinaliseGroup.value.SellingPricePerUOM);
+      cost = Number.parseFloat(this.pricingFinaliseGroup.value.CostPerUOM);
+
+      this.marginPercentage = ((sellPrice - cost)/ sellPrice) * 100 + " %"
+      this.marginPerDollar = (sellPrice - cost).toFixed(2);
+    }
+    else
+    {
+      this.marginPercentage = '';
+    }
   }
 
   public stringDecimalPlaces(data, decimalPlaces: number){
@@ -227,7 +259,7 @@ export class ProductFinalisedComponent implements OnInit {
     });
 
     if (this.pricingFinaliseGroup.value.CostPerUOM != '' &&
-      this.pricingFinaliseGroup.value.CostPerUOM == cost.toFixed(2)) {
+      Number.parseFloat(this.pricingFinaliseGroup.value.CostPerUOM).toFixed(2) == cost.toFixed(2)) {
       this.costValidationError == false;
       return true;
     }
@@ -269,7 +301,7 @@ export class ProductFinalisedComponent implements OnInit {
         this.showCompletionLine = false;
         this.loadData()
         this.productDetails.showProductDetails = false;
-      });
+      });      
 
       window.location.reload();
 

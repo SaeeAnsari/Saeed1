@@ -18,6 +18,7 @@ import { PricingFinalisedUpdateComponent } from './PRICING/pricing-finalised-upd
 const routes: Routes = [
   //{ path: '', component: SIRFSearchComponent},
   { path: 'pricingsearch', component: PricingSearchComponent},
+  { path: 'pricingsearch/:adminUser', component: PricingSearchComponent},
   { path: 'pricinginitiate', component: PricingInitiateComponent},
   { path: 'pricinginitiate/:quoteID', component: PricingInitiateComponent},
   { path: 'pricingfinalise', component: PricingFinalisedComponent},

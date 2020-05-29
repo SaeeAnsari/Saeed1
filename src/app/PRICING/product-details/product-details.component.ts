@@ -1,7 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subject, ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -60,7 +62,9 @@ export class ProductDetailsComponent implements OnInit {
       TargetPrice: [{ value: '', disabled: disableColumns }, [Validators.required]],
       CurrencyOfTargetPrice: [{ value: '', disabled: disableColumns }],
       UsageLevel: [{ value: '', disabled: disableColumns }, [Validators.required]],
-      NotesAndComment: [{ value: '', disabled: disableColumns }, [Validators.required]]
+      NotesAndComment: [{ value: '', disabled: disableColumns }, [Validators.required]],
+      PartIDSearch: [''],
+      PartNameSearch: ['']
     });
   }
 
@@ -122,7 +126,83 @@ export class ProductDetailsComponent implements OnInit {
 
     this.loadLinesGrid();
 
+    this.pricingGroup.controls.PartIDSearch.valueChanges
+      .debounceTime(500)
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterPartIDs();
+      });
 
+
+    this.pricingGroup.controls.PartNameSearch.valueChanges
+      .debounceTime(200)
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterPartName();
+      });
+  }
+
+
+
+  protected _onDestroy = new Subject<void>();
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  private oldSearchitem = '';
+
+  async filterPartIDs() {
+
+    let search = this.pricingGroup.controls.PartIDSearch.value;
+
+    if (search == null || search == '')
+      return;
+
+    if (search == this.oldSearchitem)
+      return;
+
+    if (sessionStorage.getItem('parts_list_' + this.CompanyName) != null) {
+      this.partList = JSON.parse(sessionStorage.getItem('parts_list_' + this.CompanyName));
+
+      this.oldSearchitem == search;
+
+      var data = this.partList.filter(ret => {
+        if (ret.id != null) {
+          var filterItem = ret.id;
+          return (filterItem.toLowerCase()).includes(search.toLowerCase());
+        }
+      });
+
+      this.partList = data;
+    }
+  }
+
+  async filterPartName() {
+
+    let search = this.pricingGroup.controls.PartNameSearch.value;
+
+    if (search == null || search == '')
+      return;
+
+    if (search == this.oldSearchitem)
+      return;
+
+    if (sessionStorage.getItem('parts_list_' + this.CompanyName) != null && search != null || search != '') {
+      this.partList = JSON.parse(sessionStorage.getItem('parts_list_' + this.CompanyName));
+
+      this.oldSearchitem == search;
+
+      var data = this.partList.filter(ret => {
+        if (ret.name != null) {
+          var filterItem = ret.name;
+          return (filterItem.toLowerCase()).includes(search.toLowerCase());
+        }
+      });
+
+      this.partList = data;
+    }
   }
 
 
@@ -191,7 +271,7 @@ export class ProductDetailsComponent implements OnInit {
       NotesAndComment: this.pricingGroup.value.NotesAndComment
     };
 
-    if(!this.showTextPartName()){
+    if (!this.showTextPartName()) {
       data.PartName = this.partList.filter(function (item) {
         return item.id == data.PartID;
       })[0].name;
@@ -203,10 +283,10 @@ export class ProductDetailsComponent implements OnInit {
   part_change() {
     this.pricingGroup.controls.PartID.setValue(this.selectedPart);
 
-    if(this.showTextPartName()){
+    if (this.showTextPartName()) {
       this.pricingGroup.controls.PartName.setValue('');
     }
-    else{
+    else {
       this.pricingGroup.controls.PartName.setValue(this.selectedPart);
     }
 
@@ -290,7 +370,7 @@ export class ProductDetailsComponent implements OnInit {
     this.quoteLineID = e;
     this.showProductDetails = true;
 
-    this.loadData(500);
+    this.loadData(100);
   }
 
   lineDelete(e) {
@@ -303,17 +383,19 @@ export class ProductDetailsComponent implements OnInit {
 
 
   showTextPartName() {
-    if (this.selectedPart.indexOf('RDBAKERY') > 0 ||
-      this.selectedPart.indexOf('RDNUTRITION') > 0 ||
-      this.selectedPart.indexOf('RDSWEET') > 0 ||
-      this.selectedPart.indexOf('RDSAVOURY') > 0
-    ) {
-      return true;
-    }
-    else {
-      return false;
+
+    if (this.selectedPart != '' && this.selectedPart != null) {
+      if (this.selectedPart.indexOf('RDBAKERY') > 0 ||
+        this.selectedPart.indexOf('RDNUTRITION') > 0 ||
+        this.selectedPart.indexOf('RDSWEET') > 0 ||
+        this.selectedPart.indexOf('RDSAVOURY') > 0
+      ) {
+        return true;
+      }
+      else {
+        return false;
+      }
     }
   }
-
 }
 

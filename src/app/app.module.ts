@@ -51,6 +51,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import { SIRFSearchComponent } from './SIRF/sirfsearch/sirfsearch.component';
 import { PricingSearchComponent } from './PRICING/pricing-search/pricing-search.component';
 import { PricingInitiateComponent } from './PRICING/pricing-initiate/pricing-initiate.component';
@@ -99,6 +100,7 @@ import { PricingFinalisedUpdateComponent } from './PRICING/pricing-finalised-upd
     HttpClientModule,
 
     MatFormFieldModule,
+    NgxMatSelectSearchModule,
     A11yModule,
     CdkStepperModule,
     CdkTableModule,
@@ -108,7 +110,7 @@ import { PricingFinalisedUpdateComponent } from './PRICING/pricing-finalised-upd
     MatBadgeModule,
     MatBottomSheetModule,
     MatButtonModule,
-    MatButtonToggleModule,
+    MatButtonToggleModule,    
     MatCardModule,
     MatCheckboxModule,
     MatChipsModule,
@@ -146,7 +148,8 @@ import { PricingFinalisedUpdateComponent } from './PRICING/pricing-finalised-upd
     {provide: LocationStrategy, useClass: PathLocationStrategy},
   ],
   entryComponents: [
-    ModalCostCategoryComponent
+    ModalCostCategoryComponent,
+    DialogConfirmDeleteComponent
   ],
   bootstrap: [AppComponent]
 })

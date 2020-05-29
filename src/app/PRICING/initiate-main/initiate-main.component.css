@@ -10,6 +10,14 @@
     padding-right: 40px;
   }
 
+  .container-20-width {
+
+    width: 10%;
+  }
+  .container-10-width {
+    width: 10%;
+  }
+
   .container-full-width {
     width: 80%;
     padding-left: 20px;
@@ -26,3 +34,6 @@
     padding-bottom: 20px;
   }
   
+  .inline-items{
+    
+  }

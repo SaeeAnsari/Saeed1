@@ -38,7 +38,7 @@ export class FileUploadComponent implements OnInit {
 
 
   @Output() complete = new EventEmitter<string>();
-  private files: Array<FileUploadModel> = [];
+  public files: Array<FileUploadModel> = [];
 
   constructor(private _http: HttpClient) { }
 

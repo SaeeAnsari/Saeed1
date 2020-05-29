@@ -47,6 +47,10 @@
             <mat-label>Part ID</mat-label>
             <mat-select name="lstPartID" formControlName="PartID" required [(value)]="selectedPart"
                 (selectionChange)="part_change()">
+                <mat-option>
+                    <ngx-mat-select-search formControlName="PartIDSearch" placeholderLabel="Search...">
+                    </ngx-mat-select-search>
+                </mat-option>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let part of partList" [value]="part.id">
                     {{part.id}}
@@ -60,6 +64,10 @@
             <mat-label>Part Name</mat-label>
             <mat-select name="lstPartName" formControlName="PartName" required [(value)]="selectedPart"
                 (selectionChange)="part_change()">
+                <mat-option>
+                    <ngx-mat-select-search formControlName="PartNameSearch" placeholderLabel="Search...">
+                    </ngx-mat-select-search>
+                </mat-option>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let part of partList" [value]="part.id">
                     {{part.name}}

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { InitiateProviderService } from '../Providers/initiate-provider.service';
 
 @Component({
   selector: 'app-dialog-confirm-delete',
@@ -9,16 +10,21 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 export class DialogConfirmDeleteComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogConfirmDeleteComponent>
+    public dialogRef: MatDialogRef<DialogConfirmDeleteComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public initiate: InitiateProviderService
   )
   {
-    
+
   }
 
-  onYesClick(): void{
-    this.dialogRef.close(true);
+  onYesClick(){
+    this.initiate.deleteQuote(this.data.QuoteID).subscribe(ret=>{
+      this.dialogRef.close(true);
+    });    
   }
-  onNoClick(): void {
+
+  onNoClick() {
     this.dialogRef.close(false);
   }
 

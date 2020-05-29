@@ -1,10 +1,10 @@
-
-
 <form class="container" [formGroup]="pricingGroup" (ngSubmit)="search('custom')">
 
     <mat-card>
 
-
+        <div>
+            * Use % for wildcard <br><br>
+        </div>
 
         <mat-form-field class="container-half-width">
             <div class="form-item">
@@ -38,11 +38,11 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Submitted Date" type="date"  formControlName="SubmittedDate">
+            <input matInput placeholder="Submitted Date" type="date" formControlName="SubmittedDate">
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Finalised Date"  type="date" formControlName="FinalisedDate">
+            <input matInput placeholder="Finalised Date" type="date" formControlName="FinalisedDate">
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
@@ -50,7 +50,7 @@
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Requested By"  formControlName="RequestedBy">
+            <input matInput placeholder="Requested By" formControlName="RequestedBy">
         </mat-form-field>
 
 
@@ -59,88 +59,100 @@
         <div *ngIf="validationError">
             <p class="text-danger">** {{validationMessage}}</p>
         </div>
+        
 
 
         <div>
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
                 <mat-button-toggle (click)="search('All_Saved')">Find All Saved</mat-button-toggle>
                 <mat-button-toggle (click)="search('All_Pending')">Find All Pending</mat-button-toggle>
-                
-                <mat-button-toggle (click)="search('custom')" (keyup.enter)="search('custom')">Search</mat-button-toggle>
+
+                <mat-button-toggle (click)="search('custom')" (keyup.enter)="search('custom')">Search
+                </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </mat-card>
-   
 
-        <mat-card *ngIf="productResults.length > 0">
-            <table mat-table [dataSource]="productResults" class="mat-elevation-z8  searchGrid">
 
-                <!--- Note that these columns can be defined in any order.
+    <mat-card *ngIf="productResults.length > 0">
+        <table mat-table [dataSource]="productResults" class="mat-elevation-z8  searchGrid">
+
+            <!--- Note that these columns can be defined in any order.
                               The actual rendered columns are set as a property on the row definition" -->
 
-                <ng-container matColumnDef="CustomerName">
-                    <th mat-header-cell *matHeaderCellDef> Customer Name</th>
-                    <td mat-cell *matCellDef="let element"> {{element.CustomerName}} </td>
-                </ng-container>
+            <ng-container matColumnDef="CustomerName">
+                <th mat-header-cell *matHeaderCellDef> Customer Name</th>
+                <td mat-cell *matCellDef="let element"> {{element.CustomerName}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="QuoteNumber">
-                    <th mat-header-cell *matHeaderCellDef> Quote Number</th>
-                    <td mat-cell *matCellDef="let element"> {{element.QuoteNumber}} </td>
-                </ng-container>
-
-
-                <ng-container matColumnDef="OpportunityName">
-                    <th mat-header-cell *matHeaderCellDef> Opportunity Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.OpportunityName}} </td>
-                </ng-container>
+            <ng-container matColumnDef="QuoteNumber">
+                <th mat-header-cell *matHeaderCellDef> Quote Number</th>
+                <td mat-cell *matCellDef="let element"> {{element.QuoteNumber}} </td>
+            </ng-container>
 
 
-                <ng-container matColumnDef="OpportunityType">
-                    <th mat-header-cell *matHeaderCellDef> Opportunity Type </th>
-                    <td mat-cell *matCellDef="let element"> {{element.OpportunityType}} </td>
-                </ng-container>
+            <ng-container matColumnDef="OpportunityName">
+                <th mat-header-cell *matHeaderCellDef> Opportunity Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.OpportunityName}} </td>
+            </ng-container>
 
 
-                <ng-container matColumnDef="OpportunityOwner">
-                    <th mat-header-cell *matHeaderCellDef> Opportunity Owner </th>
-                    <td mat-cell *matCellDef="let element"> {{element.OpportunityOwner}} </td>
-                </ng-container>
+            <ng-container matColumnDef="OpportunityType">
+                <th mat-header-cell *matHeaderCellDef> Opportunity Type </th>
+                <td mat-cell *matCellDef="let element"> {{element.OpportunityType}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="OpportunityOwner">
+                <th mat-header-cell *matHeaderCellDef> Opportunity Owner </th>
+                <td mat-cell *matCellDef="let element"> {{element.OpportunityOwner}} </td>
+            </ng-container>
 
 
 
-                <ng-container matColumnDef="SubmittedDate">
-                    <th mat-header-cell *matHeaderCellDef> Submitted Date</th>
-                    <td mat-cell *matCellDef="let element"> {{element.SubmittedDate | date: 'shortDate'}} </td>
-                </ng-container>
+            <ng-container matColumnDef="SubmittedDate">
+                <th mat-header-cell *matHeaderCellDef> Submitted Date</th>
+                <td mat-cell *matCellDef="let element"> {{element.SubmittedDate | date: 'shortDate'}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="FinalisedDate">
-                    <th mat-header-cell *matHeaderCellDef> Finalised Date </th>
-                    <td mat-cell *matCellDef="let element"> {{element.FinalisedDate | date: 'shortDate'}} </td>
-                </ng-container>
+            <ng-container matColumnDef="FinalisedDate">
+                <th mat-header-cell *matHeaderCellDef> Finalised Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.FinalisedDate | date: 'shortDate'}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="PriorityLevel">
-                    <th mat-header-cell *matHeaderCellDef> Priority Level </th>
-                    <td mat-cell *matCellDef="let element"> {{element.PriorityLevel}} </td>
-                </ng-container>
+            <ng-container matColumnDef="PriorityLevel">
+                <th mat-header-cell *matHeaderCellDef> Priority Level </th>
+                <td mat-cell *matCellDef="let element"> {{element.PriorityLevel}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="RequestedBy">
-                    <th mat-header-cell *matHeaderCellDef> Requested By </th>
-                    <td mat-cell *matCellDef="let element"> {{element.RequestedBy}} </td>
-                </ng-container>
-                <ng-container matColumnDef="Actions">
-                    <th mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let element">
+            <ng-container matColumnDef="RequestedBy">
+                <th mat-header-cell *matHeaderCellDef> Requested By </th>
+                <td mat-cell *matCellDef="let element"> {{element.RequestedBy}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let element">
+
+                    <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
                         <mat-button-toggle [value]='element.lineID' (click)="lineEdit(element)">
-                            <mat-icon aria-hidden="false" >edit</mat-icon>
+                            <mat-icon aria-hidden="false">edit</mat-icon>
                         </mat-button-toggle>
-                    </td>
-                </ng-container>
+
+                        <div *ngIf="isAdminUser==true">
+                            <mat-button-toggle [value]='element.lineID' (click)="lineDelete(element)">
+                                <mat-icon aria-hidden="false" >delete</mat-icon>
+                            </mat-button-toggle>
+                        </div>
+
+                    </mat-button-toggle-group>
+                </td>
+            </ng-container>
 
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
 
-        </mat-card>
-   
+    </mat-card>
+
 </form>

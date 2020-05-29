@@ -22,6 +22,9 @@ export class SIRFCostTrackingComponent implements OnInit {
   public costItems = [];
   public costCategories = [];
 
+  public selectedCostCategory = '';
+  
+
   displayedColumns: string[] = ['CostCategoryName', 'Description', 'Amount', 'Actions'];
 
   constructor(

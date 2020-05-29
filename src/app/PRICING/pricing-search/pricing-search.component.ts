@@ -9,6 +9,8 @@ import { getTreeMissingMatchingNodeDefError } from '@angular/cdk/tree';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
 import { retry } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmDeleteComponent } from '../dialog-confirm-delete/dialog-confirm-delete.component';
 
 @Component({
   selector: 'app-pricing-search',
@@ -22,7 +24,7 @@ export class PricingSearchComponent implements OnInit {
   displayedColumns: string[] = ['CustomerName', 'QuoteNumber', 'OpportunityName', 'OpportunityType', 'OpportunityOwner', 'SubmittedDate', 'FinalisedDate', 'PriorityLevel', 'RequestedBy', 'Actions'];
 
 
-
+  public isAdminUser = false;
   public validationError: boolean = false;
   public pricingGroup: FormGroup;
   public validationMessage: string;
@@ -31,8 +33,15 @@ export class PricingSearchComponent implements OnInit {
 
 
 
-  constructor(private fb: FormBuilder, private sp: SearchProvider, private router: Router,
-    private activatedRout: ActivatedRoute, private locationStrategy: LocationStrategy) {
+  constructor(private fb: FormBuilder, 
+    private sp: SearchProvider, 
+    private router: Router,
+    private activatedRout: ActivatedRoute,
+    private locationStrategy: LocationStrategy,
+    private route: ActivatedRoute,
+    public dialog: MatDialog
+    
+    ) {
 
       sessionStorage.setItem("activeQuoteID", "");
 
@@ -51,8 +60,18 @@ export class PricingSearchComponent implements OnInit {
       RequestedBy: ['']
     })
 
-    console.log("Location");
+    sessionStorage.setItem("isAdminUser", null);
+    
+    this.route.queryParams.subscribe(params => {
+      route.paramMap.subscribe(sub => {
+        if (sub.get("adminUser") != null) {
+          sessionStorage.setItem("isAdminUser", "true");
+          this.isAdminUser = true;
+        }        
+      })
+    });
 
+    console.log("Location");
     console.log(this.locationStrategy.getBaseHref());
   }
 
@@ -202,10 +221,23 @@ export class PricingSearchComponent implements OnInit {
       this.router.navigate(['pricingfinalise'], navigationExtras);
   }
 
+  lineDelete(data){
+    const dialogRef = this.dialog.open(DialogConfirmDeleteComponent, {
+      width: '200px',
+      data: {QuoteID: data.QuoteNumber, raw: data}
+    });      
+
+    dialogRef.afterClosed().subscribe(ret=>{
+      this.search(this.previousSearchType);
+    });    
+  }
+
+  private previousSearchType = '';
+
 
   search(searchType) {
 
-
+    this.previousSearchType = searchType;
     console.log(this.router.getCurrentNavigation());
 
     let queryString;
@@ -220,11 +252,7 @@ export class PricingSearchComponent implements OnInit {
       queryString = "WHERE IsSubmitted = 1 AND IsFinalised = 0"
     }
 
-
     this.searchResults = [];
-
-
-
 
     if (!this.validationError) {
       this.sp.SearchPricing(queryString).subscribe(sub => {

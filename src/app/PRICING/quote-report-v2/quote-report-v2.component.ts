@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import * as jspdf from 'jspdf';
-import html2canvas from 'html2canvas';
+//import * as jspdf from 'jspdf';
+//import html2canvas from 'html2canvas';
 import { ActivatedRoute } from '@angular/router';
 import { InitiateProviderService } from '../Providers/initiate-provider.service';
 
@@ -59,20 +59,6 @@ export class QuoteReportV2Component implements OnInit {
     else{
       return '';
     }
-  }
-
-  generateReport(){
-    var data = document.getElementById('tblReportContent');
-    html2canvas(data).then(canvas => {
-      var imgWidth = 208;
-      var pageHeight = 295;
-      var imgHeight = canvas.height * imgWidth / canvas.width;
-      var heightLeft = imgHeight;
-
-      const contentDataURL = canvas.toDataURL('image/png')
-      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-      pdf.save('c:/22_quote.pdf');
-    })
-  }
+  } 
 
 }

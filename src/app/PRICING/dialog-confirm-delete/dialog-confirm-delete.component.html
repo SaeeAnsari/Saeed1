@@ -1,1 +1,14 @@
-s as as as as a  a a
+<div>
+    Are you sure you want to delete?   
+</div>
+<div>
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+        <mat-button-toggle (click)="onYesClick()">
+            <mat-icon aria-hidden="false" >done</mat-icon>
+        </mat-button-toggle>
+
+        <mat-button-toggle (click)="onNoClick()">
+            <mat-icon aria-hidden="false" >clear</mat-icon>
+        </mat-button-toggle>
+    </mat-button-toggle-group>
+</div>

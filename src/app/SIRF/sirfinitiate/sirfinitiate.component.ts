@@ -19,10 +19,16 @@ export class SIRFInitiateComponent implements OnInit {
   private  _uploadURL = BaseLinkService.GetBaseUrl();
 
   public selectedPart = '';
+  public selectedCategory = '';
+  public selectedCustomerRegion = '';
+  public selectedBusinessRegion = '';
+  public selectedRequestedBy = '';
+
   @Input() SIRFCompleteMode = 'false';
 
   public SIRFAttachments = [];
   public SIRFAttachmentsVIew = [];
+  public selectedResponsibility = '';
 
   constructor(
     private fb: FormBuilder,

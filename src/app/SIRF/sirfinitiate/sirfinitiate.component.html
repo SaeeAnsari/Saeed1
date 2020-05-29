@@ -26,8 +26,8 @@
             <mat-select name="lstCompanyName" formControlName="CompanyName" required [(value)]="selectedCompany"
                 (selectionChange)="companyname_change($event)">
                 <mat-option>--</mat-option>
-                <mat-option *ngFor="let company of companyNames" [value]="company">
-                    {{company}}
+                <mat-option *ngFor="let company of companyNames" [value]="company.id">
+                    {{company.name}}
                 </mat-option>
             </mat-select>
 
