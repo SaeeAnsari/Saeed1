@@ -177,11 +177,11 @@
         <h4>Margins</h4>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Margin percentage" disabled value="{{marginPercentage}}" >
+            <input matInput placeholder="Margin percentage" disabled value="{{stringDecimalPlaces(marginPercentage, 2)}}" >
         </mat-form-field>
 
         <mat-form-field class="container-half-width">
-            <input matInput placeholder="Margin per dollar" disabled value="{{marginPerDollar}}" >
+            <input matInput placeholder="Margin Per Unit" disabled value="{{stringDecimalPlaces(marginPerDollar, 2)}}" >
         </mat-form-field>
 
 

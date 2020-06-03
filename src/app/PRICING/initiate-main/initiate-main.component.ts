@@ -385,6 +385,7 @@ export class InitiateMainComponent implements OnInit, OnDestroy {
       }
       else {
         this.pricingGroup.controls.CustomerName.setValue('');
+        this.deliveryAddress = '';
       }      
     }
   }
@@ -487,6 +488,7 @@ export class InitiateMainComponent implements OnInit, OnDestroy {
   }
 
   newCustomerClick(e){
+    this.deliveryAddress = '';
     this.pricingGroup.controls.CustomerID.setValue("-PRPOTENTI");
     this.selectedCustomer = "-PRPOTENTI";
     this.customer_change(e);

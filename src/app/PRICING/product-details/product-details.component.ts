@@ -396,6 +396,9 @@ export class ProductDetailsComponent implements OnInit {
         return false;
       }
     }
+    else{
+      return false;
+    }
   }
 }
 
